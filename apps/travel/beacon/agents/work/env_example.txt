@@ -1,0 +1,5 @@
+# BrightData API Configuration
+BRIGHTDATA_API_KEY=X
+
+# Optional: AI21 API for advanced features
+AI21_API_KEY=your_ai21_api_key_here

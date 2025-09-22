@@ -1,0 +1,12 @@
+# AI21 API Configuration
+AI21_API_KEY=your_ai21_api_key_here
+
+# BrightData API Configuration
+BRIGHTDATA_API_KEY=X
+
+# Application Configuration
+DEBUG=True
+LOG_LEVEL=INFO
+
+# Database Configuration (if needed)
+DATABASE_URL=sqlite:///./flight_agent.db
