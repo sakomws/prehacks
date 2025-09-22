@@ -246,3 +246,7 @@ venv.bak/
 *.test
 *.out
 go.work
+
+# Security and audit files
+SECURITY_AUDIT_REPORT.md
+*_AUDIT_REPORT.md
