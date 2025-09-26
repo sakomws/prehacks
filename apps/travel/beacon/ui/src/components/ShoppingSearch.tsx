@@ -11,7 +11,18 @@ export default function ShoppingSearch() {
   });
   
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<{
+    total_results: number;
+    options: Array<{
+      name: string;
+      description: string;
+      price: number;
+      store: string;
+      rating: number;
+      location: string;
+      booking_url: string;
+    }>;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
@@ -144,7 +155,7 @@ export default function ShoppingSearch() {
             🛍️ Shopping Results ({results.total_results} found)
           </h3>
           <div className="grid gap-4">
-            {results.options?.map((product: any, index: number) => (
+            {results.options?.map((product, index: number) => (
               <div key={index} className="bg-white p-4 rounded-lg shadow border">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="text-lg font-semibold text-gray-900">{product.name}</h4>

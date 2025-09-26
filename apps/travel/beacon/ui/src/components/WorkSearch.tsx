@@ -11,7 +11,23 @@ export default function WorkSearch() {
   });
   
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<{
+    total_results: number;
+    coworking_spaces: Array<{
+      name: string;
+      address: string;
+      description: string;
+      price_per_day: number;
+      price_per_month: number;
+      rating: number;
+      reviews_count: number;
+      availability: string;
+      score: number;
+      amenities: string[];
+      website?: string;
+      booking_url?: string;
+    }>;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
@@ -150,7 +166,7 @@ export default function WorkSearch() {
             Found {results.total_results} coworking spaces
           </h3>
           <div className="grid gap-4">
-            {results.coworking_spaces?.map((space: any, index: number) => (
+            {results.coworking_spaces?.map((space, index: number) => (
               <div key={index} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="text-lg font-semibold text-gray-900">{space.name}</h4>

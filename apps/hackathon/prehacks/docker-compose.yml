@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # Frontend (Next.js)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - prehacks-network
+
+  # Backend (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://prehacks:prehacks@db:5432/prehacks
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-here
+      - ENVIRONMENT=development
+    volumes:
+      - ./backend:/app
+      - ./shared:/app/shared
+    depends_on:
+      - db
+      - redis
+    networks:
+      - prehacks-network
+
+  # Database (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=prehacks
+      - POSTGRES_USER=prehacks
+      - POSTGRES_PASSWORD=prehacks
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - prehacks-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - prehacks-network
+
+  # Worker (Celery)
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A app.worker worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://prehacks:prehacks@db:5432/prehacks
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-here
+    volumes:
+      - ./backend:/app
+      - ./shared:/app/shared
+    depends_on:
+      - db
+      - redis
+    networks:
+      - prehacks-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  prehacks-network:
+    driver: bridge

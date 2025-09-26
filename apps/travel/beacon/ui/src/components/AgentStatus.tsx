@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface AgentStatus {
   name: string;
@@ -54,7 +54,7 @@ export default function AgentStatus() {
           responseTime
         };
       }
-    } catch (error) {
+    } catch {
       return {
         ...agent,
         status: 'unhealthy' as const,
@@ -64,19 +64,19 @@ export default function AgentStatus() {
     }
   };
 
-  const checkAllAgents = async () => {
+  const checkAllAgents = useCallback(async () => {
     const updatedAgents = await Promise.all(
       agents.map(agent => checkAgentHealth(agent))
     );
     setAgents(updatedAgents);
-  };
+  }, [agents]);
 
   useEffect(() => {
     checkAllAgents();
     // Check every 30 seconds
     const interval = setInterval(checkAllAgents, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [checkAllAgents]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -111,11 +111,9 @@ export default function AgentStatus() {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <img 
-            src="/beacon-logo-simple.svg" 
-            alt="Beacon Logo" 
-            className="w-8 h-8 mr-3"
-          />
+          <div className="w-8 h-8 mr-3 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+            B
+          </div>
           <h3 className="text-xl font-semibold text-gray-900">
             Agent Status
           </h3>

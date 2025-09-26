@@ -50,11 +50,9 @@ export default function TravelAgent() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <img 
-              src="/beacon-logo-simple.svg" 
-              alt="Beacon Travel Agent Logo" 
-              className="w-16 h-16 mr-4"
-            />
+            <div className="w-16 h-16 mr-4 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+              B
+            </div>
             <h1 className="text-4xl font-bold text-gray-900">
               Beacon Travel Agent
             </h1>

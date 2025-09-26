@@ -59,7 +59,7 @@ EveryBallWins is a comprehensive health analytics platform that combines food an
 ## 📁 Project Structure
 
 ```
-ElevateHealth/
+everyballwins/
 ├── app/                          # Next.js app directory
 │   ├── api/                      # API routes
 │   │   ├── analyze-food/         # Food analysis endpoint
@@ -76,10 +76,18 @@ ElevateHealth/
 │   └── websocket-server.py       # WebSocket server
 ├── components/                   # Reusable UI components
 ├── lib/                          # Utility libraries
-│   ├── restaurant-data.ts        # Restaurant menu data
-│   └── restaurant-scraper.ts     # Restaurant data scraper
 ├── doc/                          # Documentation
-└── public/                       # Static assets
+├── public/                       # Static assets
+├── package.json                  # Dependencies and scripts
+├── tsconfig.json                 # TypeScript configuration
+├── next.config.js                # Next.js configuration
+├── eslint.config.mjs             # ESLint configuration
+├── middleware.ts                 # Next.js middleware
+├── postcss.config.mjs            # Tailwind CSS configuration
+├── components.json               # Shadcn/ui configuration
+├── vercel.json                   # Vercel deployment config
+├── yarn.lock                     # Yarn lockfile
+└── start-bioage.sh               # Development convenience script
 ```
 
 ## 🚀 Getting Started
@@ -94,11 +102,13 @@ ElevateHealth/
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd ElevateHealth
+   cd everyballwins
    ```
 
 2. **Install dependencies**
    ```bash
+   yarn install
+   # or
    npm install
    ```
 
@@ -114,6 +124,8 @@ ElevateHealth/
 
 4. **Start the development server**
    ```bash
+   yarn dev
+   # or
    npm run dev
    ```
 
@@ -121,6 +133,11 @@ ElevateHealth/
    ```bash
    cd bioage
    python3 websocket-server.py
+   ```
+
+   **Or use the convenience script to start both servers:**
+   ```bash
+   ./start-bioage.sh
    ```
 
 6. **Open your browser**
@@ -185,8 +202,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 3. Deploy automatically on push to main branch
 
 ### Other Platforms
-1. Build the project: `npm run build`
-2. Start production server: `npm start`
+1. Build the project: `yarn build` or `npm run build`
+2. Start production server: `yarn start` or `npm start`
 3. Ensure BioAge WebSocket server is running
 
 ## 🤝 Contributing
@@ -238,4 +255,6 @@ For support and questions:
 - ✅ Improved UI/UX with modern design
 - ✅ Added comprehensive error handling
 - ✅ Organized documentation in `doc/` folder
-- ✅ Removed temporary and backup directories
+- ✅ Cleaned up project structure and removed redundant files
+- ✅ Added convenience script for development (`start-bioage.sh`)
+- ✅ Updated to use Yarn as primary package manager
