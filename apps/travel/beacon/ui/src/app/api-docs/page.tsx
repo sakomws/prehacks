@@ -23,21 +23,14 @@ export default function ApiDocs() {
       const response = await fetch('/api/proxy');
       const data = await response.json();
       setAgents(data.availableAgents || []);
-    } catch (error) {
-      console.error('Failed to fetch agents:', error);
+    } catch (err) {
+      console.error('Failed to fetch agents:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const checkAgentHealth = async (agentName: string) => {
-    try {
-      const response = await fetch(`/api/proxy?agent=${agentName}&action=health`);
-      return response.ok;
-    } catch (error) {
-      return false;
-    }
-  };
+  // Removed unused function checkAgentHealth
 
   const getStatusColor = (status: string) => {
     switch (status) {

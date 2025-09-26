@@ -23,6 +23,8 @@ export default function RestaurantSearch() {
       website: string;
       booking_url: string;
       score: number;
+      reviews_count?: number;
+      availability?: string;
     }>;
   } | null>(null);
   const [error, setError] = useState<string | null>(null);

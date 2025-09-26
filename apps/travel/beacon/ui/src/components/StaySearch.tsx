@@ -59,7 +59,7 @@ export default function StaySearch() {
         try {
           const errorData = JSON.parse(errorText);
           throw new Error(errorData.error || 'Failed to search hotels');
-        } catch (parseError) {
+        } catch {
           throw new Error(`Stay Agent error: ${response.status} - ${errorText}`);
         }
       }
