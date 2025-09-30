@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <div id="status">Connecting...</div>
+    <div id="messages"></div>
+    
+    <script>
+        const socket = io('http://localhost:8081', {
+            transports: ['websocket', 'polling'],
+            upgrade: true,
+            rememberUpgrade: true
+        });
+        
+        socket.on('connect', () => {
+            document.getElementById('status').innerHTML = 'Connected!';
+            document.getElementById('status').style.color = 'green';
+            console.log('Connected to WebSocket server');
+        });
+        
+        socket.on('disconnect', () => {
+            document.getElementById('status').innerHTML = 'Disconnected';
+            document.getElementById('status').style.color = 'red';
+            console.log('Disconnected from WebSocket server');
+        });
+        
+        socket.on('connect_error', (error) => {
+            document.getElementById('status').innerHTML = 'Connection Error: ' + error.message;
+            document.getElementById('status').style.color = 'red';
+            console.error('Connection error:', error);
+        });
+        
+        socket.on('agent_status', (data) => {
+            const messages = document.getElementById('messages');
+            messages.innerHTML += '<div>Agent Status: ' + JSON.stringify(data) + '</div>';
+        });
+        
+        socket.on('agent_action', (action) => {
+            const messages = document.getElementById('messages');
+            messages.innerHTML += '<div>Action: ' + JSON.stringify(action) + '</div>';
+        });
+        
+        // Test sending a message
+        setTimeout(() => {
+            if (socket.connected) {
+                socket.emit('start_agent', {
+                    job_url: 'https://apply.appcast.io/jobs/50590620606/applyboard/apply'
+                });
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

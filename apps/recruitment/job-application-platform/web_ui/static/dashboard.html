@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobHax Form Filling Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-success {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-applying {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-error {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .form-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .step-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .step-card.completed {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        .step-card.active {
+            border-color: #d97706;
+            background: #fffbeb;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .step-screenshot {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-top: 10px;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .screenshot-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .screenshot-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .screenshot-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #4a5568;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 JobHax Form Filling Dashboard</h1>
+            <p>Real-time Job Application Process Monitoring</p>
+        </div>
+
+        <div class="status-card">
+            <div class="status-title">
+                📊 Application Status
+                <span class="status-indicator status-success" id="statusIndicator">Success</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 100%"></div>
+            </div>
+            <div class="progress-text" id="progressText">Application completed successfully!</div>
+        </div>
+
+        <div class="form-steps">
+            <div class="step-card completed">
+                <div class="step-title">
+                    🌐 Step 1: Navigation
+                    <span style="color: #16a34a;">✅</span>
+                </div>
+                <div class="step-description">Navigate to job application page and take initial screenshot</div>
+            </div>
+
+            <div class="step-card completed">
+                <div class="step-title">
+                    📝 Step 2: Form Analysis
+                    <span style="color: #16a34a;">✅</span>
+                </div>
+                <div class="step-description">Analyze form structure and identify input fields</div>
+            </div>
+
+            <div class="step-card completed">
+                <div class="step-title">
+                    ✍️ Step 3: Form Filling
+                    <span style="color: #16a34a;">✅</span>
+                </div>
+                <div class="step-description">Fill email, phone, first name, and last name fields</div>
+            </div>
+
+            <div class="step-card completed">
+                <div class="step-title">
+                    🔍 Step 4: Verification
+                    <span style="color: #16a34a;">✅</span>
+                </div>
+                <div class="step-description">Verify all form fields are correctly filled</div>
+            </div>
+
+            <div class="step-card completed">
+                <div class="step-title">
+                    🚀 Step 5: Submission
+                    <span style="color: #16a34a;">✅</span>
+                </div>
+                <div class="step-description">Find and click submit button</div>
+            </div>
+
+            <div class="step-card completed">
+                <div class="step-title">
+                    ✅ Step 6: Confirmation
+                    <span style="color: #16a34a;">✅</span>
+                </div>
+                <div class="step-description">Verify application was submitted successfully</div>
+            </div>
+        </div>
+
+        <div class="screenshots-grid">
+            <div class="screenshot-card">
+                <div class="screenshot-title">📸 Initial Page</div>
+                <img src="/screenshots/appcast_initial.png" alt="Initial page" class="screenshot-image" onerror="this.style.display='none'">
+                <p style="color: #64748b; font-size: 0.9rem; margin-top: 10px;">Job application page before form filling</p>
+            </div>
+
+            <div class="screenshot-card">
+                <div class="screenshot-title">📝 Form Filled</div>
+                <img src="/screenshots/appcast_filled.png" alt="Form filled" class="screenshot-image" onerror="this.style.display='none'">
+                <p style="color: #64748b; font-size: 0.9rem; margin-top: 10px;">Form after filling all required fields</p>
+            </div>
+
+            <div class="screenshot-card">
+                <div class="screenshot-title">🎉 Submission Confirmation</div>
+                <img src="/screenshots/appcast_submitted.png" alt="Submission confirmation" class="screenshot-image" onerror="this.style.display='none'">
+                <p style="color: #64748b; font-size: 0.9rem; margin-top: 10px;">Success page after application submission</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="startNewApplication()">
+                🚀 Start New Application
+            </button>
+            <button class="btn btn-secondary" onclick="refreshDashboard()">
+                🔄 Refresh Dashboard
+            </button>
+            <a href="http://localhost:5001" class="btn btn-secondary">
+                🏠 Back to Main App
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function startNewApplication() {
+            // Start a new application
+            fetch('/api/apply/job_1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('New application started! Check the main app to monitor progress.');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error starting new application');
+            });
+        }
+
+        function refreshDashboard() {
+            location.reload();
+        }
+
+        // Simulate real-time updates
+        function updateProgress() {
+            // This would normally poll the API for real-time updates
+            console.log('Dashboard refreshed');
+        }
+
+        // Update dashboard every 5 seconds
+        setInterval(updateProgress, 5000);
+    </script>
+</body>
+</html>

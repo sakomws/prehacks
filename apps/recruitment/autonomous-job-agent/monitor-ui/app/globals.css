@@ -1,0 +1,231 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 248, 250, 252;
+  --background-end-rgb: 255, 255, 255;
+  --primary: 59, 130, 246;
+  --primary-dark: 37, 99, 235;
+  --success: 34, 197, 94;
+  --warning: 245, 158, 11;
+  --error: 239, 68, 68;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 15, 23, 42;
+    --background-end-rgb: 30, 41, 59;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      135deg,
+      rgb(var(--background-start-rgb)) 0%,
+      rgb(var(--background-end-rgb)) 100%
+    );
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  min-height: 100vh;
+}
+
+@layer components {
+  .card {
+    @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-gray-200/50 transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
+  }
+  
+  .card-dark {
+    @apply bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-slate-700/50 transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
+  }
+  
+  .status-indicator {
+    @apply inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-200;
+  }
+  
+  .status-running {
+    @apply bg-blue-100 text-blue-800 border border-blue-200 animate-pulse;
+  }
+  
+  .status-success {
+    @apply bg-green-100 text-green-800 border border-green-200;
+  }
+  
+  .status-error {
+    @apply bg-red-100 text-red-800 border border-red-200;
+  }
+  
+  .status-warning {
+    @apply bg-yellow-100 text-yellow-800 border border-yellow-200;
+  }
+  
+  .status-idle {
+    @apply bg-gray-100 text-gray-800 border border-gray-200;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl;
+  }
+  
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl;
+  }
+  
+  .progress-bar {
+    @apply w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner;
+  }
+  
+  .progress-fill {
+    @apply h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500 ease-out shadow-sm;
+  }
+  
+  .action-item {
+    @apply p-4 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm transition-all duration-200 hover:bg-white/80 hover:shadow-md;
+  }
+  
+  .question-item {
+    @apply p-3 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm transition-all duration-200 hover:bg-white/80;
+  }
+  
+  .question-filled {
+    @apply border-green-300 bg-green-50/50;
+  }
+  
+  .question-required {
+    @apply border-red-300 bg-red-50/50;
+  }
+  
+  .screenshot-item {
+    @apply rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105;
+  }
+  
+  .metric-card {
+    @apply p-4 rounded-lg bg-gradient-to-br from-white to-gray-50 border border-gray-200 transition-all duration-300 hover:shadow-lg hover:scale-105;
+  }
+  
+  .metric-icon {
+    @apply p-3 rounded-lg;
+  }
+  
+  .metric-icon-blue {
+    @apply bg-blue-100 text-blue-600;
+  }
+  
+  .metric-icon-green {
+    @apply bg-green-100 text-green-600;
+  }
+  
+  .metric-icon-purple {
+    @apply bg-purple-100 text-purple-600;
+  }
+  
+  .metric-icon-orange {
+    @apply bg-orange-100 text-orange-600;
+  }
+  
+  .metric-icon-yellow {
+    @apply bg-yellow-100 text-yellow-600;
+  }
+  
+  .header-gradient {
+    @apply bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800;
+  }
+  
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-bounce-slow {
+    animation: bounce 2s infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full hover:bg-gray-500;
+}
+
+/* Loading animation */
+.loading-dots {
+  display: inline-block;
+}
+
+.loading-dots::after {
+  content: '';
+  animation: loading-dots 1.5s infinite;
+}
+
+@keyframes loading-dots {
+  0%, 20% {
+    content: '';
+  }
+  40% {
+    content: '.';
+  }
+  60% {
+    content: '..';
+  }
+  80%, 100% {
+    content: '...';
+  }
+}

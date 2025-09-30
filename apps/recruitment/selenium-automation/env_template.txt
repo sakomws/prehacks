@@ -1,0 +1,18 @@
+# Browser-Use Configuration
+# Choose one of the following API keys:
+
+# Option 1: Google Gemini (Free tier available) - RECOMMENDED
+GEMINI_API_KEY=x
+
+# Option 2: OpenAI (Paid)
+# OPENAI_API_KEY=
+
+# Option 3: Anthropic Claude (Paid)
+# ANTHROPIC_API_KEY=
+
+# Option 4: Groq (Free tier available)
+# GROQ_API_KEY=
+
+# Browser settings (optional)
+# BROWSER_HEADLESS=false
+# BROWSER_TIMEOUT=30

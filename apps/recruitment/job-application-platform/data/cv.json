@@ -1,0 +1,42 @@
+{
+    "application": {
+      "personal_information": {
+        "first_name": "[REDACTED]",
+        "last_name": "[REDACTED]",
+        "email": "[REDACTED]",
+        "phone": "[REDACTED]",
+        "address": {
+          "line": "[REDACTED]",
+          "city": "[REDACTED]",
+          "state": "[REDACTED]",
+          "postal_code": "[REDACTED]",
+          "country": "[REDACTED]"
+        }
+      },
+      "eligibility": {
+        "over_18": true,
+        "eligible_to_work_in_us": true,
+        "require_sponsorship": false,
+        "professional_license": false
+      },
+      "motivation": {
+        "what_drew_you_to_healthcare": "I am deeply motivated by the opportunity to improve lives through technology, secure systems, and innovation. Healthcare offers a chance to apply my skills in AI, security, and platform engineering to ensure reliability, safety, and efficiency for patients and providers."
+      },
+      "experience": {
+        "years_related_role": "8+ years"
+      },
+      "voluntary_disclosures": {
+        "gender": "[REDACTED]",
+        "race": "[REDACTED]",
+        "hispanic_or_latino": false,
+        "veteran_status": "[REDACTED]",
+        "disability_status": "[REDACTED]",
+        "date": "[REDACTED]"
+      },
+      "pdf_generated": {
+        "file_name": "[REDACTED]_Application.pdf",
+        "path": "/mnt/data/[REDACTED]_Application.pdf",
+        "download_link": "sandbox:/mnt/data/[REDACTED]_Application.pdf"
+      }
+    }
+  }

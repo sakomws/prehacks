@@ -1,0 +1,859 @@
+{
+  "meta": {
+    "job_url": "https://apply.appcast.io/jobs/50590620606/applyboard/apply",
+    "session_mode": "host",
+    "candidate": "[REDACTED]",
+    "start_time": 1759031062.9033952,
+    "end_time": 1759031097.4078069,
+    "duration_seconds": 34.504411697387695,
+    "total_actions": 29,
+    "screenshots_taken": 5,
+    "questions_encountered": 19
+  },
+  "task_completion": {
+    "page2_reached": true,
+    "all_mandatory_questions_filled": true,
+    "autonomous_execution": true,
+    "human_intervention_required": false
+  },
+  "human_readable_summary": "\nAUTONOMOUS JOB APPLICATION - SUCCESS\n====================================\n\nThe autonomous agent successfully completed the job application process:\n\nNAVIGATION:\n- Successfully navigated to: https://apply.appcast.io/jobs/50590620606/applyboard/apply\n- Reached page 2: Yes\n\nQUESTION DETECTION:\n- Detected 19 total questions on the form\n- Identified 19 mandatory questions\n- Question types found: dropdown, text_input, textarea, date_input, email_input, radio_group, tel_input\n\nFORM FILLING:\n- Filled 8 text input fields\n- Selected 5 dropdown options\n- Clicked 6 radio buttons\n- Uploaded CV: Yes\n\nDOCUMENTATION:\n- Took 5 screenshots during the process\n- Logged 29 total actions\n- Generated comprehensive trace log\n\nRESULT:\nThe agent successfully filled all mandatory questions and proceeded to page 2 of the job application autonomously, without requiring human intervention.\n",
+  "questions_encountered": [
+    {
+      "question_id": "first_name",
+      "question_text": "Legal First Name",
+      "field_type": "text_input",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "last_name",
+      "question_text": "Legal Last Name",
+      "field_type": "text_input",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "email",
+      "question_text": "Email Address",
+      "field_type": "email_input",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "phone",
+      "question_text": "Phone Number",
+      "field_type": "tel_input",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "address",
+      "question_text": "Address Line",
+      "field_type": "text_input",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "postal_code",
+      "question_text": "Postal Code",
+      "field_type": "text_input",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "country",
+      "question_text": "Country",
+      "field_type": "dropdown",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "over_18",
+      "question_text": "Are you over the age of 18?",
+      "field_type": "radio_group",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "eligible_to_work",
+      "question_text": "Are you eligible to work in the United States of America?",
+      "field_type": "radio_group",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "require_sponsorship",
+      "question_text": "Will you now or in the future require company sponsorship for continued employment?",
+      "field_type": "radio_group",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "professional_license",
+      "question_text": "Do you have, or are you in the process of obtaining, a professional license?",
+      "field_type": "radio_group",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "healthcare_motivation",
+      "question_text": "What drew you to healthcare?",
+      "field_type": "textarea",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "years_experience",
+      "question_text": "How many years of experience do you have in a related role?",
+      "field_type": "dropdown",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "gender",
+      "question_text": "Please select the gender which most accurately describes how you identify yourself.",
+      "field_type": "dropdown",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "race",
+      "question_text": "Please select the race which most accurately describes how you identify yourself.",
+      "field_type": "dropdown",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "hispanic_latino",
+      "question_text": "Please indicate if you identify as Hispanic or Latino",
+      "field_type": "radio_group",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "veteran_status",
+      "question_text": "Protected Veteran Categories",
+      "field_type": "dropdown",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "disability_status",
+      "question_text": "Do you have a disability or have you ever had one?",
+      "field_type": "radio_group",
+      "required": true,
+      "filled": true
+    },
+    {
+      "question_id": "date",
+      "question_text": "Date",
+      "field_type": "date_input",
+      "required": true,
+      "filled": true
+    }
+  ],
+  "detections_and_actions": {
+    "page1_actions": [
+      {
+        "timestamp": 1759031062.9033952,
+        "action_type": "navigate",
+        "page": 1,
+        "url": "https://apply.appcast.io/jobs/50590620606/applyboard/apply"
+      },
+      {
+        "timestamp": 1759031065.906904,
+        "action_type": "screenshot",
+        "page": 1,
+        "filename": "page1_initial_load_1.png"
+      },
+      {
+        "timestamp": 1759031066.008182,
+        "action_type": "question_detection",
+        "page": 1,
+        "questions_found": 19
+      },
+      {
+        "timestamp": 1759031066.008201,
+        "action_type": "screenshot",
+        "page": 1,
+        "filename": "page1_questions_detected_2.png"
+      },
+      {
+        "timestamp": 1759031066.109376,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "first_name",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031066.611682,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "last_name",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031066.9639418,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "email",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031068.215821,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "phone",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031069.218559,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "address",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031072.371401,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "postal_code",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031072.922983,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "country",
+        "value": "United States"
+      },
+      {
+        "timestamp": 1759031073.424931,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "over_18",
+        "option": "Yes"
+      },
+      {
+        "timestamp": 1759031073.827384,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "eligible_to_work",
+        "option": "Yes"
+      },
+      {
+        "timestamp": 1759031074.229323,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "require_sponsorship",
+        "option": "No"
+      },
+      {
+        "timestamp": 1759031074.6316469,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "professional_license",
+        "option": "No"
+      },
+      {
+        "timestamp": 1759031075.034395,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "healthcare_motivation",
+        "value": "I am deeply motivated by the opportunity to improve lives through technology, secure systems, and innovation. Healthcare offers a chance to apply my skills in AI, security, and platform engineering to ensure reliability, safety, and efficiency for patients and providers."
+      },
+      {
+        "timestamp": 1759031088.8882828,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "years_experience",
+        "value": "8+ years"
+      },
+      {
+        "timestamp": 1759031089.390975,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "gender",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031089.8926752,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "race",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031090.39469,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "hispanic_latino",
+        "option": "No"
+      },
+      {
+        "timestamp": 1759031090.796931,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "veteran_status",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031091.298215,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "disability_status",
+        "option": "No"
+      },
+      {
+        "timestamp": 1759031091.699606,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "date",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031092.501898,
+        "action_type": "screenshot",
+        "page": 1,
+        "filename": "page1_questions_filled_3.png"
+      },
+      {
+        "timestamp": 1759031092.602734,
+        "action_type": "upload_file",
+        "page": 1,
+        "file_path": "data/cv.pdf"
+      },
+      {
+        "timestamp": 1759031094.105052,
+        "action_type": "screenshot",
+        "page": 1,
+        "filename": "page1_cv_handled_4.png"
+      },
+      {
+        "timestamp": 1759031094.205666,
+        "action_type": "click_next_button",
+        "page": 1
+      },
+      {
+        "timestamp": 1759031097.3076339,
+        "action_type": "page_transition_detected",
+        "page": 1,
+        "indicators": [
+          "URL changed to include 'page=2'",
+          "New form section appeared",
+          "Step indicator shows '2'",
+          "Different page title detected"
+        ]
+      }
+    ],
+    "page2_actions": [
+      {
+        "timestamp": 1759031097.307669,
+        "action_type": "screenshot",
+        "page": 2,
+        "filename": "page2_page2_reached_5.png"
+      }
+    ],
+    "question_detections": [
+      {
+        "question_id": "first_name",
+        "question_text": "Legal First Name",
+        "field_type": "text_input",
+        "required": true,
+        "detected_at": 1759031066.0081549
+      },
+      {
+        "question_id": "last_name",
+        "question_text": "Legal Last Name",
+        "field_type": "text_input",
+        "required": true,
+        "detected_at": 1759031066.008158
+      },
+      {
+        "question_id": "email",
+        "question_text": "Email Address",
+        "field_type": "email_input",
+        "required": true,
+        "detected_at": 1759031066.008159
+      },
+      {
+        "question_id": "phone",
+        "question_text": "Phone Number",
+        "field_type": "tel_input",
+        "required": true,
+        "detected_at": 1759031066.00816
+      },
+      {
+        "question_id": "address",
+        "question_text": "Address Line",
+        "field_type": "text_input",
+        "required": true,
+        "detected_at": 1759031066.008162
+      },
+      {
+        "question_id": "postal_code",
+        "question_text": "Postal Code",
+        "field_type": "text_input",
+        "required": true,
+        "detected_at": 1759031066.008162
+      },
+      {
+        "question_id": "country",
+        "question_text": "Country",
+        "field_type": "dropdown",
+        "required": true,
+        "detected_at": 1759031066.008163
+      },
+      {
+        "question_id": "over_18",
+        "question_text": "Are you over the age of 18?",
+        "field_type": "radio_group",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "detected_at": 1759031066.008163
+      },
+      {
+        "question_id": "eligible_to_work",
+        "question_text": "Are you eligible to work in the United States of America?",
+        "field_type": "radio_group",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "detected_at": 1759031066.0081658
+      },
+      {
+        "question_id": "require_sponsorship",
+        "question_text": "Will you now or in the future require company sponsorship for continued employment?",
+        "field_type": "radio_group",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "detected_at": 1759031066.008167
+      },
+      {
+        "question_id": "professional_license",
+        "question_text": "Do you have, or are you in the process of obtaining, a professional license?",
+        "field_type": "radio_group",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "detected_at": 1759031066.008168
+      },
+      {
+        "question_id": "healthcare_motivation",
+        "question_text": "What drew you to healthcare?",
+        "field_type": "textarea",
+        "required": true,
+        "detected_at": 1759031066.008169
+      },
+      {
+        "question_id": "years_experience",
+        "question_text": "How many years of experience do you have in a related role?",
+        "field_type": "dropdown",
+        "required": true,
+        "options": [
+          "0-1 years",
+          "2-3 years",
+          "4-5 years",
+          "6-7 years",
+          "8+ years"
+        ],
+        "detected_at": 1759031066.00817
+      },
+      {
+        "question_id": "gender",
+        "question_text": "Please select the gender which most accurately describes how you identify yourself.",
+        "field_type": "dropdown",
+        "required": true,
+        "detected_at": 1759031066.008171
+      },
+      {
+        "question_id": "race",
+        "question_text": "Please select the race which most accurately describes how you identify yourself.",
+        "field_type": "dropdown",
+        "required": true,
+        "detected_at": 1759031066.008171
+      },
+      {
+        "question_id": "hispanic_latino",
+        "question_text": "Please indicate if you identify as Hispanic or Latino",
+        "field_type": "radio_group",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "detected_at": 1759031066.008172
+      },
+      {
+        "question_id": "veteran_status",
+        "question_text": "Protected Veteran Categories",
+        "field_type": "dropdown",
+        "required": true,
+        "detected_at": 1759031066.008173
+      },
+      {
+        "question_id": "disability_status",
+        "question_text": "Do you have a disability or have you ever had one?",
+        "field_type": "radio_group",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "detected_at": 1759031066.008173
+      },
+      {
+        "question_id": "date",
+        "question_text": "Date",
+        "field_type": "date_input",
+        "required": true,
+        "detected_at": 1759031066.0081742
+      }
+    ],
+    "form_interactions": [
+      {
+        "timestamp": 1759031066.109376,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "first_name",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031066.611682,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "last_name",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031066.9639418,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "email",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031068.215821,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "phone",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031069.218559,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "address",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031072.371401,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "postal_code",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031072.922983,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "country",
+        "value": "United States"
+      },
+      {
+        "timestamp": 1759031073.424931,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "over_18",
+        "option": "Yes"
+      },
+      {
+        "timestamp": 1759031073.827384,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "eligible_to_work",
+        "option": "Yes"
+      },
+      {
+        "timestamp": 1759031074.229323,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "require_sponsorship",
+        "option": "No"
+      },
+      {
+        "timestamp": 1759031074.6316469,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "professional_license",
+        "option": "No"
+      },
+      {
+        "timestamp": 1759031075.034395,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "healthcare_motivation",
+        "value": "I am deeply motivated by the opportunity to improve lives through technology, secure systems, and innovation. Healthcare offers a chance to apply my skills in AI, security, and platform engineering to ensure reliability, safety, and efficiency for patients and providers."
+      },
+      {
+        "timestamp": 1759031088.8882828,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "years_experience",
+        "value": "8+ years"
+      },
+      {
+        "timestamp": 1759031089.390975,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "gender",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031089.8926752,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "race",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031090.39469,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "hispanic_latino",
+        "option": "No"
+      },
+      {
+        "timestamp": 1759031090.796931,
+        "action_type": "select_dropdown",
+        "page": 1,
+        "question_id": "veteran_status",
+        "value": "[REDACTED]"
+      },
+      {
+        "timestamp": 1759031091.298215,
+        "action_type": "click_radio",
+        "page": 1,
+        "question_id": "disability_status",
+        "option": "No"
+      },
+      {
+        "timestamp": 1759031091.699606,
+        "action_type": "type_text",
+        "page": 1,
+        "question_id": "date",
+        "value": "[REDACTED]"
+      }
+    ]
+  },
+  "traces": [
+    {
+      "timestamp": 1759031062.9033952,
+      "action_type": "navigate",
+      "page": 1,
+      "url": "https://apply.appcast.io/jobs/50590620606/applyboard/apply"
+    },
+    {
+      "timestamp": 1759031065.906904,
+      "action_type": "screenshot",
+      "page": 1,
+      "filename": "page1_initial_load_1.png"
+    },
+    {
+      "timestamp": 1759031066.008182,
+      "action_type": "question_detection",
+      "page": 1,
+      "questions_found": 19
+    },
+    {
+      "timestamp": 1759031066.008201,
+      "action_type": "screenshot",
+      "page": 1,
+      "filename": "page1_questions_detected_2.png"
+    },
+    {
+      "timestamp": 1759031066.109376,
+      "action_type": "type_text",
+      "page": 1,
+      "question_id": "first_name",
+        "value": "[REDACTED]"
+    },
+    {
+      "timestamp": 1759031066.611682,
+      "action_type": "type_text",
+      "page": 1,
+      "question_id": "last_name",
+      "value": "M"
+    },
+    {
+      "timestamp": 1759031066.9639418,
+      "action_type": "type_text",
+      "page": 1,
+      "question_id": "email",
+        "value": "[REDACTED]"
+    },
+    {
+      "timestamp": 1759031068.215821,
+      "action_type": "type_text",
+      "page": 1,
+      "question_id": "phone",
+        "value": "[REDACTED]"
+    },
+    {
+      "timestamp": 1759031069.218559,
+      "action_type": "type_text",
+      "page": 1,
+      "question_id": "address",
+        "value": "[REDACTED]"
+    },
+    {
+      "timestamp": 1759031072.371401,
+      "action_type": "type_text",
+      "page": 1,
+      "question_id": "postal_code",
+        "value": "[REDACTED]"
+    },
+    {
+      "timestamp": 1759031072.922983,
+      "action_type": "select_dropdown",
+      "page": 1,
+      "question_id": "country",
+      "value": "United States"
+    },
+    {
+      "timestamp": 1759031073.424931,
+      "action_type": "click_radio",
+      "page": 1,
+      "question_id": "over_18",
+      "option": "Yes"
+    },
+    {
+      "timestamp": 1759031073.827384,
+      "action_type": "click_radio",
+      "page": 1,
+      "question_id": "eligible_to_work",
+      "option": "Yes"
+    },
+    {
+      "timestamp": 1759031074.229323,
+      "action_type": "click_radio",
+      "page": 1,
+      "question_id": "require_sponsorship",
+      "option": "No"
+    },
+    {
+      "timestamp": 1759031074.6316469,
+      "action_type": "click_radio",
+      "page": 1,
+      "question_id": "professional_license",
+      "option": "No"
+    },
+    {
+      "timestamp": 1759031075.034395,
+      "action_type": "type_text",
+      "page": 1,
+      "question_id": "healthcare_motivation",
+      "value": "I am deeply motivated by the opportunity to improve lives through technology, secure systems, and innovation. Healthcare offers a chance to apply my skills in AI, security, and platform engineering to ensure reliability, safety, and efficiency for patients and providers."
+    },
+    {
+      "timestamp": 1759031088.8882828,
+      "action_type": "select_dropdown",
+      "page": 1,
+      "question_id": "years_experience",
+      "value": "8+ years"
+    },
+    {
+      "timestamp": 1759031089.390975,
+      "action_type": "select_dropdown",
+      "page": 1,
+      "question_id": "gender",
+      "value": "Male"
+    },
+    {
+      "timestamp": 1759031089.8926752,
+      "action_type": "select_dropdown",
+      "page": 1,
+      "question_id": "race",
+      "value": "White (Not Hispanic or Latino)"
+    },
+    {
+      "timestamp": 1759031090.39469,
+      "action_type": "click_radio",
+      "page": 1,
+      "question_id": "hispanic_latino",
+      "option": "No"
+    },
+    {
+      "timestamp": 1759031090.796931,
+      "action_type": "select_dropdown",
+      "page": 1,
+      "question_id": "veteran_status",
+      "value": "Not a Veteran"
+    },
+    {
+      "timestamp": 1759031091.298215,
+      "action_type": "click_radio",
+      "page": 1,
+      "question_id": "disability_status",
+      "option": "No"
+    },
+    {
+      "timestamp": 1759031091.699606,
+      "action_type": "type_text",
+      "page": 1,
+      "question_id": "date",
+      "value": "2025-09-27"
+    },
+    {
+      "timestamp": 1759031092.501898,
+      "action_type": "screenshot",
+      "page": 1,
+      "filename": "page1_questions_filled_3.png"
+    },
+    {
+      "timestamp": 1759031092.602734,
+      "action_type": "upload_file",
+      "page": 1,
+      "file_path": "data/cv.pdf"
+    },
+    {
+      "timestamp": 1759031094.105052,
+      "action_type": "screenshot",
+      "page": 1,
+      "filename": "page1_cv_handled_4.png"
+    },
+    {
+      "timestamp": 1759031094.205666,
+      "action_type": "click_next_button",
+      "page": 1
+    },
+    {
+      "timestamp": 1759031097.3076339,
+      "action_type": "page_transition_detected",
+      "page": 1,
+      "indicators": [
+        "URL changed to include 'page=2'",
+        "New form section appeared",
+        "Step indicator shows '2'",
+        "Different page title detected"
+      ]
+    },
+    {
+      "timestamp": 1759031097.307669,
+      "action_type": "screenshot",
+      "page": 2,
+      "filename": "page2_page2_reached_5.png"
+    }
+  ],
+  "errors": []
+}

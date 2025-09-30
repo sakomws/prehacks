@@ -24,27 +24,27 @@ echo "📦 Installing Python dependencies..."
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# Install Chrome extension dependencies
-echo "📦 Installing Chrome extension dependencies..."
-cd chrome_extension
+# Install Browser extension dependencies
+echo "📦 Installing Browser extension dependencies..."
+cd browser-extension
 if [ -f "package.json" ]; then
     npm install
 else
-    echo "⚠️  No package.json found in chrome_extension/"
+    echo "⚠️  No package.json found in browser-extension/"
 fi
 cd ..
 
-# Install JHV5 dependencies
-echo "📦 Installing JHV5 dependencies..."
-cd jhv5
+# Install Autonomous Job Agent dependencies
+echo "📦 Installing Autonomous Job Agent dependencies..."
+cd autonomous-job-agent
 if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
 fi
 cd ..
 
-# Install JobHax dependencies
-echo "📦 Installing JobHax dependencies..."
-cd jobhax
+# Install Job Application Platform dependencies
+echo "📦 Installing Job Application Platform dependencies..."
+cd job-application-platform
 if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
 fi
@@ -76,10 +76,10 @@ echo ""
 echo "🔧 Next steps:"
 echo "1. Update .env file with your API keys"
 echo "2. Choose your preferred tool:"
-echo "   - JobHax: cd jobhax && python -m uvicorn web_ui.app:app --reload"
-echo "   - Chrome Extension: Load chrome_extension/ in Chrome"
-echo "   - Browser Automation: cd browser_automation && python job_application_automation.py"
-echo "   - JHV5: cd jhv5 && python start_integrated_system.py"
+echo "   - Job Application Platform: cd job-application-platform && python -m uvicorn web_ui.app:app --reload"
+echo "   - Browser Extension: Load browser-extension/ in Chrome"
+echo "   - Selenium Automation: cd selenium-automation && python job_application_automation.py"
+echo "   - Autonomous Job Agent: cd autonomous-job-agent && python start_integrated_system.py"
 echo ""
 echo "📚 Documentation: ./docs/"
 echo "🐛 Issues: Check logs/ directory for troubleshooting"

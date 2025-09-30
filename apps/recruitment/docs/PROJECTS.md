@@ -2,8 +2,8 @@
 
 ## 🎯 Main Projects
 
-### 1. JobHax Platform
-**Location**: `./jobhax/`
+### 1. Job Application Platform
+**Location**: `./job-application-platform/`
 **Type**: Full-stack web application
 **Technology**: Python, FastAPI, Selenium, AI/LLM
 **Best for**: Complete job application automation with web interface
@@ -17,12 +17,12 @@
 
 **Quick Start**:
 ```bash
-cd jobhax
+cd job-application-platform
 python -m uvicorn web_ui.app:app --reload
 ```
 
-### 2. Chrome Extension
-**Location**: `./chrome_extension/`
+### 2. Browser Extension
+**Location**: `./browser-extension/`
 **Type**: Browser extension
 **Technology**: JavaScript, Chrome APIs
 **Best for**: One-click job applications directly in browser
@@ -39,8 +39,8 @@ python -m uvicorn web_ui.app:app --reload
 2. Navigate to job application page
 3. Click JobHax button to auto-fill
 
-### 3. Browser Automation
-**Location**: `./browser_automation/`
+### 3. Selenium Automation
+**Location**: `./selenium-automation/`
 **Type**: Python scripts
 **Technology**: Selenium, Python
 **Best for**: Programmatic job application automation
@@ -53,12 +53,12 @@ python -m uvicorn web_ui.app:app --reload
 
 **Quick Start**:
 ```bash
-cd browser_automation
+cd selenium-automation
 python job_application_automation.py
 ```
 
-### 4. JHV5 System
-**Location**: `./jhv5/`
+### 4. Autonomous Job Agent
+**Location**: `./autonomous-job-agent/`
 **Type**: Advanced automation system
 **Technology**: Python, WebSocket, Next.js
 **Best for**: Advanced users needing real-time monitoring
@@ -71,7 +71,7 @@ python job_application_automation.py
 
 **Quick Start**:
 ```bash
-cd jhv5
+cd autonomous-job-agent
 python start_integrated_system.py
 ```
 
@@ -89,8 +89,8 @@ python start_integrated_system.py
 
 ## 📊 Comparison Matrix
 
-| Feature | JobHax | Chrome Ext | Browser Auto | JHV5 |
-|---------|--------|------------|--------------|------|
+| Feature | Job Platform | Browser Ext | Selenium Auto | Autonomous Agent |
+|---------|--------------|-------------|---------------|------------------|
 | Web UI | ✅ | ❌ | ❌ | ✅ |
 | Browser Integration | ❌ | ✅ | ❌ | ❌ |
 | Real-time Monitoring | ✅ | ❌ | ❌ | ✅ |
@@ -100,10 +100,10 @@ python start_integrated_system.py
 
 ## 🚀 Getting Started
 
-1. **For Beginners**: Start with Chrome Extension
-2. **For Developers**: Use Browser Automation scripts
-3. **For Full Control**: Use JobHax Platform
-4. **For Advanced Users**: Use JHV5 System
+1. **For Beginners**: Start with Browser Extension
+2. **For Developers**: Use Selenium Automation scripts
+3. **For Full Control**: Use Job Application Platform
+4. **For Advanced Users**: Use Autonomous Job Agent
 
 ## 📚 Documentation
 

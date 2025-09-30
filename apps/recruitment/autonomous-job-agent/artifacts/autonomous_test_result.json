@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "job_url": "https://apply.appcast.io/jobs/50590620606/applyboard/apply",
+    "session_mode": "host",
+    "candidate": "[REDACTED]",
+    "total_actions": 29,
+    "screenshots_taken": 2
+  },
+  "page1": {
+    "personal_info_filled": true,
+    "eligibility_questions_answered": true,
+    "motivation_filled": true,
+    "experience_selected": true,
+    "cv_uploaded": true,
+    "voluntary_disclosures_filled": true
+  },
+  "page2_detection": {
+    "detected": true,
+    "signal": "next_button_clicked",
+    "details": "Successfully navigated to page 2"
+  },
+  "traces": [
+    {
+      "type": "navigate",
+      "url": "https://apply.appcast.io/jobs/50590620606/applyboard/apply",
+      "timestamp": 1759024134.546575
+    },
+    {
+      "type": "type",
+      "text": "[REDACTED]",
+      "timestamp": 1759024135.547722
+    },
+    {
+      "type": "type",
+      "text": "[REDACTED]",
+      "timestamp": 1759024135.7488298
+    },
+    {
+      "type": "type",
+      "text": "[REDACTED]",
+      "timestamp": 1759024135.799925
+    },
+    {
+      "type": "type",
+      "text": "[REDACTED]",
+      "timestamp": 1759024136.751039
+    },
+    {
+      "type": "type",
+      "text": "[REDACTED]",
+      "timestamp": 1759024137.4521532
+    },
+    {
+      "type": "click",
+      "x": 100,
+      "y": 200,
+      "button": "left",
+      "timestamp": 1759024140.303262
+    },
+    {
+      "type": "wait",
+      "seconds": 0.5,
+      "timestamp": 1759024140.404334
+    },
+    {
+      "type": "click",
+      "x": 100,
+      "y": 250,
+      "button": "left",
+      "timestamp": 1759024140.9048388
+    },
+    {
+      "type": "wait",
+      "seconds": 0.5,
+      "timestamp": 1759024141.005973
+    },
+    {
+      "type": "click",
+      "x": 200,
+      "y": 300,
+      "button": "left",
+      "timestamp": 1759024141.5064142
+    },
+    {
+      "type": "wait",
+      "seconds": 0.5,
+      "timestamp": 1759024141.607501
+    },
+    {
+      "type": "click",
+      "x": 200,
+      "y": 350,
+      "button": "left",
+      "timestamp": 1759024142.108607
+    },
+    {
+      "type": "wait",
+      "seconds": 0.5,
+      "timestamp": 1759024142.2096488
+    },
+    {
+      "type": "type",
+      "text": "I am deeply motivated by the opportunity to improve lives through technology, secure systems, and innovation. Healthcare offers a chance to apply my skills in AI, security, and platform engineering to ensure reliability, safety, and efficiency for patients and providers.",
+      "timestamp": 1759024142.710773
+    },
+    {
+      "type": "select",
+      "option": "8+ years",
+      "selector": "experience_dropdown",
+      "timestamp": 1759024156.26195
+    },
+    {
+      "type": "upload",
+      "file_path": "data/cv.pdf",
+      "selector": "resume_upload",
+      "timestamp": 1759024156.463027
+    },
+    {
+      "type": "select",
+      "option": "Male",
+      "selector": "gender_dropdown",
+      "timestamp": 1759024156.963553
+    },
+    {
+      "type": "select",
+      "option": "White (Not Hispanic or Latino)",
+      "selector": "race_dropdown",
+      "timestamp": 1759024157.164633
+    },
+    {
+      "type": "click",
+      "x": 200,
+      "y": 400,
+      "button": "left",
+      "timestamp": 1759024157.3657238
+    },
+    {
+      "type": "wait",
+      "seconds": 0.5,
+      "timestamp": 1759024157.4668128
+    },
+    {
+      "type": "select",
+      "option": "Not a Veteran",
+      "selector": "veteran_dropdown",
+      "timestamp": 1759024157.9669728
+    },
+    {
+      "type": "click",
+      "x": 200,
+      "y": 450,
+      "button": "left",
+      "timestamp": 1759024158.168582
+    },
+    {
+      "type": "wait",
+      "seconds": 0.5,
+      "timestamp": 1759024158.2696772
+    },
+    {
+      "type": "type",
+      "text": "2025-09-27",
+      "timestamp": 1759024158.7707698
+    },
+    {
+      "type": "screenshot",
+      "filename": "form_filled.png",
+      "timestamp": 1759024159.271861
+    },
+    {
+      "type": "click",
+      "x": 500,
+      "y": 600,
+      "button": "left",
+      "timestamp": 1759024159.37248
+    },
+    {
+      "type": "wait",
+      "seconds": 2.0,
+      "timestamp": 1759024159.473408
+    },
+    {
+      "type": "screenshot",
+      "filename": "page2_detected.png",
+      "timestamp": 1759024161.474524
+    }
+  ],
+  "errors": []
+}

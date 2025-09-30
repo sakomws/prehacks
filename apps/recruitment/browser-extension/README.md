@@ -17,7 +17,7 @@ A powerful Chrome extension for automated job application form filling with inte
 
 1. **Download the Extension**
    - Download or clone this repository
-   - Navigate to the `chrome_extension` folder
+   - Navigate to the `browser-extension` folder
 
 2. **Open Chrome Extensions Page**
    - Open Chrome and go to `chrome://extensions/`
@@ -25,7 +25,7 @@ A powerful Chrome extension for automated job application form filling with inte
 
 3. **Load the Extension**
    - Click "Load unpacked"
-   - Select the `chrome_extension` folder
+   - Select the `browser-extension` folder
    - The JobHax extension should now appear in your extensions list
 
 4. **Pin the Extension**
@@ -178,7 +178,7 @@ The extension intelligently finds submit buttons while avoiding:
 1. **Clone Repository**
    ```bash
    git clone <repository-url>
-   cd jobhax/chrome_extension
+   cd job-application-platform/browser-extension
    ```
 
 2. **Load in Chrome**

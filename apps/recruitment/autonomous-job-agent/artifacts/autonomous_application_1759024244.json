@@ -1,0 +1,179 @@
+{
+  "meta": {
+    "job_url": "https://apply.appcast.io/jobs/50590620606/applyboard/apply",
+    "session_mode": "host",
+    "candidate": "[REDACTED]",
+    "start_time": 1759024244.724134,
+    "end_time": 1759024244.724134,
+    "total_actions": 27,
+    "screenshots_taken": 7
+  },
+  "page1": {
+    "personal_info_filled": true,
+    "eligibility_questions_answered": true,
+    "motivation_filled": true,
+    "experience_selected": true,
+    "cv_uploaded": true,
+    "voluntary_disclosures_filled": true
+  },
+  "page2_detection": {
+    "detected": true,
+    "signal": "next_button_clicked",
+    "details": "Successfully navigated to page 2"
+  },
+  "traces": [
+    {
+      "type": "navigate",
+      "timestamp": 1759024208.1756108,
+      "url": "https://apply.appcast.io/jobs/50590620606/applyboard/apply"
+    },
+    {
+      "type": "screenshot",
+      "timestamp": 1759024211.1778681,
+      "filename": "screenshot_1_initial_page.png"
+    },
+    {
+      "type": "type",
+      "timestamp": 1759024211.278962,
+      "field": "first_name",
+      "value": "[REDACTED]"
+    },
+    {
+      "type": "type",
+      "timestamp": 1759024211.9812539,
+      "field": "last_name",
+      "value": "[REDACTED]"
+    },
+    {
+      "type": "type",
+      "timestamp": 1759024212.53353,
+      "field": "email",
+      "value": "[REDACTED]"
+    },
+    {
+      "type": "type",
+      "timestamp": 1759024213.985207,
+      "field": "phone",
+      "value": "[REDACTED]"
+    },
+    {
+      "type": "type",
+      "timestamp": 1759024215.187416,
+      "field": "address",
+      "value": "[REDACTED]"
+    },
+    {
+      "type": "screenshot",
+      "timestamp": 1759024218.5397189,
+      "filename": "screenshot_2_personal_info_filled.png"
+    },
+    {
+      "type": "click_radio",
+      "timestamp": 1759024218.6401138,
+      "question": "over_18",
+      "answer": "Yes"
+    },
+    {
+      "type": "click_radio",
+      "timestamp": 1759024219.242305,
+      "question": "eligible_to_work_in_us",
+      "answer": "Yes"
+    },
+    {
+      "type": "click_radio",
+      "timestamp": 1759024219.844526,
+      "question": "require_sponsorship",
+      "answer": "No"
+    },
+    {
+      "type": "click_radio",
+      "timestamp": 1759024220.44607,
+      "question": "professional_license",
+      "answer": "No"
+    },
+    {
+      "type": "screenshot",
+      "timestamp": 1759024221.047341,
+      "filename": "screenshot_3_eligibility_filled.png"
+    },
+    {
+      "type": "type",
+      "timestamp": 1759024221.148542,
+      "field": "motivation",
+      "value": "I am deeply motivated by the opportunity to improv..."
+    },
+    {
+      "type": "select",
+      "timestamp": 1759024235.7010381,
+      "field": "experience",
+      "value": "8+ years"
+    },
+    {
+      "type": "screenshot",
+      "timestamp": 1759024236.4034271,
+      "filename": "screenshot_4_motivation_experience_filled.png"
+    },
+    {
+      "type": "upload",
+      "timestamp": 1759024236.504632,
+      "file": "data/cv.pdf"
+    },
+    {
+      "type": "screenshot",
+      "timestamp": 1759024238.006496,
+      "filename": "screenshot_5_cv_uploaded.png"
+    },
+    {
+      "type": "select",
+      "timestamp": 1759024238.107666,
+      "field": "gender",
+      "value": "Male"
+    },
+    {
+      "type": "select",
+      "timestamp": 1759024238.8098838,
+      "field": "race",
+      "value": "White (Not Hispanic or Latino)"
+    },
+    {
+      "type": "click_radio",
+      "timestamp": 1759024239.512083,
+      "question": "hispanic_or_latino",
+      "answer": "No"
+    },
+    {
+      "type": "select",
+      "timestamp": 1759024240.1143198,
+      "field": "veteran_status",
+      "value": "Not a Veteran"
+    },
+    {
+      "type": "click_radio",
+      "timestamp": 1759024240.815785,
+      "question": "disability_status",
+      "answer": "No"
+    },
+    {
+      "type": "type",
+      "timestamp": 1759024241.417978,
+      "field": "date",
+      "value": "2025-09-27"
+    },
+    {
+      "type": "screenshot",
+      "timestamp": 1759024242.420179,
+      "filename": "screenshot_6_voluntary_disclosures_filled.png"
+    },
+    {
+      "type": "click",
+      "timestamp": 1759024242.5212579,
+      "element": "next_button"
+    },
+    {
+      "type": "screenshot",
+      "timestamp": 1759024244.623441,
+      "filename": "screenshot_7_page2_detected.png"
+    }
+  ],
+  "errors": []
+}

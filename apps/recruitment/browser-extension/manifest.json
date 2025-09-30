@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "JobHax Auto-Fill Extension",
+  "version": "1.0",
+  "description": "Automatically fills job application forms with your resume data",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png", 
+    "128": "icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "tabs",
+    "notifications",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://jobs.smartrecruiters.com/*",
+    "https://apply.appcast.io/*",
+    "https://*.smartrecruiters.com/*",
+    "https://jobs.lever.co/*",
+    "https://boards.greenhouse.io/*",
+    "https://*.workday.com/*",
+    "https://*.taleo.net/*",
+    "https://*.rochesterregional.org/*",
+    "https://*.rochesterregionalhealth.org/*",
+    "http://localhost:8080/*",
+    "http://localhost:3001/*",
+    "ws://localhost:8081/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "JobHax Auto-Fill"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://jobs.smartrecruiters.com/*",
+        "https://apply.appcast.io/*",
+        "https://*.smartrecruiters.com/*",
+        "https://jobs.lever.co/*",
+        "https://boards.greenhouse.io/*",
+        "https://*.workday.com/*",
+        "https://*.taleo.net/*",
+        "https://*.rochesterregional.org/*",
+        "https://*.rochesterregionalhealth.org/*",
+        "https://*/*job*",
+        "https://*/*apply*",
+        "https://*/*career*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["injected.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
+

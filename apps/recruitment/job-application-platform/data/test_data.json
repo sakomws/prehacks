@@ -1,0 +1,108 @@
+{
+  "personal_info": {
+    "first_name": "[REDACTED]",
+    "last_name": "[REDACTED]",
+    "email": "[REDACTED]",
+    "phone": "[REDACTED]",
+    "address": {
+      "street": "[REDACTED]",
+      "city": "[REDACTED]",
+      "state": "[REDACTED]",
+      "zip_code": "[REDACTED]",
+      "country": "[REDACTED]"
+    },
+    "date_of_birth": "[REDACTED]",
+    "gender": "[REDACTED]",
+    "nationality": "[REDACTED]"
+  },
+  "professional_info": {
+    "current_title": "Software Engineer",
+    "current_company": "Tech Corp",
+    "years_experience": 5,
+    "linkedin_url": "[REDACTED]",
+    "github_url": "[REDACTED]",
+    "portfolio_url": "[REDACTED]",
+    "availability": "Immediate",
+    "salary_expectation": 120000,
+    "work_authorization": "Authorized to work in the US"
+  },
+  "education": [
+    {
+      "institution": "University of California, Berkeley",
+      "degree": "Bachelor of Science",
+      "field_of_study": "Computer Science",
+      "graduation_year": 2012,
+      "gpa": 3.8
+    }
+  ],
+  "work_experience": [
+    {
+      "company": "Tech Corp",
+      "position": "Senior Software Engineer",
+      "start_date": "2020-01-01",
+      "end_date": "present",
+      "description": "Led development of microservices architecture and mentored junior developers",
+      "achievements": [
+        "Improved system performance by 40%",
+        "Led team of 5 developers",
+        "Implemented CI/CD pipeline"
+      ]
+    },
+    {
+      "company": "StartupXYZ",
+      "position": "Software Engineer",
+      "start_date": "2018-06-01",
+      "end_date": "2019-12-31",
+      "description": "Developed full-stack web applications using React and Node.js",
+      "achievements": [
+        "Built customer-facing dashboard",
+        "Reduced page load time by 60%",
+        "Implemented automated testing"
+      ]
+    }
+  ],
+  "skills": {
+    "programming_languages": ["Python", "JavaScript", "TypeScript", "Java", "Go"],
+    "frameworks": ["React", "Node.js", "Django", "FastAPI", "Express"],
+    "databases": ["PostgreSQL", "MongoDB", "Redis"],
+    "cloud_platforms": ["AWS", "Google Cloud", "Azure"],
+    "tools": ["Docker", "Kubernetes", "Git", "Jenkins", "Terraform"]
+  },
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "date_earned": "2021-03-15",
+      "expiry_date": "2024-03-15"
+    },
+    {
+      "name": "Certified Kubernetes Administrator",
+      "issuer": "Cloud Native Computing Foundation",
+      "date_earned": "2022-08-20",
+      "expiry_date": "2025-08-20"
+    }
+  ],
+  "references": [
+    {
+      "name": "[REDACTED]",
+      "title": "[REDACTED]",
+      "company": "[REDACTED]",
+      "email": "[REDACTED]",
+      "phone": "[REDACTED]"
+    },
+    {
+      "name": "[REDACTED]",
+      "title": "[REDACTED]",
+      "company": "[REDACTED]",
+      "email": "[REDACTED]",
+      "phone": "[REDACTED]"
+    }
+  ],
+  "additional_info": {
+    "cover_letter": "I am excited to apply for this position as it aligns perfectly with my experience in software engineering and passion for building scalable systems. My 5+ years of experience in full-stack development, combined with my leadership skills and track record of delivering high-quality solutions, makes me an ideal candidate for this role.",
+    "why_interested": "I am particularly drawn to this company because of its innovative approach to technology and commitment to employee growth. The opportunity to work on cutting-edge projects while contributing to a collaborative team environment is exactly what I'm looking for in my next career move.",
+    "availability_for_interview": "I am available for interviews during business hours (9 AM - 5 PM PST) and can accommodate different time zones if needed.",
+    "relocation_willingness": "Yes, I am willing to relocate for the right opportunity.",
+    "notice_period": "2 weeks"
+  }
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Data Flow</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket Data Flow Test</h1>
+    <div id="status">Connecting...</div>
+    <div id="data"></div>
+    
+    <script>
+        const socket = io('http://localhost:8081', {
+            transports: ['polling', 'websocket'],
+            upgrade: true,
+            rememberUpgrade: true,
+            timeout: 20000,
+            forceNew: true
+        });
+        
+        socket.on('connect', () => {
+            console.log('✅ Connected to monitoring server');
+            document.getElementById('status').textContent = 'Connected';
+            
+            // Start an agent
+            socket.emit('start_agent', {
+                job_url: 'https://jobs.smartrecruiters.com/AbercrombieAndFitchCo/744000081085955-hollister-co-assistant-manager-santa-anita'
+            });
+        });
+        
+        socket.on('disconnect', (reason) => {
+            console.log('❌ Disconnected:', reason);
+            document.getElementById('status').textContent = 'Disconnected: ' + reason;
+        });
+        
+        socket.on('agent_action', (action) => {
+            console.log('🎬 Action received:', action);
+            document.getElementById('data').innerHTML += '<div>Action: ' + action.action_type + '</div>';
+        });
+        
+        socket.on('questions_detected', (questions) => {
+            console.log('📋 Questions received:', questions);
+            document.getElementById('data').innerHTML += '<div>Questions: ' + questions.length + '</div>';
+        });
+        
+        socket.on('screenshot_taken', (data) => {
+            console.log('📸 Screenshot received:', data);
+            document.getElementById('data').innerHTML += '<div>Screenshot: ' + data.filename + '</div>';
+        });
+        
+        socket.on('agent_status', (status) => {
+            console.log('📊 Status received:', status);
+            document.getElementById('status').textContent = 'Status: ' + status.status;
+        });
+    </script>
+</body>
+</html>

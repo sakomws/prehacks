@@ -1,0 +1,43 @@
+[REDACTED] [REDACTED]
+Software Engineer
+Email: [REDACTED] | Phone: [REDACTED]
+LinkedIn: [REDACTED] | GitHub: [REDACTED]
+
+PROFESSIONAL SUMMARY
+Experienced Software Engineer with 5+ years of experience in full-stack development, 
+specializing in Python, JavaScript, and cloud technologies. Proven track record of 
+delivering scalable solutions and leading development teams.
+
+TECHNICAL SKILLS
+Programming Languages: Python, JavaScript, TypeScript, Java, Go
+Frameworks: React, Node.js, Django, FastAPI, Express
+Databases: PostgreSQL, MongoDB, Redis
+Cloud Platforms: AWS, Google Cloud, Azure
+Tools: Docker, Kubernetes, Git, Jenkins, Terraform
+
+WORK EXPERIENCE
+
+Senior Software Engineer | Tech Corp | 2020 - Present
+• Led development of microservices architecture serving 1M+ users
+• Improved system performance by 40% through optimization
+• Mentored team of 5 junior developers
+• Implemented CI/CD pipeline reducing deployment time by 60%
+
+Software Engineer | StartupXYZ | 2018 - 2019
+• Developed full-stack web applications using React and Node.js
+• Built customer-facing dashboard with real-time analytics
+• Reduced page load time by 60% through performance optimization
+• Implemented automated testing increasing code coverage to 90%
+
+EDUCATION
+Bachelor of Science in Computer Science | University of California, Berkeley | 2012
+GPA: 3.8/4.0
+
+CERTIFICATIONS
+• AWS Certified Solutions Architect (2021)
+• Certified Kubernetes Administrator (2022)
+
+PROJECTS
+• E-commerce Platform: Built scalable online marketplace using React, Node.js, and PostgreSQL
+• Machine Learning Pipeline: Developed ML pipeline for data processing using Python and TensorFlow
+• Mobile App: Created cross-platform mobile app using React Native
