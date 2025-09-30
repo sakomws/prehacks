@@ -22,8 +22,12 @@ recruitment/
 │   │   └── src/                  # Core library
 │   ├── browser-extension/        # Browser extension
 │   ├── selenium-automation/      # Selenium scripts
-│   └── autonomous-job-agent/     # Advanced automation system
-└── docs/                     # Shared documentation
+│   ├── autonomous-job-agent/     # Advanced automation system
+│   ├── docs/                     # Shared documentation
+│   ├── requirements.txt          # Unified dependencies
+│   ├── setup.sh                  # Setup script
+│   └── cleanup.sh                # Cleanup script
+└── README.md                 # This file
 ```
 
 ## 🛠️ Installation

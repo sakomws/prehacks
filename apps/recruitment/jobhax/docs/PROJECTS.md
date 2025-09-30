@@ -3,7 +3,7 @@
 ## 🎯 Main Projects
 
 ### 1. Job Application Platform
-**Location**: `./jobhax/job-application-platform/`
+**Location**: `./job-application-platform/`
 **Type**: Full-stack web application
 **Technology**: Python, FastAPI, Selenium, AI/LLM
 **Best for**: Complete job application automation with web interface
@@ -17,12 +17,12 @@
 
 **Quick Start**:
 ```bash
-cd jobhax/job-application-platform
+cd job-application-platform
 python -m uvicorn web_ui.app:app --reload
 ```
 
 ### 2. Browser Extension
-**Location**: `./jobhax/browser-extension/`
+**Location**: `./browser-extension/`
 **Type**: Browser extension
 **Technology**: JavaScript, Chrome APIs
 **Best for**: One-click job applications directly in browser
@@ -40,7 +40,7 @@ python -m uvicorn web_ui.app:app --reload
 3. Click JobHax button to auto-fill
 
 ### 3. Selenium Automation
-**Location**: `./jobhax/selenium-automation/`
+**Location**: `./selenium-automation/`
 **Type**: Python scripts
 **Technology**: Selenium, Python
 **Best for**: Programmatic job application automation
@@ -53,12 +53,12 @@ python -m uvicorn web_ui.app:app --reload
 
 **Quick Start**:
 ```bash
-cd jobhax/selenium-automation
+cd selenium-automation
 python job_application_automation.py
 ```
 
 ### 4. Autonomous Job Agent
-**Location**: `./jobhax/autonomous-job-agent/`
+**Location**: `./autonomous-job-agent/`
 **Type**: Advanced automation system
 **Technology**: Python, WebSocket, Next.js
 **Best for**: Advanced users needing real-time monitoring
@@ -71,7 +71,7 @@ python job_application_automation.py
 
 **Quick Start**:
 ```bash
-cd jobhax/autonomous-job-agent
+cd autonomous-job-agent
 python start_integrated_system.py
 ```
 
