@@ -26,29 +26,29 @@ pip install -r requirements.txt
 
 # Install Browser extension dependencies
 echo "📦 Installing Browser extension dependencies..."
-cd browser-extension
+cd jobhax/browser-extension
 if [ -f "package.json" ]; then
     npm install
 else
-    echo "⚠️  No package.json found in browser-extension/"
+    echo "⚠️  No package.json found in jobhax/browser-extension/"
 fi
-cd ..
+cd ../..
 
 # Install Autonomous Job Agent dependencies
 echo "📦 Installing Autonomous Job Agent dependencies..."
-cd autonomous-job-agent
+cd jobhax/autonomous-job-agent
 if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
 fi
-cd ..
+cd ../..
 
 # Install Job Application Platform dependencies
 echo "📦 Installing Job Application Platform dependencies..."
-cd job-application-platform
+cd jobhax/job-application-platform
 if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
 fi
-cd ..
+cd ../..
 
 # Create environment file
 echo "⚙️  Creating environment file..."
@@ -76,10 +76,10 @@ echo ""
 echo "🔧 Next steps:"
 echo "1. Update .env file with your API keys"
 echo "2. Choose your preferred tool:"
-echo "   - Job Application Platform: cd job-application-platform && python -m uvicorn web_ui.app:app --reload"
-echo "   - Browser Extension: Load browser-extension/ in Chrome"
-echo "   - Selenium Automation: cd selenium-automation && python job_application_automation.py"
-echo "   - Autonomous Job Agent: cd autonomous-job-agent && python start_integrated_system.py"
+echo "   - Job Application Platform: cd jobhax/job-application-platform && python -m uvicorn web_ui.app:app --reload"
+echo "   - Browser Extension: Load jobhax/browser-extension/ in Chrome"
+echo "   - Selenium Automation: cd jobhax/selenium-automation && python job_application_automation.py"
+echo "   - Autonomous Job Agent: cd jobhax/autonomous-job-agent && python start_integrated_system.py"
 echo ""
 echo "📚 Documentation: ./docs/"
 echo "🐛 Issues: Check logs/ directory for troubleshooting"

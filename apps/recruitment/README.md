@@ -6,22 +6,23 @@ A comprehensive collection of tools for automating job applications and recruitm
 
 Choose the tool that best fits your needs:
 
-- **[Job Application Platform](./job-application-platform/)** - Main job application automation platform with web UI
-- **[Browser Extension](./browser-extension/)** - Browser extension for one-click job applications
-- **[Selenium Automation](./selenium-automation/)** - Selenium-based automation scripts
-- **[Autonomous Job Agent](./autonomous-job-agent/)** - Advanced autonomous job application system
+- **[Job Application Platform](./jobhax/job-application-platform/)** - Main job application automation platform with web UI
+- **[Browser Extension](./jobhax/browser-extension/)** - Browser extension for one-click job applications
+- **[Selenium Automation](./jobhax/selenium-automation/)** - Selenium-based automation scripts
+- **[Autonomous Job Agent](./jobhax/autonomous-job-agent/)** - Advanced autonomous job application system
 
 ## 📁 Project Structure
 
 ```
 recruitment/
-├── job-application-platform/  # Main job application platform
-│   ├── web_ui/               # Web interface
-│   ├── autonomous_system/    # AI-powered automation
-│   └── src/                  # Core library
-├── browser-extension/        # Browser extension
-├── selenium-automation/      # Selenium scripts
-├── autonomous-job-agent/     # Advanced automation system
+├── jobhax/                   # Main JobHax platform
+│   ├── job-application-platform/  # Main job application platform
+│   │   ├── web_ui/               # Web interface
+│   │   ├── autonomous_system/    # AI-powered automation
+│   │   └── src/                  # Core library
+│   ├── browser-extension/        # Browser extension
+│   ├── selenium-automation/      # Selenium scripts
+│   └── autonomous-job-agent/     # Advanced automation system
 └── docs/                     # Shared documentation
 ```
 
@@ -47,10 +48,10 @@ recruitment/
 
 ## 📚 Documentation
 
-- [Job Application Platform Documentation](./job-application-platform/README.md)
-- [Browser Extension Guide](./browser-extension/README.md)
-- [Selenium Automation](./selenium-automation/README.md)
-- [Autonomous Job Agent System](./autonomous-job-agent/README.md)
+- [Job Application Platform Documentation](./jobhax/job-application-platform/README.md)
+- [Browser Extension Guide](./jobhax/browser-extension/README.md)
+- [Selenium Automation](./jobhax/selenium-automation/README.md)
+- [Autonomous Job Agent System](./jobhax/autonomous-job-agent/README.md)
 
 ## 🤝 Contributing
 
