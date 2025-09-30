@@ -4,7 +4,7 @@ A comprehensive collection of tools for automating job applications and recruitm
 
 ## 🎥 Demo Video
 
-https://github.com/user-attachments/assets
+[![JobHax Demo](https://img.youtube.com/vi/7ZRMaisLEjs/0.jpg)](https://www.youtube.com/shorts/7ZRMaisLEjs)
 
 *Watch the JobHax platform in action - automated job applications with AI-powered form filling and real-time monitoring.*
 
