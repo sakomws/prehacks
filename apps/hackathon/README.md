@@ -1,6 +1,15 @@
 # 🚀 Hackathon Applications
 
-This directory contains hackathon applications and projects built for rapid prototyping and demonstration.
+![Status](https://img.shields.io/badge/status-active-success.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+This directory contains hackathon applications and projects built for rapid prototyping, demonstration, and collaborative development.
+
+## 🔗 Quick Links
+
+- [Main Apps Directory](../README.md)
+- [Prehacks Platform](prehacks/)
+- [Contributing Guidelines](../../CONTRIBUTING.md)
 
 ## Available Applications
 
@@ -79,3 +88,13 @@ To add a new hackathon application:
 ## Support
 
 For questions about specific hackathon applications, check their individual README files. For general questions about the hackathon directory structure, please open an issue.
+
+## 🔗 Related Projects
+
+- [Main Apps Directory](../README.md)
+- [Travel Apps](../travel/)
+- [Finance Apps](../finance/)
+
+---
+
+**Built for rapid prototyping and innovation**

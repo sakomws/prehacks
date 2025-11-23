@@ -1,6 +1,15 @@
-# Travel Applications
+# 🧳 Travel Applications
 
-This directory contains travel-related hackathon applications and projects.
+![Status](https://img.shields.io/badge/status-active-success.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+This directory contains travel-related applications and projects focused on AI-powered travel planning and booking.
+
+## 🔗 Quick Links
+
+- [Main Apps Directory](../README.md)
+- [Beacon Travel Agent](beacon/)
+- [Contributing Guidelines](../../CONTRIBUTING.md)
 
 ## Available Applications
 
@@ -112,3 +121,13 @@ travel/
 ## Support
 
 For questions about specific travel applications, check their individual README files. For general questions about the travel directory structure, please open an issue.
+
+## 🔗 Related Projects
+
+- [Main Apps Directory](../README.md)
+- [Finance Apps](../finance/)
+- [Hackathon Apps](../hackathon/)
+
+---
+
+**Built for seamless travel planning and booking**

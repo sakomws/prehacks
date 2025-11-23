@@ -1,12 +1,22 @@
-# Recruitment Automation Suite
+# 💼 Recruitment Automation Suite
 
-A comprehensive collection of tools for automating job applications and recruitment processes.
+![Status](https://img.shields.io/badge/status-active-success.svg)
+![Python](https://img.shields.io/badge/Python-3.11+-blue)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+A comprehensive collection of tools for automating job applications and recruitment processes with AI-powered form filling and autonomous application systems.
 
 ## 🎥 Demo Video
 
 [![JobHax Demo](https://img.youtube.com/vi/7ZRMaisLEjs/0.jpg)](https://www.youtube.com/shorts/7ZRMaisLEjs)
 
 *Watch the JobHax platform in action - automated job applications with AI-powered form filling and real-time monitoring.*
+
+## 🔗 Quick Links
+
+- [Main Apps Directory](../README.md)
+- [JobHax Platform](./jobhax/)
+- [Contributing Guidelines](../../CONTRIBUTING.md)
 
 ## 🚀 Quick Start
 
@@ -77,3 +87,13 @@ This project is licensed under the MIT License - see the [LICENSE](../../LICENSE
 ## ⚠️ Disclaimer
 
 This tool is for educational and research purposes only. Always respect website terms of service and use responsibly.
+
+## 🔗 Related Projects
+
+- [Main Apps Directory](../README.md)
+- [Finance Apps](../finance/)
+- [Platform Apps](../platform/)
+
+---
+
+**Built to streamline the job application process**

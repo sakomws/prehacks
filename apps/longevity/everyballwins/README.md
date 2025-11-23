@@ -1,8 +1,22 @@
-# EveryBallWins - AI-Powered Health Analytics Platform
+# 🏆 EveryBallWins - AI-Powered Health Analytics Platform
+
+![Status](https://img.shields.io/badge/status-active-success.svg)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![React](https://img.shields.io/badge/React-19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 EveryBallWins is a comprehensive health analytics platform that combines food analysis, barcode scanning, and biological age assessment to help users make informed health decisions.
 
+**Website:** [everyballwins.com](https://everyballwins.com)
+
 ![Dashboard Screenshot](/public/dashboard-screenshot.png)
+
+## 🔗 Quick Links
+
+- [Longevity Apps Directory](../README.md)
+- [Main Apps Directory](../../README.md)
+- [Contributing Guidelines](../../../CONTRIBUTING.md)
 
 ## 🚀 Features
 
@@ -258,3 +272,14 @@ For support and questions:
 - ✅ Cleaned up project structure and removed redundant files
 - ✅ Added convenience script for development (`start-bioage.sh`)
 - ✅ Updated to use Yarn as primary package manager
+
+## 🔗 Related Projects
+
+- [Longevity Apps Directory](../README.md)
+- [Main Apps Directory](../../README.md)
+- [Finance Apps](../../finance/)
+- [Travel Apps](../../travel/)
+
+---
+
+**Built with ❤️ for better health and longevity**

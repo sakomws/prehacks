@@ -1,6 +1,17 @@
 # 🚀 Prehacks Platform
 
+![Status](https://img.shields.io/badge/status-active-success.svg)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
 A comprehensive platform for discovering, managing, and showcasing hackathon projects. Built for developers who want to quickly prototype, share, and collaborate on innovative ideas.
+
+## 🔗 Quick Links
+
+- [Hackathon Apps Directory](../README.md)
+- [Main Apps Directory](../../README.md)
+- [Contributing Guidelines](../../../CONTRIBUTING.md)
 
 ## 🌟 Features
 
@@ -205,6 +216,13 @@ MIT License - see [LICENSE](../../../LICENSE) for details.
 - Documentation: [docs/](docs/)
 - Issues: [GitHub Issues](https://github.com/your-org/prehacks/issues)
 - Discussions: [GitHub Discussions](https://github.com/your-org/prehacks/discussions)
+
+## 🔗 Related Projects
+
+- [Hackathon Apps Directory](../README.md)
+- [Main Apps Directory](../../README.md)
+- [Travel Apps](../../travel/)
+- [Finance Apps](../../finance/)
 
 ---
 
