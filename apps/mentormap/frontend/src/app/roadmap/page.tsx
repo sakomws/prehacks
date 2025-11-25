@@ -16,11 +16,19 @@ interface Roadmap {
   created_at: string;
 }
 
+interface ChecklistItem {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
 export default function RoadmapPage() {
   const router = useRouter();
   const [roadmaps, setRoadmaps] = useState<Roadmap[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [editingChecklist, setEditingChecklist] = useState<number | null>(null);
+  const [newChecklistItem, setNewChecklistItem] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -98,6 +106,93 @@ export default function RoadmapPage() {
     } catch (error) {
       console.error("Error updating progress:", error);
     }
+  };
+
+  const deleteRoadmap = async (id: number, title: string) => {
+    if (!confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`http://localhost:8000/api/roadmaps/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        fetchRoadmaps();
+      } else {
+        alert("Failed to delete roadmap");
+      }
+    } catch (error) {
+      console.error("Error deleting roadmap:", error);
+      alert("Error deleting roadmap");
+    }
+  };
+
+  const getChecklist = (milestones: string): ChecklistItem[] => {
+    if (!milestones) return [];
+    try {
+      return JSON.parse(milestones);
+    } catch {
+      return [];
+    }
+  };
+
+  const updateChecklist = async (roadmapId: number, checklist: ChecklistItem[]) => {
+    const token = localStorage.getItem("token");
+    
+    try {
+      await fetch(`http://localhost:8000/api/roadmaps/${roadmapId}/milestones?milestones=${encodeURIComponent(JSON.stringify(checklist))}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchRoadmaps();
+    } catch (error) {
+      console.error("Error updating checklist:", error);
+    }
+  };
+
+  const toggleChecklistItem = (roadmap: Roadmap, itemId: string) => {
+    const checklist = getChecklist(roadmap.milestones);
+    const updatedChecklist = checklist.map(item =>
+      item.id === itemId ? { ...item, completed: !item.completed } : item
+    );
+    
+    // Auto-update progress based on completed items
+    const completedCount = updatedChecklist.filter(item => item.completed).length;
+    const newProgress = updatedChecklist.length > 0 
+      ? Math.round((completedCount / updatedChecklist.length) * 100)
+      : 0;
+    
+    updateChecklist(roadmap.id, updatedChecklist);
+    updateProgress(roadmap.id, newProgress);
+  };
+
+  const addChecklistItem = (roadmap: Roadmap) => {
+    if (!newChecklistItem.trim()) return;
+    
+    const checklist = getChecklist(roadmap.milestones);
+    const newItem: ChecklistItem = {
+      id: Date.now().toString(),
+      text: newChecklistItem.trim(),
+      completed: false,
+    };
+    
+    updateChecklist(roadmap.id, [...checklist, newItem]);
+    setNewChecklistItem("");
+  };
+
+  const deleteChecklistItem = (roadmap: Roadmap, itemId: string) => {
+    const checklist = getChecklist(roadmap.milestones);
+    const updatedChecklist = checklist.filter(item => item.id !== itemId);
+    updateChecklist(roadmap.id, updatedChecklist);
   };
 
   return (
@@ -267,7 +362,69 @@ export default function RoadmapPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-2">
+                {/* Checklist Section */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-semibold text-sm">📋 Checklist</h4>
+                    <button
+                      onClick={() => setEditingChecklist(editingChecklist === roadmap.id ? null : roadmap.id)}
+                      className="text-xs text-blue-600 hover:text-blue-700"
+                    >
+                      {editingChecklist === roadmap.id ? "Done" : "+ Add Item"}
+                    </button>
+                  </div>
+                  
+                  {/* Checklist Items */}
+                  <div className="space-y-2 mb-2">
+                    {getChecklist(roadmap.milestones).map((item) => (
+                      <div key={item.id} className="flex items-center gap-2 group">
+                        <input
+                          type="checkbox"
+                          checked={item.completed}
+                          onChange={() => toggleChecklistItem(roadmap, item.id)}
+                          className="w-4 h-4 text-blue-600 rounded cursor-pointer"
+                        />
+                        <span className={`flex-1 text-sm ${item.completed ? 'line-through text-gray-400' : ''}`}>
+                          {item.text}
+                        </span>
+                        {editingChecklist === roadmap.id && (
+                          <button
+                            onClick={() => deleteChecklistItem(roadmap, item.id)}
+                            className="opacity-0 group-hover:opacity-100 text-red-600 hover:text-red-700 text-xs"
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Add New Item */}
+                  {editingChecklist === roadmap.id && (
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newChecklistItem}
+                        onChange={(e) => setNewChecklistItem(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && addChecklistItem(roadmap)}
+                        placeholder="Add a task..."
+                        className="flex-1 px-3 py-1 text-sm border rounded dark:bg-gray-700"
+                      />
+                      <button
+                        onClick={() => addChecklistItem(roadmap)}
+                        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  )}
+                  
+                  {getChecklist(roadmap.milestones).length === 0 && editingChecklist !== roadmap.id && (
+                    <p className="text-xs text-gray-400 italic">No tasks yet. Click "+ Add Item" to get started.</p>
+                  )}
+                </div>
+
+                <div className="flex gap-2 mb-3">
                   <button
                     onClick={() => updateProgress(roadmap.id, Math.min(100, roadmap.progress + 10))}
                     className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm"
@@ -281,6 +438,14 @@ export default function RoadmapPage() {
                     -10%
                   </button>
                 </div>
+
+                <button
+                  onClick={() => deleteRoadmap(roadmap.id, roadmap.title)}
+                  className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm flex items-center justify-center gap-2"
+                >
+                  <span>🗑️</span>
+                  Delete Roadmap
+                </button>
 
                 <div className="mt-4 pt-4 border-t text-xs text-gray-500">
                   Created: {new Date(roadmap.created_at).toLocaleDateString()}

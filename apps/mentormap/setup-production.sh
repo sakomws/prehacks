@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Production Setup Script for MentorMap on EC2
+# Production Setup Script for MentorMap on Amazon Linux EC2
 # This script sets up PostgreSQL and production configurations
 
 set -e
@@ -14,9 +14,10 @@ NC='\033[0m'
 
 # Install PostgreSQL
 echo -e "${GREEN}Installing PostgreSQL...${NC}"
-sudo apt install -y postgresql postgresql-contrib
+sudo yum install -y postgresql15-server postgresql15-contrib
 
-# Start PostgreSQL
+# Initialize and start PostgreSQL
+sudo postgresql-setup --initdb
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
 

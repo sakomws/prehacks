@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-1. AWS EC2 instance (Ubuntu 22.04 LTS recommended)
+1. AWS EC2 instance (Amazon Linux 2023 recommended)
 2. Security group with ports: 22 (SSH), 80 (HTTP), 443 (HTTPS), 3000 (Frontend), 8000 (Backend)
 3. Elastic IP (optional but recommended)
 4. Domain name (optional)
@@ -10,21 +10,23 @@
 ## Step 1: Connect to EC2 Instance
 
 ```bash
-ssh -i your-key.pem ubuntu@your-ec2-ip
+ssh -i your-key.pem ec2-user@your-ec2-ip
 ```
 
 ## Step 2: Initial Server Setup
 
 ```bash
 # Update system
-sudo apt update && sudo apt upgrade -y
+sudo yum update -y
 
 # Install required packages
-sudo apt install -y python3.11 python3.11-venv python3-pip nodejs npm git nginx
+sudo yum install -y python3.11 python3.11-pip git nginx
 
-# Install Node.js 18+ (if not already installed)
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt install -y nodejs
+# Install Node.js 18+ using nvm (recommended for Amazon Linux)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+source ~/.bashrc
+nvm install 18
+nvm use 18
 
 # Verify installations
 python3.11 --version
@@ -35,7 +37,7 @@ npm --version
 ## Step 3: Clone Repository
 
 ```bash
-cd /home/ubuntu
+cd /home/ec2-user
 git clone https://github.com/sakomws/prehacks.git
 cd prehacks/apps/mentormap
 ```
@@ -100,11 +102,11 @@ npm start
 sudo npm install -g pm2
 
 # Start backend
-cd /home/ubuntu/prehacks/apps/mentormap/backend
+cd /home/ec2-user/prehacks/apps/mentormap/backend
 pm2 start "venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000" --name mentormap-backend
 
 # Start frontend
-cd /home/ubuntu/prehacks/apps/mentormap/frontend
+cd /home/ec2-user/prehacks/apps/mentormap/frontend
 pm2 start npm --name mentormap-frontend -- start
 
 # Save PM2 configuration
@@ -112,7 +114,7 @@ pm2 save
 
 # Setup PM2 to start on boot
 pm2 startup
-# Run the command that PM2 outputs
+# Run the command that PM2 outputs (it will include sudo)
 ```
 
 ## Step 7: Configure Nginx (Optional - for production)
@@ -161,7 +163,9 @@ sudo systemctl restart nginx
 ## Step 8: Setup SSL with Let's Encrypt (Optional)
 
 ```bash
-sudo apt install -y certbot python3-certbot-nginx
+# Install EPEL repository (required for certbot)
+sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+sudo yum install -y certbot python3-certbot-nginx
 sudo certbot --nginx -d your-domain.com
 ```
 
@@ -187,7 +191,7 @@ pm2 stop mentormap-frontend
 
 ### Update application
 ```bash
-cd /home/ubuntu/prehacks
+cd /home/ec2-user/prehacks
 git pull
 
 # Update backend
@@ -222,7 +226,7 @@ pm2 logs
 
 ### Database issues
 ```bash
-cd /home/ubuntu/prehacks/apps/mentormap/backend
+cd /home/ec2-user/prehacks/apps/mentormap/backend
 source venv/bin/activate
 python init_db.py
 ```
@@ -230,12 +234,13 @@ python init_db.py
 ## Security Recommendations
 
 1. Use environment variables for secrets
-2. Enable firewall: `sudo ufw enable`
+2. Enable firewall: `sudo firewall-cmd --permanent --add-service=http --add-service=https && sudo firewall-cmd --reload`
 3. Configure security groups properly
 4. Use SSL/TLS certificates
-5. Regular security updates: `sudo apt update && sudo apt upgrade`
+5. Regular security updates: `sudo yum update -y`
 6. Use PostgreSQL instead of SQLite for production
 7. Set up automated backups
+8. Configure SELinux properly: `sudo setsebool -P httpd_can_network_connect 1`
 
 ## Monitoring
 

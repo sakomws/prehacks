@@ -109,6 +109,28 @@ def update_progress(
     return {"message": "Progress updated successfully", "progress": progress}
 
 
+@router.put("/{roadmap_id}/milestones")
+def update_milestones(
+    roadmap_id: int,
+    milestones: str,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Update roadmap milestones (checklist)"""
+    db_roadmap = db.query(models.Roadmap).filter(
+        models.Roadmap.id == roadmap_id,
+        models.Roadmap.user_id == current_user.id
+    ).first()
+    
+    if not db_roadmap:
+        raise HTTPException(status_code=404, detail="Roadmap not found")
+    
+    db_roadmap.milestones = milestones
+    db.commit()
+    
+    return {"message": "Milestones updated successfully", "milestones": milestones}
+
+
 @router.delete("/{roadmap_id}")
 def delete_roadmap(
     roadmap_id: int,

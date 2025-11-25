@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# MentorMap EC2 Deployment Script
+# MentorMap EC2 Deployment Script for Amazon Linux
 # Usage: ./deploy-ec2.sh
 
 set -e
@@ -13,29 +13,31 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Check if running on Ubuntu
-if [ ! -f /etc/lsb-release ]; then
-    echo -e "${RED}This script is designed for Ubuntu. Exiting.${NC}"
-    exit 1
+# Check if running on Amazon Linux
+if [ ! -f /etc/system-release ] || ! grep -q "Amazon Linux" /etc/system-release; then
+    echo -e "${YELLOW}Warning: This script is optimized for Amazon Linux${NC}"
 fi
 
 echo -e "${GREEN}Step 1: Updating system packages...${NC}"
-sudo apt update && sudo apt upgrade -y
+sudo yum update -y
 
 echo -e "${GREEN}Step 2: Installing dependencies...${NC}"
-sudo apt install -y python3.11 python3.11-venv python3-pip git nginx
+sudo yum install -y python3.11 python3.11-pip git nginx
 
-# Install Node.js 18+
+# Install Node.js 18+ using nvm
 if ! command -v node &> /dev/null || [ $(node -v | cut -d'v' -f2 | cut -d'.' -f1) -lt 18 ]; then
-    echo -e "${YELLOW}Installing Node.js 18...${NC}"
-    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    sudo apt install -y nodejs
+    echo -e "${YELLOW}Installing Node.js 18 via nvm...${NC}"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm install 18
+    nvm use 18
 fi
 
 # Install PM2
 if ! command -v pm2 &> /dev/null; then
     echo -e "${YELLOW}Installing PM2...${NC}"
-    sudo npm install -g pm2
+    npm install -g pm2
 fi
 
 echo -e "${GREEN}Step 3: Setting up backend...${NC}"
