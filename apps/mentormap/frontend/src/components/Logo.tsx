@@ -1,0 +1,46 @@
+interface LogoProps {
+  size?: "sm" | "md" | "lg";
+}
+
+export default function Logo({ size = "md" }: LogoProps) {
+  const dimensions: Record<string, { width: number; height: number }> = {
+    sm: { width: 24, height: 24 },
+    md: { width: 32, height: 32 },
+    lg: { width: 40, height: 40 },
+  };
+
+  const { width, height } = dimensions[size] || dimensions.md;
+
+  return (
+    <div
+      className="flex items-center justify-center flex-shrink-0"
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)',
+        borderRadius: '6px',
+      }}
+    >
+      <svg
+        width={width * 0.75}
+        height={height * 0.75}
+        viewBox="0 0 100 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M50 25C41.7157 25 35 31.7157 35 40C35 51.25 50 65 50 65C50 65 65 51.25 65 40C65 31.7157 58.2843 25 50 25Z"
+          fill="white"
+        />
+        <circle cx="50" cy="40" r="6" fill="#3B82F6" />
+        <path
+          d="M30 70 Q40 65 50 70 T70 70"
+          stroke="white"
+          strokeWidth="3"
+          strokeLinecap="round"
+          fill="none"
+        />
+      </svg>
+    </div>
+  );
+}
