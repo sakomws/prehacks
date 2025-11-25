@@ -209,12 +209,8 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
                 )
                 db.add(db_session)
             
-            # Update mentor stats
-            mentor = db.query(models.Mentor).filter(
-                models.Mentor.id == int(metadata['mentor_id'])
-            ).first()
-            if mentor:
-                mentor.total_sessions += 1
+            # Note: total_sessions will be incremented when session is marked as completed
+            # not when payment is received
             
             db.commit()
             db.refresh(db_session)

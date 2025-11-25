@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Logo from "@/components/Logo";
+import Header from "@/components/Header";
 
 export default function PricingPage() {
   const packages = [
@@ -37,25 +37,12 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <header className="border-b bg-white dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3 group">
-              <Logo size="lg" className="transition-transform group-hover:scale-110" />
-              <h1 className="text-2xl font-bold">MentorMap</h1>
-            </Link>
-            <Link href="/mentors" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-              Find Mentors
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header currentPage="pricing" />
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Pricing</h2>
+          <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Pricing</h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
             Choose the package that fits your needs
           </p>

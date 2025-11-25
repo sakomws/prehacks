@@ -47,9 +47,9 @@ export default function ContactPage() {
                 <div>
                   <div className="font-semibold mb-1">📍 Address</div>
                   <p className="text-gray-600 dark:text-gray-300">
-                    7511 Greenwood Ave North<br />
+                    7511 Redwood Ave<br />
                     Unit #4238<br />
-                    Seattle, WA 98103
+                    San Francisco, CA 94102
                   </p>
                 </div>
                 <div>

@@ -39,6 +39,7 @@ export default function MentorDetailPage() {
   });
   const [discount, setDiscount] = useState(0);
   const [promoMessage, setPromoMessage] = useState("");
+  const [timeError, setTimeError] = useState("");
 
   useEffect(() => {
     fetchMentor();
@@ -58,9 +59,49 @@ export default function MentorDetailPage() {
     }
   };
 
+  const validateTimeSlot = (dateTimeString: string): boolean => {
+    if (!dateTimeString) return false;
+    
+    const selectedDate = new Date(dateTimeString);
+    const now = new Date();
+    
+    // Check if date is in the past
+    if (selectedDate < now) {
+      setTimeError("Please select a future date and time");
+      return false;
+    }
+    
+    // Convert to PST/PDT
+    const pstTime = new Date(selectedDate.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+    const hours = pstTime.getHours();
+    
+    // Check business hours (9am - 5pm PST)
+    if (hours < 9 || hours >= 17) {
+      setTimeError("Sessions are only available between 9:00 AM and 5:00 PM PST");
+      return false;
+    }
+    
+    // Check if it's a weekend
+    const dayOfWeek = pstTime.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      setTimeError("Sessions are only available on weekdays (Monday-Friday)");
+      return false;
+    }
+    
+    setTimeError("");
+    return true;
+  };
+
   const handleBookSession = async (e: React.FormEvent) => {
     e.preventDefault();
     setBooking(true);
+    setTimeError("");
+
+    // Validate time slot
+    if (!validateTimeSlot(formData.scheduled_at)) {
+      setBooking(false);
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token");
@@ -281,9 +322,19 @@ export default function MentorDetailPage() {
                       ⭐⭐⭐⭐⭐
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                      "Vurghun's insights on digital transformation were invaluable. His experience in banking and public sector gave me a unique perspective on how to approach complex technology initiatives. Highly recommend!"
+                      "Mr. Hajiyev is a motivated, forward-thinking, and also an intelligent leader who has lots of knowledge in his field. Mr. Hajiyev leads by example and many people at ATL Tech find his enthusiasm and dedication both inspiring and motivating. As a team member or a leader, Vurgun earns my highest recommendation."
                     </p>
-                    <p className="text-sm text-gray-500">— Sarah K., Product Manager</p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-gray-500">— Zumrud Huseynova, Product Owner</p>
+                      <a 
+                        href="https://www.linkedin.com/in/zumrudh" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 hover:text-blue-700"
+                      >
+                        View on LinkedIn →
+                      </a>
+                    </div>
                   </div>
 
                   <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
@@ -291,9 +342,19 @@ export default function MentorDetailPage() {
                       ⭐⭐⭐⭐⭐
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                      "As a technology executive, Vurghun provided strategic guidance that helped me navigate my career transition. His mentorship was practical, actionable, and exactly what I needed."
+                      "Vurgun is a rare combination of skills/talent that one looks for in any size of engineering team with his thought leader mindset – result focused, attention to detail, innovation driven."
                     </p>
-                    <p className="text-sm text-gray-500">— Michael T., Engineering Lead</p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-gray-500">— Sako M, Platform | Security | Bio Hacker</p>
+                      <a 
+                        href="https://www.linkedin.com/in/sakom/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 hover:text-blue-700"
+                      >
+                        View on LinkedIn →
+                      </a>
+                    </div>
                   </div>
 
                   <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
@@ -301,9 +362,19 @@ export default function MentorDetailPage() {
                       ⭐⭐⭐⭐⭐
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                      "Working with Vurghun was transformative. His 15+ years of experience in product and technology leadership showed in every conversation. He helped me think strategically about my career path."
+                      "I have known Vurgun Hajiyev since 2000, when he was a young student. Vurgun was very polite, hard-working, purposeful, quick-learner and very motivated. He successfully became Cisco Certified Internetwork Expert. Vurgun is not only one of the best technically skilled experts, he is also a very strategic thinker, business analyst, project manager and very reliable, competent, responsible person. I am proud of Vurgun and without any hesitation recommend him as a very talented and valuable expert on High Technologies."
                     </p>
-                    <p className="text-sm text-gray-500">— Aisha M., Tech Consultant</p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-gray-500">— Gachay Mirzayev, IT Professional | Digital Transformation</p>
+                      <a 
+                        href="https://www.linkedin.com/in/gachay/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 hover:text-blue-700"
+                      >
+                        View on LinkedIn →
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -357,9 +428,20 @@ export default function MentorDetailPage() {
                     type="datetime-local"
                     required
                     value={formData.scheduled_at}
-                    onChange={(e) => setFormData({ ...formData, scheduled_at: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, scheduled_at: e.target.value });
+                      validateTimeSlot(e.target.value);
+                    }}
                     className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
                   />
+                  {timeError && (
+                    <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                      {timeError}
+                    </p>
+                  )}
+                  <p className="mt-2 text-xs text-gray-500">
+                    📅 Available: Monday-Friday, 9:00 AM - 5:00 PM PST
+                  </p>
                 </div>
 
                 <div>

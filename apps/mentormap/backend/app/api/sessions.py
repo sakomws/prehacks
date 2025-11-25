@@ -14,10 +14,32 @@ def get_sessions(
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Get user's sessions"""
+    """Get user's sessions (as student)"""
     sessions = db.query(models.Session).filter(
         models.Session.student_id == current_user.id
     ).all()
+    return sessions
+
+
+@router.get("/mentor", response_model=List[schemas.Session])
+def get_mentor_sessions(
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get sessions where current user is the mentor"""
+    # Find mentor profile for current user
+    mentor = db.query(models.Mentor).filter(
+        models.Mentor.user_id == current_user.id
+    ).first()
+    
+    if not mentor:
+        return []
+    
+    # Get all sessions for this mentor
+    sessions = db.query(models.Session).filter(
+        models.Session.mentor_id == mentor.id
+    ).order_by(models.Session.scheduled_at.desc()).all()
+    
     return sessions
 
 
@@ -148,13 +170,22 @@ def complete_session(
     if not mentor:
         raise HTTPException(status_code=403, detail="Only the mentor can complete the session")
     
+    if session.status == "completed":
+        raise HTTPException(status_code=400, detail="Session already completed")
+    
     session.status = "completed"
     if notes:
         session.notes = notes
     
+    # Increment mentor's total_sessions count
+    mentor.total_sessions += 1
+    
     db.commit()
     
-    return {"message": "Session completed successfully"}
+    return {
+        "message": "Session completed successfully",
+        "total_sessions": mentor.total_sessions
+    }
 
 
 @router.put("/{session_id}/rate")

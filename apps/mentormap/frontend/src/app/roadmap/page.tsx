@@ -29,6 +29,7 @@ export default function RoadmapPage() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingChecklist, setEditingChecklist] = useState<number | null>(null);
   const [newChecklistItem, setNewChecklistItem] = useState("");
+  const [shareModalRoadmap, setShareModalRoadmap] = useState<Roadmap | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -195,6 +196,39 @@ export default function RoadmapPage() {
     updateChecklist(roadmap.id, updatedChecklist);
   };
 
+  const getShareText = (roadmap: Roadmap) => {
+    const checklist = getChecklist(roadmap.milestones);
+    const completedCount = checklist.filter(item => item.completed).length;
+    const totalCount = checklist.length;
+    
+    let shareText = `🎯 I'm ${roadmap.progress}% through my learning roadmap: "${roadmap.title}"!\n\n`;
+    
+    if (roadmap.target_company && roadmap.target_role) {
+      shareText += `Target: ${roadmap.target_role} at ${roadmap.target_company}\n`;
+    }
+    
+    if (totalCount > 0) {
+      shareText += `✅ Completed ${completedCount}/${totalCount} milestones\n`;
+    }
+    
+    shareText += `\nBuilding my skills with MentorMap 🗺️\n#LearningJourney #CareerGrowth #MentorMap`;
+    
+    return shareText;
+  };
+
+  const copyAndShareLinkedIn = (roadmap: Roadmap) => {
+    const shareText = getShareText(roadmap);
+    
+    navigator.clipboard.writeText(shareText).then(() => {
+      // Open LinkedIn
+      window.open('https://www.linkedin.com/feed/', '_blank');
+      setShareModalRoadmap(null);
+    }).catch((err) => {
+      console.error('Failed to copy:', err);
+      alert('Please copy the text manually and paste it on LinkedIn');
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="border-b bg-white dark:bg-gray-800">
@@ -298,6 +332,49 @@ export default function RoadmapPage() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {shareModalRoadmap && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-lg w-full">
+              <div className="flex items-center gap-3 mb-4">
+                <svg className="w-8 h-8 text-[#0A66C2]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                <h3 className="text-2xl font-bold">Share on LinkedIn</h3>
+              </div>
+              
+              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 font-medium">Your post:</p>
+                <pre className="text-sm whitespace-pre-wrap font-sans">{getShareText(shareModalRoadmap)}</pre>
+              </div>
+
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+                <p className="text-sm text-blue-800 dark:text-blue-200">
+                  <strong>📋 How it works:</strong><br/>
+                  1. Click "Copy & Open LinkedIn" below<br/>
+                  2. LinkedIn will open in a new tab<br/>
+                  3. Click "Start a post" on LinkedIn<br/>
+                  4. Paste (Cmd/Ctrl + V) the copied text
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => copyAndShareLinkedIn(shareModalRoadmap)}
+                  className="flex-1 px-6 py-3 bg-[#0A66C2] text-white rounded-lg hover:bg-[#004182] font-medium"
+                >
+                  Copy & Open LinkedIn
+                </button>
+                <button
+                  onClick={() => setShareModalRoadmap(null)}
+                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -436,6 +513,18 @@ export default function RoadmapPage() {
                     className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 text-sm"
                   >
                     -10%
+                  </button>
+                </div>
+
+                <div className="flex gap-2 mb-3">
+                  <button
+                    onClick={() => setShareModalRoadmap(roadmap)}
+                    className="flex-1 px-4 py-2 bg-[#0A66C2] text-white rounded-lg hover:bg-[#004182] text-sm flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    Share on LinkedIn
                   </button>
                 </div>
 

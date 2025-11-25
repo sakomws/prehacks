@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Logo from "@/components/Logo";
+import Header from "@/components/Header";
 
 interface Mentor {
   id: number;
@@ -41,30 +41,12 @@ export default function MentorsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <header className="border-b bg-white dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <Logo size="md" />
-              <h1 className="text-2xl font-bold">MentorMap</h1>
-            </Link>
-            <nav className="flex items-center gap-4">
-              <Link href="/sessions" className="text-gray-600 hover:text-gray-900 dark:text-gray-300">
-                My Sessions
-              </Link>
-              <Link href="/roadmap" className="text-gray-600 hover:text-gray-900 dark:text-gray-300">
-                My Roadmap
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header currentPage="mentors" />
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">Find Your Mentor</h2>
+          <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Find Your Mentor</h2>
           <p className="text-gray-600 dark:text-gray-300">
             Connect with expert mentors to accelerate your learning journey
           </p>

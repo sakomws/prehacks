@@ -40,6 +40,39 @@ def get_mentors(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
     return result
 
 
+@router.get("/me")
+def get_my_mentor_profile(
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get current user's mentor profile"""
+    mentor = db.query(models.Mentor).filter(
+        models.Mentor.user_id == current_user.id
+    ).first()
+    
+    if not mentor:
+        raise HTTPException(status_code=404, detail="You don't have a mentor profile")
+    
+    return {
+        "id": mentor.id,
+        "user_id": mentor.user_id,
+        "title": mentor.title,
+        "bio": mentor.bio,
+        "expertise": mentor.expertise,
+        "hourly_rate": mentor.hourly_rate,
+        "rating": mentor.rating,
+        "total_sessions": mentor.total_sessions,
+        "is_available": mentor.is_available,
+        "linkedin_url": mentor.linkedin_url,
+        "website_url": mentor.website_url,
+        "profile_image_url": mentor.profile_image_url,
+        "created_at": mentor.created_at,
+        "user": {
+            "full_name": current_user.full_name
+        }
+    }
+
+
 @router.get("/{mentor_id}")
 def get_mentor(mentor_id: int, db: Session = Depends(get_db)):
     """Get mentor by ID"""
