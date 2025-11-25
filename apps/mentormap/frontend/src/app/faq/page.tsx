@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function FAQPage() {
   const faqs = [
@@ -47,8 +48,8 @@ export default function FAQPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="border-b bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="text-3xl">🗺️</div>
+          <Link href="/" className="flex items-center gap-3 group">
+            <Logo size="lg" className="transition-transform group-hover:scale-110" />
             <h1 className="text-2xl font-bold">MentorMap</h1>
           </Link>
         </div>

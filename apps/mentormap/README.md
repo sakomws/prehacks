@@ -7,6 +7,18 @@
 
 A comprehensive mentorship and learning roadmap platform inspired by Hello Interview. Connect with mentors, create personalized study plans, and track your learning progress.
 
+## 💎 Our Values
+
+✅ **Integrity** - doing the right thing, even when no one's watching.
+
+✅ **Doer** - we act, we don't wait.
+
+✅ **Giver** - we share more than we take.
+
+✅ **Passion** - we care deeply.
+
+✅ **Resilience** - we keep going when it's tough.
+
 ## 🌟 Features
 
 ### 👥 Mentorship

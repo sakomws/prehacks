@@ -1,12 +1,13 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="border-b bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="text-3xl">🗺️</div>
+          <Link href="/" className="flex items-center gap-3 group">
+            <Logo size="lg" className="transition-transform group-hover:scale-110" />
             <h1 className="text-2xl font-bold">MentorMap</h1>
           </Link>
         </div>
@@ -42,21 +43,33 @@ export default function AboutPage() {
             <h3 className="text-2xl font-bold mb-4">Our Values</h3>
             <div className="space-y-4">
               <div>
-                <h4 className="font-semibold mb-2">🎯 Excellence</h4>
+                <h4 className="font-semibold mb-2">✅ Integrity</h4>
                 <p className="text-gray-600 dark:text-gray-300">
-                  We maintain the highest standards in mentor selection and platform quality.
+                  Doing the right thing, even when no one's watching.
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">🤝 Accessibility</h4>
+                <h4 className="font-semibold mb-2">✅ Doer</h4>
                 <p className="text-gray-600 dark:text-gray-300">
-                  We strive to make quality mentorship accessible to everyone.
+                  We act, we don't wait.
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">💡 Innovation</h4>
+                <h4 className="font-semibold mb-2">✅ Giver</h4>
                 <p className="text-gray-600 dark:text-gray-300">
-                  We continuously improve our platform to better serve our community.
+                  We share more than we take.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">✅ Passion</h4>
+                <p className="text-gray-600 dark:text-gray-300">
+                  We care deeply.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">✅ Resilience</h4>
+                <p className="text-gray-600 dark:text-gray-300">
+                  We keep going when it's tough.
                 </p>
               </div>
             </div>

@@ -78,7 +78,11 @@ def send_email(to_email: str, subject: str, html_content: str, ics_content: str 
         print(f"Subject: {subject}")
         print(f"Content: {html_content[:200]}...")
         print("=" * 80)
+        print(f"SMTP Config: host={smtp_host}, port={smtp_port}, user={smtp_user}")
         return False
+    
+    print(f"📧 Attempting to send email to {to_email}...")
+    print(f"SMTP Config: host={smtp_host}, port={smtp_port}, user={smtp_user}")
     
     try:
         # Create message
@@ -108,8 +112,18 @@ def send_email(to_email: str, subject: str, html_content: str, ics_content: str 
         print(f"✅ Email sent successfully to {to_email}")
         return True
         
+    except smtplib.SMTPAuthenticationError as e:
+        print(f"❌ SMTP Authentication failed: {str(e)}")
+        print("💡 Check your SMTP_USER and SMTP_PASSWORD in .env")
+        print("💡 For Gmail, you need an App Password: https://support.google.com/accounts/answer/185833")
+        return False
+    except smtplib.SMTPException as e:
+        print(f"❌ SMTP error: {str(e)}")
+        return False
     except Exception as e:
         print(f"❌ Failed to send email: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return False
 
 

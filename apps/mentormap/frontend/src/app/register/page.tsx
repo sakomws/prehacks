@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Logo from "@/components/Logo";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -58,8 +59,8 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="text-4xl">🗺️</div>
+          <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
+            <Logo size={48} className="transition-transform group-hover:scale-110" />
             <h1 className="text-3xl font-bold">MentorMap</h1>
           </Link>
           <h2 className="text-2xl font-bold mb-2">Create Account</h2>

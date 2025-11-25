@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 interface Mentor {
   id: number;
@@ -95,6 +96,15 @@ export default function MentorDetailPage() {
       } else {
         const errorData = await response.json();
         console.error("Error response:", errorData);
+        
+        // Handle authentication errors
+        if (response.status === 401) {
+          alert("Your session has expired. Please log in again.");
+          localStorage.removeItem("token");
+          router.push("/login");
+          return;
+        }
+        
         alert(`Failed to create checkout session: ${errorData.detail || 'Unknown error'}`);
       }
     } catch (error) {
@@ -165,8 +175,8 @@ export default function MentorDetailPage() {
       <header className="border-b bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="text-3xl">🗺️</div>
+            <Link href="/" className="flex items-center gap-3 group">
+              <Logo size="lg" className="transition-transform group-hover:scale-110" />
               <h1 className="text-2xl font-bold">MentorMap</h1>
             </Link>
             <Link href="/mentors" className="text-gray-600 hover:text-gray-900 dark:text-gray-300">
