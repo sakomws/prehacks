@@ -112,6 +112,14 @@ if [ $? -eq 0 ]; then
     # Set up auto-renewal cron job
     echo -e "${GREEN}Step 8: Setting up auto-renewal cron job...${NC}"
     
+    # Install cronie if not present
+    if ! command -v crontab &> /dev/null; then
+        echo -e "${YELLOW}Installing cronie...${NC}"
+        dnf install -y cronie || yum install -y cronie || apt-get install -y cron
+        systemctl enable crond
+        systemctl start crond
+    fi
+    
     # Check if cron job already exists
     if ! crontab -l 2>/dev/null | grep -q "certbot renew"; then
         (crontab -l 2>/dev/null; echo "0 0,12 * * * certbot renew --quiet --post-hook 'systemctl reload nginx'") | crontab -
