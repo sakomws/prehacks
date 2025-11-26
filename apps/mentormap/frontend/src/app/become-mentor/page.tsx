@@ -23,7 +23,7 @@ export default function BecomeMentorPage() {
     setSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/mentor-applications/apply", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/mentor-applications/apply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
