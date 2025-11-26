@@ -69,21 +69,38 @@ echo "  dig api.mentormap.ai"
 echo ""
 read -p "Press Enter to continue with certificate generation, or Ctrl+C to cancel..."
 
-# Obtain certificates
-certbot --nginx \
+# Obtain certificates (certonly mode - we'll configure Nginx manually)
+certbot certonly --nginx \
     -d mentormap.ai \
     -d www.mentormap.ai \
     -d api.mentormap.ai \
     --non-interactive \
     --agree-tos \
-    --redirect \
     --email admin@mentormap.ai
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✅ SSL certificates obtained successfully!${NC}"
     
+    # Configure Nginx with SSL
+    echo -e "${GREEN}Step 6: Configuring Nginx with SSL certificates...${NC}"
+    
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    if [ -f "$SCRIPT_DIR/configure-ssl.sh" ]; then
+        bash "$SCRIPT_DIR/configure-ssl.sh"
+    else
+        echo -e "${YELLOW}⚠️  configure-ssl.sh not found. Configuring manually...${NC}"
+        
+        # Uncomment SSL lines in Nginx config
+        sed -i 's|# ssl_certificate /etc/letsencrypt/live/mentormap.ai/fullchain.pem;|ssl_certificate /etc/letsencrypt/live/mentormap.ai/fullchain.pem;|g' /etc/nginx/conf.d/mentormap.conf
+        sed -i 's|# ssl_certificate_key /etc/letsencrypt/live/mentormap.ai/privkey.pem;|ssl_certificate_key /etc/letsencrypt/live/mentormap.ai/privkey.pem;|g' /etc/nginx/conf.d/mentormap.conf
+        sed -i 's|# include /etc/letsencrypt/options-ssl-nginx.conf;|include /etc/letsencrypt/options-ssl-nginx.conf;|g' /etc/nginx/conf.d/mentormap.conf
+        sed -i 's|# ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;|ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;|g' /etc/nginx/conf.d/mentormap.conf
+        
+        nginx -t && systemctl reload nginx
+    fi
+    
     # Test auto-renewal
-    echo -e "${GREEN}Step 6: Testing certificate auto-renewal...${NC}"
+    echo -e "${GREEN}Step 7: Testing certificate auto-renewal...${NC}"
     certbot renew --dry-run
     
     if [ $? -eq 0 ]; then
@@ -93,7 +110,7 @@ if [ $? -eq 0 ]; then
     fi
     
     # Set up auto-renewal cron job
-    echo -e "${GREEN}Step 7: Setting up auto-renewal cron job...${NC}"
+    echo -e "${GREEN}Step 8: Setting up auto-renewal cron job...${NC}"
     
     # Check if cron job already exists
     if ! crontab -l 2>/dev/null | grep -q "certbot renew"; then
