@@ -40,8 +40,8 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div>
                   <div className="font-semibold mb-1">📧 Email</div>
-                  <a href="mailto:support@mentormap.ai" className="text-blue-600 hover:underline">
-                    support@mentormap.ai
+                  <a href="mailto:team@mentormap.ai" className="text-blue-600 hover:underline">
+                    team@mentormap.ai
                   </a>
                 </div>
                 <div>

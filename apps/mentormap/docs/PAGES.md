@@ -179,7 +179,7 @@
 - Form submission
 
 **Contact Info:**
-- Email: support@mentormap.ai
+- Email: team@mentormap.ai
 - Address: Seattle, WA
 - Hours: Mon-Fri 9am-6pm PST
 

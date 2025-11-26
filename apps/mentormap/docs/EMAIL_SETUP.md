@@ -182,4 +182,4 @@ To customize:
 **Need Help?**
 - Gmail App Passwords: https://support.google.com/accounts/answer/185833
 - SMTP Settings: Check your email provider's documentation
-- Contact: support@mentormap.ai
+- Contact: team@mentormap.ai
