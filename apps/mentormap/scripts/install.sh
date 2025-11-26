@@ -238,9 +238,9 @@ echo -e "${GREEN}[7/7] Starting services...${NC}"
 # Stop any existing processes
 pm2 delete all 2>/dev/null || true
 
-# Kill any processes on ports 3000 and 8000
+# Kill any processes on ports 3001 and 8000
 sudo lsof -ti:8000 | xargs kill -9 2>/dev/null || true
-sudo lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+sudo lsof -ti:3001 | xargs kill -9 2>/dev/null || true
 
 # Start backend
 cd backend
