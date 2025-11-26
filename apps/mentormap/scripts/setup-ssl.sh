@@ -19,18 +19,35 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-echo -e "${GREEN}Step 1: Installing EPEL repository...${NC}"
-yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm || \
-yum install -y epel-release
+echo -e "${GREEN}Step 1: Detecting OS and installing certbot...${NC}"
 
-echo -e "${GREEN}Step 2: Installing certbot...${NC}"
-yum install -y certbot python3-certbot-nginx
+# Detect Amazon Linux version
+if [ -f /etc/system-release ]; then
+    if grep -q "Amazon Linux release 2023" /etc/system-release; then
+        echo "Detected Amazon Linux 2023"
+        # Amazon Linux 2023 uses dnf and has certbot in default repos
+        dnf install -y certbot python3-certbot-nginx
+    elif grep -q "Amazon Linux 2" /etc/system-release; then
+        echo "Detected Amazon Linux 2"
+        # Amazon Linux 2 needs EPEL
+        amazon-linux-extras install epel -y
+        yum install -y certbot python3-certbot-nginx
+    else
+        echo "Detected other Amazon Linux version"
+        yum install -y certbot python3-certbot-nginx
+    fi
+else
+    echo "Not Amazon Linux, attempting standard installation"
+    yum install -y certbot python3-certbot-nginx || \
+    dnf install -y certbot python3-certbot-nginx || \
+    apt-get install -y certbot python3-certbot-nginx
+fi
 
-echo -e "${GREEN}Step 3: Creating directory for Let's Encrypt challenges...${NC}"
+echo -e "${GREEN}Step 2: Creating directory for Let's Encrypt challenges...${NC}"
 mkdir -p /var/www/certbot
 chown -R nginx:nginx /var/www/certbot
 
-echo -e "${GREEN}Step 4: Testing Nginx configuration...${NC}"
+echo -e "${GREEN}Step 3: Testing Nginx configuration...${NC}"
 nginx -t
 
 if [ $? -ne 0 ]; then
@@ -38,10 +55,10 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo -e "${GREEN}Step 5: Reloading Nginx...${NC}"
+echo -e "${GREEN}Step 4: Reloading Nginx...${NC}"
 systemctl reload nginx
 
-echo -e "${YELLOW}Step 6: Obtaining SSL certificates...${NC}"
+echo -e "${YELLOW}Step 5: Obtaining SSL certificates...${NC}"
 echo ""
 echo -e "${YELLOW}IMPORTANT: Make sure your DNS records are pointing to this server!${NC}"
 echo ""
@@ -66,7 +83,7 @@ if [ $? -eq 0 ]; then
     echo -e "${GREEN}✅ SSL certificates obtained successfully!${NC}"
     
     # Test auto-renewal
-    echo -e "${GREEN}Step 7: Testing certificate auto-renewal...${NC}"
+    echo -e "${GREEN}Step 6: Testing certificate auto-renewal...${NC}"
     certbot renew --dry-run
     
     if [ $? -eq 0 ]; then
@@ -76,7 +93,7 @@ if [ $? -eq 0 ]; then
     fi
     
     # Set up auto-renewal cron job
-    echo -e "${GREEN}Step 8: Setting up auto-renewal cron job...${NC}"
+    echo -e "${GREEN}Step 7: Setting up auto-renewal cron job...${NC}"
     
     # Check if cron job already exists
     if ! crontab -l 2>/dev/null | grep -q "certbot renew"; then
