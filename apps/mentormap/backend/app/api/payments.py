@@ -123,8 +123,8 @@ async def create_checkout_session(
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=f'http://localhost:3000/sessions/success?session_id={{CHECKOUT_SESSION_ID}}',
-            cancel_url=f'http://localhost:3000/mentors/{mentor.id}?canceled=true',
+            success_url=f'{os.getenv("FRONTEND_URL", "http://localhost:3001")}/sessions/success?session_id={{CHECKOUT_SESSION_ID}}',
+            cancel_url=f'{os.getenv("FRONTEND_URL", "http://localhost:3001")}/mentors/{mentor.id}?canceled=true',
             metadata={
                 'user_id': current_user.id,
                 'mentor_id': mentor.id,

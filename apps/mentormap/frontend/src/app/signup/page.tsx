@@ -51,6 +51,7 @@ function SignupForm() {
         },
         body: JSON.stringify({
           email: formData.email,
+          username: formData.email.split('@')[0], // Generate username from email
           password: formData.password,
           full_name: formData.fullName,
           referral_code: formData.referralCode || undefined,
