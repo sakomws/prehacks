@@ -27,11 +27,11 @@ fix_ports() {
         kill -9 $PORT_8000 2>/dev/null || sudo kill -9 $PORT_8000
     fi
     
-    # Kill processes on port 3000
-    PORT_3000=$(lsof -ti:3000 2>/dev/null)
-    if [ ! -z "$PORT_3000" ]; then
-        echo "Killing process on port 3000: $PORT_3000"
-        kill -9 $PORT_3000 2>/dev/null || sudo kill -9 $PORT_3000
+    # Kill processes on port 3001
+    PORT_3001=$(lsof -ti:3001 2>/dev/null)
+    if [ ! -z "$PORT_3001" ]; then
+        echo "Killing process on port 3001: $PORT_3001"
+        kill -9 $PORT_3001 2>/dev/null || sudo kill -9 $PORT_3001
     fi
     
     echo -e "${GREEN}✓ Ports cleared${NC}"
@@ -104,13 +104,13 @@ show_status() {
     
     # Port Status
     echo "Port Status:"
-    PORT_3000=$(lsof -ti:3000 2>/dev/null)
+    PORT_3001=$(lsof -ti:3001 2>/dev/null)
     PORT_8000=$(lsof -ti:8000 2>/dev/null)
     
-    if [ ! -z "$PORT_3000" ]; then
-        echo -e "  ${GREEN}✓ Port 3000 (Frontend) - Active${NC}"
+    if [ ! -z "$PORT_3001" ]; then
+        echo -e "  ${GREEN}✓ Port 3001 (Frontend) - Active${NC}"
     else
-        echo -e "  ${RED}✗ Port 3000 (Frontend) - Not running${NC}"
+        echo -e "  ${RED}✗ Port 3001 (Frontend) - Not running${NC}"
     fi
     
     if [ ! -z "$PORT_8000" ]; then
@@ -133,8 +133,8 @@ show_status() {
     
     # Test endpoints
     echo "Endpoint Tests:"
-    if curl -s http://localhost:3000 > /dev/null 2>&1; then
-        echo -e "  ${GREEN}✓ Frontend responding (localhost:3000)${NC}"
+    if curl -s http://localhost:3001 > /dev/null 2>&1; then
+        echo -e "  ${GREEN}✓ Frontend responding (localhost:3001)${NC}"
     else
         echo -e "  ${RED}✗ Frontend not responding${NC}"
     fi

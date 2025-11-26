@@ -268,7 +268,7 @@ pm2 status
 echo ""
 echo "Access your application:"
 if [ "$OS" == "macos" ]; then
-    echo "  - Frontend: http://localhost:3000"
+    echo "  - Frontend: http://localhost:3001"
     echo "  - Backend: http://localhost:8000"
     echo "  - API Docs: http://localhost:8000/docs"
 else
