@@ -1,155 +1,106 @@
-# MentorMap Deployment Scripts
+# MentorMap Scripts
 
-This folder contains all deployment and maintenance scripts for MentorMap.
+Simple deployment and management scripts for MentorMap.
 
-## Scripts Overview
+## 📦 Main Scripts
 
-### 🚀 Deployment Scripts
-
-#### `deploy-ec2.sh`
-Initial deployment script for EC2 instances (Amazon Linux, Ubuntu, or macOS).
+### `install.sh` - One-Time Setup
+Complete installation script for first-time deployment.
 
 **Usage:**
 ```bash
-chmod +x deploy-ec2.sh
-./deploy-ec2.sh
+chmod +x scripts/install.sh
+./scripts/install.sh
 ```
 
 **What it does:**
-- Detects OS and installs dependencies
-- Sets up Python virtual environment
-- Installs Node.js and PM2
-- Initializes database
-- Builds frontend
-- Starts services with PM2
+1. Installs system dependencies (Python, Node.js, Nginx, PM2)
+2. Sets up backend (virtual environment, dependencies, database)
+3. Sets up frontend (dependencies, build)
+4. Configures Nginx
+5. Optionally sets up SSL certificates
+6. Starts all services
 
 **When to use:** First-time deployment on a new server
 
 ---
 
-#### `deploy-production.sh`
-Production deployment script for mentormap.ai domain.
+### `run.sh` - Service Management
+Manage running services (start, stop, restart, status, logs, update).
 
 **Usage:**
 ```bash
-chmod +x deploy-production.sh
-./deploy-production.sh
+chmod +x scripts/run.sh
+
+# Show status (default)
+./scripts/run.sh
+./scripts/run.sh status
+
+# Start services
+./scripts/run.sh start
+
+# Stop services
+./scripts/run.sh stop
+
+# Restart services
+./scripts/run.sh restart
+
+# View logs
+./scripts/run.sh logs
+
+# Update application
+./scripts/run.sh update
+
+# Show help
+./scripts/run.sh help
 ```
 
-**What it does:**
-- Pulls latest code from git
-- Updates backend dependencies
-- Rebuilds frontend with production settings
-- Restarts services
-- Configures Nginx (if needed)
-- Guides SSL setup
-
-**When to use:** Deploying updates to production
+**Commands:**
+- `start` - Start all services (fixes port conflicts automatically)
+- `stop` - Stop all services
+- `restart` - Restart all services
+- `status` - Show service status and health checks
+- `logs` - Show real-time logs (Ctrl+C to exit)
+- `update` - Pull latest code, rebuild, and restart
+- `help` - Show help message
 
 ---
 
-### 🔒 SSL Setup
+## 🚀 Quick Start
 
-#### `setup-ssl.sh`
-Installs certbot and obtains SSL certificates for mentormap.ai.
+### First Time Setup
 
-**Usage:**
 ```bash
-chmod +x setup-ssl.sh
-sudo ./setup-ssl.sh
+# 1. Clone repository
+git clone https://github.com/your-repo/prehacks.git
+cd prehacks/apps/mentormap
+
+# 2. Run installation
+chmod +x scripts/install.sh
+./scripts/install.sh
+
+# 3. Configure environment variables
+nano backend/.env
+nano frontend/.env.production
+
+# 4. Restart services
+./scripts/run.sh restart
 ```
 
-**What it does:**
-- Installs certbot and nginx plugin
-- Obtains SSL certificates for all domains
-- Configures HTTPS redirect
-- Sets up auto-renewal cron job
-
-**Prerequisites:**
-- DNS records pointing to server
-- Nginx running with correct configuration
-- Ports 80 and 443 open
-
-**When to use:** After initial deployment, before going live
-
----
-
-### 🔧 Maintenance Scripts
-
-#### `fix-port-conflict.sh`
-Resolves port conflicts on 8000 and 3000.
-
-**Usage:**
-```bash
-chmod +x fix-port-conflict.sh
-./fix-port-conflict.sh
-```
-
-**What it does:**
-- Finds processes using ports 8000 and 3000
-- Kills conflicting processes
-- Stops and removes PM2 processes
-- Provides commands to restart services
-
-**When to use:** When you get "address already in use" errors
-
----
-
-## Quick Start Guide
-
-### First Time Deployment
-
-1. **Clone repository:**
-   ```bash
-   git clone https://github.com/your-repo/prehacks.git
-   cd prehacks/apps/mentormap
-   ```
-
-2. **Run initial deployment:**
-   ```bash
-   chmod +x scripts/deploy-ec2.sh
-   ./scripts/deploy-ec2.sh
-   ```
-
-3. **Configure environment variables:**
-   ```bash
-   nano backend/.env
-   nano frontend/.env.production
-   ```
-
-4. **Set up Nginx:**
-   ```bash
-   sudo cp nginx-mentormap.conf /etc/nginx/conf.d/mentormap.conf
-   sudo nginx -t
-   sudo systemctl restart nginx
-   ```
-
-5. **Get SSL certificates:**
-   ```bash
-   chmod +x scripts/setup-ssl.sh
-   sudo ./scripts/setup-ssl.sh
-   ```
-
-### Deploying Updates
+### Daily Operations
 
 ```bash
-cd /path/to/mentormap
-./scripts/deploy-production.sh
-```
+# Check status
+./scripts/run.sh status
 
-### Troubleshooting Port Conflicts
+# View logs
+./scripts/run.sh logs
 
-```bash
-./scripts/fix-port-conflict.sh
-```
+# Restart services
+./scripts/run.sh restart
 
-Then restart services:
-```bash
-cd backend
-pm2 start "$(pwd)/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000" --name mentormap-backend
-
-cd ../frontend
-pm2 start npm --name mentormap-frontend -- start
+# Deploy updates
+./scripts/run.sh update
 ```
 
 ## Common Commands
