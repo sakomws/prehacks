@@ -20,6 +20,9 @@ export default function Home() {
               <Link href="/pricing" className="text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                 Pricing
               </Link>
+              <Link href="/referral" className="text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                Referrals
+              </Link>
               <Link href="/mentor-dashboard" className="text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                 Mentor Dashboard
               </Link>
@@ -137,6 +140,69 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Referral Section */}
+      <section className="py-20 px-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
+        <div className="max-w-[980px] mx-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-12 md:p-16 shadow-xl border border-purple-100 dark:border-purple-800">
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                <span>🎁</span>
+                <span>Special Offer</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
+                Get 50% Off with Referrals!
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Refer a friend and you both get 50% off your next session. Share the gift of mentorship!
+              </p>
+              <div className="flex gap-4 justify-center flex-wrap mb-8">
+                <Link href="/referral" className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:shadow-lg transition-all">
+                  Get Your Referral Link
+                </Link>
+                <Link href="/pricing" className="px-8 py-4 border-2 border-purple-600 text-purple-600 dark:text-purple-400 dark:border-purple-400 rounded-full font-semibold hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all">
+                  View Pricing
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <div className="flex items-start gap-3">
+                  <div className="bg-green-100 dark:bg-green-900 p-2 rounded-lg">
+                    <svg className="w-5 h-5 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">You Save 50%</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Get half off your next session</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="bg-green-100 dark:bg-green-900 p-2 rounded-lg">
+                    <svg className="w-5 h-5 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Friend Saves 50%</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">They get half off their first session</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="bg-green-100 dark:bg-green-900 p-2 rounded-lg">
+                    <svg className="w-5 h-5 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Unlimited Referrals</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">No limit on how many you can refer</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-24 px-6">
         <div className="max-w-[980px] mx-auto">
@@ -164,7 +230,7 @@ export default function Home() {
         <div className="max-w-[980px] mx-auto px-6 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {[
-              { title: "Platform", links: [["Find Mentors", "/mentors"], ["Pricing", "/pricing"], ["Become a Mentor", "/become-mentor"]] },
+              { title: "Platform", links: [["Find Mentors", "/mentors"], ["Pricing", "/pricing"], ["Referrals", "/referral"], ["Become a Mentor", "/become-mentor"]] },
               { title: "Resources", links: [["Learning Paths", "/learn"], ["Blog", "/blog"], ["FAQ", "/faq"]] },
               { title: "Company", links: [["About Us", "/about"], ["Contact", "/contact"], ["Careers", "/careers"]] },
               { title: "Legal", links: [["Terms", "/terms"], ["Privacy", "/privacy"]] },

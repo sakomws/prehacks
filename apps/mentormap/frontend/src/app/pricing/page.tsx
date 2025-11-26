@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function PricingPage() {
   const packages = [
@@ -36,11 +37,11 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Header currentPage="pricing" />
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Pricing</h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
@@ -97,6 +98,22 @@ export default function PricingPage() {
           ))}
         </div>
 
+        {/* Referral Banner */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-8 text-white text-center">
+            <h3 className="text-3xl font-bold mb-4">Get 50% Off with Referrals!</h3>
+            <p className="text-xl mb-6 opacity-90">
+              Refer a friend and you both get 50% off your next session
+            </p>
+            <Link
+              href="/referral"
+              className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+            >
+              Get Your Referral Link
+            </Link>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="max-w-3xl mx-auto">
           <h3 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h3>
@@ -130,6 +147,8 @@ export default function PricingPage() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

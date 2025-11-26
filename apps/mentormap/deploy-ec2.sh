@@ -5,7 +5,7 @@
 
 set -e
 
-echo "🚀 Starting MentorMap deployment on EC2..."
+echo "🚀 Starting MentorMap deployment..."
 
 # Colors for output
 RED='\033[0;31m'
@@ -13,28 +13,67 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Check if running on Amazon Linux
-if [ ! -f /etc/system-release ] || ! grep -q "Amazon Linux" /etc/system-release; then
-    echo -e "${YELLOW}Warning: This script is optimized for Amazon Linux${NC}"
+# Detect OS
+OS="unknown"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    OS="macos"
+    echo -e "${YELLOW}Detected macOS - Running in local development mode${NC}"
+elif [ -f /etc/system-release ] && grep -q "Amazon Linux" /etc/system-release; then
+    OS="amazon-linux"
+    echo -e "${GREEN}Detected Amazon Linux${NC}"
+elif [ -f /etc/os-release ] && grep -q "Ubuntu" /etc/os-release; then
+    OS="ubuntu"
+    echo -e "${GREEN}Detected Ubuntu${NC}"
+else
+    echo -e "${YELLOW}Warning: Unknown OS, attempting to continue...${NC}"
 fi
 
-echo -e "${GREEN}Step 1: Updating system packages...${NC}"
-sudo yum update -y
+# Update system packages based on OS
+if [ "$OS" == "amazon-linux" ]; then
+    echo -e "${GREEN}Step 1: Updating system packages...${NC}"
+    sudo yum update -y
+elif [ "$OS" == "ubuntu" ]; then
+    echo -e "${GREEN}Step 1: Updating system packages...${NC}"
+    sudo apt-get update -y
+elif [ "$OS" == "macos" ]; then
+    echo -e "${GREEN}Step 1: Checking Homebrew...${NC}"
+    if ! command -v brew &> /dev/null; then
+        echo -e "${YELLOW}Homebrew not found. Please install it from https://brew.sh${NC}"
+        exit 1
+    fi
+else
+    echo -e "${YELLOW}Skipping system package update${NC}"
+fi
 
 echo -e "${GREEN}Step 2: Installing dependencies...${NC}"
-sudo yum install -y python3.11 python3.11-pip git nginx
 
-# Install Node.js 18+ using nvm
-if ! command -v node &> /dev/null || [ $(node -v | cut -d'v' -f2 | cut -d'.' -f1) -lt 18 ]; then
-    echo -e "${YELLOW}Installing Node.js 18 via nvm...${NC}"
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    nvm install 18
-    nvm use 18
+# Install dependencies based on OS
+if [ "$OS" == "amazon-linux" ]; then
+    sudo yum install -y python3.11 python3.11-pip git nginx
+elif [ "$OS" == "ubuntu" ]; then
+    sudo apt-get install -y python3.11 python3.11-pip git nginx
+elif [ "$OS" == "macos" ]; then
+    echo -e "${YELLOW}Checking Python 3...${NC}"
+    if ! command -v python3 &> /dev/null; then
+        echo -e "${YELLOW}Installing Python 3...${NC}"
+        brew install python@3.11
+    fi
+    echo -e "${GREEN}Python 3 is installed${NC}"
 fi
 
-# Install PM2
+# Check Node.js
+if ! command -v node &> /dev/null; then
+    echo -e "${YELLOW}Node.js not found. Please install Node.js 18+ from https://nodejs.org${NC}"
+    exit 1
+fi
+
+NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
+if [ "$NODE_VERSION" -lt 18 ]; then
+    echo -e "${RED}Node.js version 18+ required. Current version: $(node -v)${NC}"
+    exit 1
+fi
+
+# Install PM2 if not present
 if ! command -v pm2 &> /dev/null; then
     echo -e "${YELLOW}Installing PM2...${NC}"
     npm install -g pm2
@@ -44,7 +83,11 @@ echo -e "${GREEN}Step 3: Setting up backend...${NC}"
 cd backend
 
 # Create virtual environment
-python3.11 -m venv venv
+if [ "$OS" == "macos" ]; then
+    python3 -m venv venv
+else
+    python3.11 -m venv venv
+fi
 source venv/bin/activate
 
 # Install Python dependencies

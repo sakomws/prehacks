@@ -1,5 +1,5 @@
-import Link from "next/link";
-import Logo from "@/components/Logo";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function FAQPage() {
   const faqs = [
@@ -45,26 +45,19 @@ export default function FAQPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="border-b bg-white dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/" className="flex items-center gap-3 group">
-            <Logo size="lg" className="transition-transform group-hover:scale-110" />
-            <h1 className="text-2xl font-bold">MentorMap</h1>
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+      <Header currentPage="faq" />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-4xl font-bold mb-8">Frequently Asked Questions</h2>
+      <div className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">Frequently Asked Questions</h2>
         <div className="space-y-8">
           {faqs.map((section) => (
             <div key={section.category}>
-              <h3 className="text-2xl font-bold mb-4">{section.category}</h3>
+              <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{section.category}</h3>
               <div className="space-y-4">
                 {section.questions.map((faq, idx) => (
                   <details key={idx} className="bg-white dark:bg-gray-800 rounded-lg border p-6">
-                    <summary className="font-semibold cursor-pointer">{faq.q}</summary>
+                    <summary className="font-semibold cursor-pointer text-gray-900 dark:text-white">{faq.q}</summary>
                     <p className="mt-4 text-gray-600 dark:text-gray-300">{faq.a}</p>
                   </details>
                 ))}
@@ -73,6 +66,8 @@ export default function FAQPage() {
           ))}
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

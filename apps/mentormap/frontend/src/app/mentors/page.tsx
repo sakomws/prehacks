@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 interface Mentor {
   id: number;
@@ -40,11 +41,11 @@ export default function MentorsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Header currentPage="mentors" />
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Find Your Mentor</h2>
           <p className="text-gray-600 dark:text-gray-300">
@@ -120,6 +121,8 @@ export default function MentorsPage() {
           </div>
         )}
       </div>
+
+      <Footer />
     </div>
   );
 }

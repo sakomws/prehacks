@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
+import DarkModeToggle from "@/components/DarkModeToggle";
+import Footer from "@/components/Footer";
 
 interface Session {
   id: number;
@@ -228,11 +230,11 @@ export default function MentorDashboardPage() {
         <div className="flex items-center justify-between p-4 border-b">
           <button
             onClick={previousMonth}
-            className="px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            className="px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-gray-900 dark:text-white"
           >
             ← Previous
           </button>
-          <h3 className="text-lg font-semibold">{monthName}</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{monthName}</h3>
           <button
             onClick={nextMonth}
             className="px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
@@ -271,27 +273,28 @@ export default function MentorDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <header className="border-b bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3 group">
               <Logo size="lg" className="transition-transform group-hover:scale-110" />
-              <h1 className="text-2xl font-bold">MentorMap</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">MentorMap</h1>
             </Link>
             <nav className="flex items-center gap-4">
-              <Link href="/sessions" className="text-gray-600 hover:text-gray-900 dark:text-gray-300">
+              <Link href="/sessions" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
                 My Sessions
               </Link>
-              <Link href="/roadmap" className="text-gray-600 hover:text-gray-900 dark:text-gray-300">
+              <Link href="/roadmap" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
                 Roadmaps
               </Link>
+              <DarkModeToggle />
               <button
                 onClick={() => {
                   localStorage.removeItem("token");
                   router.push("/");
                 }}
-                className="text-gray-600 hover:text-gray-900 dark:text-gray-300"
+                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               >
                 Logout
               </button>
@@ -300,11 +303,11 @@ export default function MentorDashboardPage() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-3xl font-bold mb-2">Mentor Dashboard</h2>
+              <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Mentor Dashboard</h2>
               <p className="text-gray-600 dark:text-gray-300">
                 Manage your mentorship sessions
               </p>
@@ -342,7 +345,7 @@ export default function MentorDashboardPage() {
         ) : !isMentor ? (
           <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg border">
             <div className="text-6xl mb-4">🚫</div>
-            <h3 className="text-xl font-semibold mb-2">Access Denied</h3>
+            <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Access Denied</h3>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               This page is only accessible to mentors.
             </p>
@@ -369,7 +372,7 @@ export default function MentorDashboardPage() {
         ) : sessions.length === 0 ? (
           <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg border">
             <div className="text-6xl mb-4">📅</div>
-            <h3 className="text-xl font-semibold mb-2">No sessions yet</h3>
+            <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">No sessions yet</h3>
             <p className="text-gray-600 dark:text-gray-300">
               Your upcoming mentorship sessions will appear here
             </p>
@@ -386,7 +389,7 @@ export default function MentorDashboardPage() {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-bold">{session.title}</h3>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">{session.title}</h3>
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadge(session.status)}`}>
                         {session.status}
                       </span>
@@ -442,6 +445,8 @@ export default function MentorDashboardPage() {
           </div>
         )}
       </div>
+
+      <Footer />
     </div>
   );
 }
