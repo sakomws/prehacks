@@ -113,12 +113,18 @@ echo -e "${GREEN}[3/7] Setting up frontend...${NC}"
 
 cd ../frontend
 
+# Install Yarn if not present
+if ! command -v yarn &> /dev/null; then
+    echo -e "${YELLOW}Installing Yarn...${NC}"
+    sudo npm install -g yarn
+fi
+
 # Install dependencies
-npm install
+yarn install
 
 # Build frontend
 echo -e "${YELLOW}Building frontend...${NC}"
-NODE_ENV=production npm run build
+NODE_ENV=production yarn build
 
 echo -e "${GREEN}✓ Frontend setup complete${NC}"
 echo ""
@@ -248,7 +254,7 @@ pm2 start "$(pwd)/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000" --name m
 
 # Start frontend
 cd ../frontend
-pm2 start npm --name mentormap-frontend -- start
+pm2 start yarn --name mentormap-frontend -- start
 
 # Save PM2 config
 pm2 save

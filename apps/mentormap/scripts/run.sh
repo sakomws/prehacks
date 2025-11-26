@@ -59,7 +59,7 @@ start_services() {
     # Start frontend
     echo -e "${BLUE}Starting frontend...${NC}"
     cd "$PROJECT_ROOT/frontend"
-    pm2 start npm --name mentormap-frontend -- start
+    pm2 start yarn --name mentormap-frontend -- start
     
     # Save PM2 config
     pm2 save
@@ -174,8 +174,8 @@ update_app() {
     # Update frontend
     echo -e "${YELLOW}Updating frontend...${NC}"
     cd ../frontend
-    npm install
-    NODE_ENV=production npm run build
+    yarn install
+    NODE_ENV=production yarn build
     
     # Restart services
     echo -e "${YELLOW}Restarting services...${NC}"
