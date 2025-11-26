@@ -31,7 +31,7 @@ function LoginForm() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/login", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -157,7 +157,7 @@ function LoginForm() {
                   Or continue with
                 </p>
                 <button
-                  onClick={() => window.location.href = "http://localhost:8000/api/auth/linkedin"}
+                  onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/auth/linkedin`}
                   type="button"
                   className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#0A66C2] text-white rounded-lg hover:bg-[#004182] transition-colors"
                 >

@@ -5,7 +5,7 @@ import Logo from "@/components/Logo";
 
 export default function RegisterPage() {
   const handleLinkedInLogin = () => {
-    window.location.href = "http://localhost:8000/api/auth/linkedin";
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/auth/linkedin`;
   };
 
   return (

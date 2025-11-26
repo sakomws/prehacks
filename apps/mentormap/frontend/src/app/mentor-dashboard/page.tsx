@@ -43,7 +43,7 @@ export default function MentorDashboardPage() {
 
     try {
       // Check if user has a mentor profile
-      const response = await fetch("http://localhost:8000/api/mentors/me", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/mentors/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,7 +76,7 @@ export default function MentorDashboardPage() {
 
     try {
       // Get mentor's sessions
-      const response = await fetch("http://localhost:8000/api/sessions/mentor", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/sessions/mentor`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -104,7 +104,7 @@ export default function MentorDashboardPage() {
     setCompletingSession(sessionId);
 
     try {
-      const response = await fetch(`http://localhost:8000/api/sessions/${sessionId}/complete`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/sessions/${sessionId}/complete`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

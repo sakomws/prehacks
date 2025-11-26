@@ -49,7 +49,7 @@ export default function RoadmapPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/roadmaps/", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/roadmaps/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -74,7 +74,7 @@ export default function RoadmapPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:8000/api/roadmaps/", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/roadmaps/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export default function RoadmapPage() {
     const token = localStorage.getItem("token");
 
     try {
-      await fetch(`http://localhost:8000/api/roadmaps/${id}/progress?progress=${progress}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/roadmaps/${id}/progress?progress=${progress}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -117,7 +117,7 @@ export default function RoadmapPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:8000/api/roadmaps/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/roadmaps/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -148,7 +148,7 @@ export default function RoadmapPage() {
     const token = localStorage.getItem("token");
     
     try {
-      await fetch(`http://localhost:8000/api/roadmaps/${roadmapId}/milestones?milestones=${encodeURIComponent(JSON.stringify(checklist))}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/roadmaps/${roadmapId}/milestones?milestones=${encodeURIComponent(JSON.stringify(checklist))}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

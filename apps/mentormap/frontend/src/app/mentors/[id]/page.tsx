@@ -47,7 +47,7 @@ export default function MentorDetailPage() {
 
   const fetchMentor = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/mentors/${mentorId}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/mentors/${mentorId}`);
       if (response.ok) {
         const data = await response.json();
         setMentor(data);
@@ -118,7 +118,7 @@ export default function MentorDetailPage() {
       });
 
       // Create Stripe checkout session
-      const response = await fetch("http://localhost:8000/api/payments/create-checkout-session", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/payments/create-checkout-session`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -193,7 +193,7 @@ export default function MentorDetailPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/payments/validate-promo?promo_code=${formData.promo_code}`
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/payments/validate-promo?promo_code=${formData.promo_code}`
       );
       
       if (response.ok) {

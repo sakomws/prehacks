@@ -39,7 +39,7 @@ export default function SessionsPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/sessions/", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/sessions/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +63,7 @@ export default function SessionsPage() {
     const token = localStorage.getItem("token");
 
     try {
-      await fetch(`http://localhost:8000/api/sessions/${id}/cancel`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/sessions/${id}/cancel`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -79,7 +79,7 @@ export default function SessionsPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:8000/api/sessions/${sessionId}/rate?rating=${rating}&review=${encodeURIComponent(review)}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/sessions/${sessionId}/rate?rating=${rating}&review=${encodeURIComponent(review)}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

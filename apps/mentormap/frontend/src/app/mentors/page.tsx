@@ -30,7 +30,7 @@ export default function MentorsPage() {
 
   const fetchMentors = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/mentors/");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/mentors/`);
       const data = await response.json();
       setMentors(data);
     } catch (error) {
