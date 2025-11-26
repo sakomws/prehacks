@@ -164,4 +164,12 @@ async def linkedin_callback(code: str, db: Session = Depends(get_db)):
     
     # Redirect to frontend with token
     from fastapi.responses import RedirectResponse
-    return RedirectResponse(url=f"http://localhost:3000/login?token={access_token}")
+    
+    # Determine frontend URL based on environment
+    ENVIRONMENT = os.getenv("ENVIRONMENT", "production")
+    if ENVIRONMENT == "development":
+        frontend_url = "http://localhost:3001"
+    else:
+        frontend_url = "https://mentormap.ai"
+    
+    return RedirectResponse(url=f"{frontend_url}/login?token={access_token}")
