@@ -14,17 +14,30 @@ app = FastAPI(
 )
 
 # CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
+import os
+
+# Determine allowed origins based on environment
+ENVIRONMENT = os.getenv("ENVIRONMENT", "production")
+
+if ENVIRONMENT == "development":
+    allowed_origins = [
         "http://localhost:3000",
         "http://localhost:3001",
         "http://localhost:3002",
-        "http://localhost:3002/blog",
-    ],
+    ]
+else:
+    # Production - only allow actual domain
+    allowed_origins = [
+        "https://mentormap.ai",
+        "https://www.mentormap.ai",
+    ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 # Include routers

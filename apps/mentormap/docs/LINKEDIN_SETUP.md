@@ -266,5 +266,5 @@ uvicorn main:app --reload --port 8002
 
 **Need Help?**
 - Check the [FAQ](../frontend/src/app/faq/page.tsx)
-- Contact support at support@mentormap.ai
+- Contact support at team@mentormap.ai
 - Review the [API Documentation](http://localhost:8000/docs)
