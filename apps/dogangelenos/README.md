@@ -1,10 +1,14 @@
-# Dog Angelenos - LA's Premier Dog Training Platform
+# 🎃 Dog Angelenos - LA's Premier Dog Training Platform
 
-A comprehensive dog training business management system built with Next.js and FastAPI.
+> **Kiroween 2024 Hackathon Submission - Costume Contest Category**
+
+A comprehensive dog training business management system with a haunting, Apple-inspired dark mode UI. Built with Next.js and FastAPI, powered by Kiro AI.
 
 ## 🌟 Overview
 
 Dog Angelenos is a full-stack web application designed for managing a luxury dog training business in Los Angeles. It features a customer-facing website, real-time chat, booking system, and a complete admin dashboard.
+
+**🎭 Kiroween Submission:** This project showcases Kiro's vibe coding, steering docs, and iterative refinement capabilities through a polished, dark mode UI that transforms dog training into a premium experience. See [KIROWEEN_SUBMISSION.md](./KIROWEEN_SUBMISSION.md) for full details.
 
 ## 🚀 Quick Start
 
@@ -78,16 +82,24 @@ dogangelenos/
 
 ## ✨ Key Features
 
+### Core Functionality
 - 🐕 **Booking System** - Schedule training sessions
 - 💬 **Real-time Chat** - WebSocket-based trainer-customer communication
 - 👥 **User Management** - Customer, trainer, and admin roles
 - 📧 **Newsletter System** - Subscriber management and content distribution
 - 📅 **Events Calendar** - Training events and workshops
 - 📦 **Training Packages** - Customizable training programs
+- 🎓 **Trainers Management** - Full CRUD for trainer profiles
 - 🎨 **Content Management** - Dynamic content editing via admin panel
 - 📊 **Admin Dashboard** - Complete business management interface
 - 🔐 **Authentication** - Role-based access control
-- 📱 **Responsive Design** - Mobile-first approach
+
+### 👻 Haunting UI Features (Kiroween Special)
+- 🌙 **Dark Mode Mastery** - Complete dark theme with smooth transitions
+- 🎨 **Gradient Sorcery** - Mesmerizing pink-purple-orange gradients
+- ✨ **Smooth Animations** - Ghost-like transitions using Framer Motion
+- 💎 **Apple-Inspired Design** - Premium, polished interface
+- 📱 **Responsive Design** - Mobile-first approach with perfect scaling
 
 ## 🎯 Demo Accounts
 
@@ -161,4 +173,17 @@ For questions or support, contact: woof@dogangelenos.com
 
 ---
 
-**Built with ❤️ for LA's dog community** 🌴🐾
+## 🎃 Kiroween Hackathon
+
+This project was built for the Kiroween 2024 Hackathon in the **Costume Contest** category. It demonstrates:
+
+- **Vibe Coding**: Natural language development with Kiro
+- **Steering Docs**: Project context and coding standards
+- **Iterative Refinement**: Building features through conversation
+- **Polished UI**: Haunting dark mode with Apple-inspired design
+
+See [KIROWEEN_SUBMISSION.md](./KIROWEEN_SUBMISSION.md) for complete submission details.
+
+---
+
+**Built with 🖤 using Kiro for LA's dog community** 🌴🐾🎃
