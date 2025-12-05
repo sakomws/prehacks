@@ -25,10 +25,10 @@ Dog Angelenos brings the sophistication of Apple's design language to the dog tr
 
 ## 🔗 Links
 
-- **Live Application**: http://localhost:3004 (or deployed URL)
+- **Live Application**: http://ec2-3-84-133-237.compute-1.amazonaws.com:3004
 - **GitHub Repository**: [Your Repo URL]
-- **Backend API**: http://localhost:8000
-- **API Documentation**: http://localhost:8000/docs
+- **Backend API**: http://ec2-3-84-133-237.compute-1.amazonaws.com:8000
+- **API Documentation**: http://ec2-3-84-133-237.compute-1.amazonaws.com:8000/docs
 
 **Demo Credentials:**
 - Admin: `admin@dogangelenos.com` / `admin123`
