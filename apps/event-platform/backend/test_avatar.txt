@@ -1,0 +1,2 @@
+This is a test file for avatar upload testing.
+It's not a real image, but it will help us test the upload functionality.

@@ -23,7 +23,23 @@ Dog Angelenos is a full-stack web application designed for managing a luxury dog
 
 ## 📚 Documentation
 
-All documentation is located in the [`docs/`](./docs/) folder:
+### Quick Start
+- **[START_HERE.md](./START_HERE.md)** - Main entry point for judges and developers
+
+### Hackathon Submission
+- **[KIROWEEN_SUBMISSION.md](./docs/hackathon/KIROWEEN_SUBMISSION.md)** - Official submission
+- **[JUDGES_QUICK_START.md](./docs/hackathon/JUDGES_QUICK_START.md)** - 5-minute quick start
+- **[HACKATHON_STORY.md](./docs/hackathon/HACKATHON_STORY.md)** - Inspiration and journey
+- **[KIRO_USAGE_GUIDE.md](./docs/hackathon/KIRO_USAGE_GUIDE.md)** - Detailed Kiro usage
+
+### Deployment
+- **[DEPLOY_NOW.md](./docs/deployment/DEPLOY_NOW.md)** - Quick deployment guide
+- **[AWS_DEPLOYMENT.md](./docs/deployment/AWS_DEPLOYMENT.md)** - Comprehensive AWS guide
+- **[NGINX_SHARED_CONFIG.md](./docs/deployment/NGINX_SHARED_CONFIG.md)** - Shared instance setup
+
+### Feature Documentation
+
+All feature documentation is in the [`docs/`](./docs/) folder:
 
 ### Getting Started
 - [Quick Start Guide](./docs/QUICK_START.md) - Get up and running quickly

@@ -43,18 +43,24 @@ npm run dev
 ## 📚 Documentation Guide
 
 ### For Quick Review (5-10 minutes)
-1. **[JUDGES_QUICK_START.md](./JUDGES_QUICK_START.md)** - Quick demo guide
-2. **[SUBMISSION_SUMMARY.md](./SUBMISSION_SUMMARY.md)** - Overview summary
+1. **[JUDGES_QUICK_START.md](./docs/hackathon/JUDGES_QUICK_START.md)** - Quick demo guide
+2. **[SUBMISSION_SUMMARY.md](./docs/hackathon/SUBMISSION_SUMMARY.md)** - Overview summary
 
 ### For Detailed Review (20-30 minutes)
-1. **[KIROWEEN_SUBMISSION.md](./KIROWEEN_SUBMISSION.md)** - Main submission document
-2. **[KIRO_USAGE_GUIDE.md](./KIRO_USAGE_GUIDE.md)** - How Kiro was used
-3. **[README.md](./README.md)** - Project overview
+1. **[KIROWEEN_SUBMISSION.md](./docs/hackathon/KIROWEEN_SUBMISSION.md)** - Main submission document
+2. **[KIRO_USAGE_GUIDE.md](./docs/hackathon/KIRO_USAGE_GUIDE.md)** - How Kiro was used
+3. **[HACKATHON_STORY.md](./docs/hackathon/HACKATHON_STORY.md)** - Inspiration and journey
+4. **[README.md](./README.md)** - Project overview
 
 ### For Technical Deep Dive
-1. **[docs/](./docs/)** - Feature documentation
-2. **[.kiro/steering/](./kiro/steering/)** - Steering documents
+1. **[docs/](./docs/)** - All documentation
+2. **[.kiro/steering/](./.kiro/steering/)** - Steering documents
 3. **API Docs:** http://localhost:8000/docs
+
+### For Deployment
+1. **[DEPLOY_NOW.md](./docs/deployment/DEPLOY_NOW.md)** - Quick deployment guide
+2. **[AWS_DEPLOYMENT.md](./docs/deployment/AWS_DEPLOYMENT.md)** - Full AWS guide
+3. **[NGINX_SHARED_CONFIG.md](./docs/deployment/NGINX_SHARED_CONFIG.md)** - Shared instance setup
 
 ---
 
@@ -307,18 +313,25 @@ This project demonstrates:
 
 ### Essential Reading
 - **[START_HERE.md](./START_HERE.md)** ← You are here
-- **[JUDGES_QUICK_START.md](./JUDGES_QUICK_START.md)** - Quick demo guide
-- **[KIROWEEN_SUBMISSION.md](./KIROWEEN_SUBMISSION.md)** - Main submission
-
-### Detailed Documentation
-- **[KIRO_USAGE_GUIDE.md](./KIRO_USAGE_GUIDE.md)** - How Kiro was used
-- **[SUBMISSION_SUMMARY.md](./SUBMISSION_SUMMARY.md)** - Overview summary
 - **[README.md](./README.md)** - Project overview
 
+### Hackathon Submission
+- **[KIROWEEN_SUBMISSION.md](./docs/hackathon/KIROWEEN_SUBMISSION.md)** - Main submission
+- **[JUDGES_QUICK_START.md](./docs/hackathon/JUDGES_QUICK_START.md)** - Quick demo guide
+- **[HACKATHON_STORY.md](./docs/hackathon/HACKATHON_STORY.md)** - Inspiration & journey
+- **[KIRO_USAGE_GUIDE.md](./docs/hackathon/KIRO_USAGE_GUIDE.md)** - How Kiro was used
+- **[SUBMISSION_SUMMARY.md](./docs/hackathon/SUBMISSION_SUMMARY.md)** - Overview summary
+
+### Deployment Guides
+- **[DEPLOY_NOW.md](./docs/deployment/DEPLOY_NOW.md)** - Quick deployment
+- **[AWS_DEPLOYMENT.md](./docs/deployment/AWS_DEPLOYMENT.md)** - Full AWS guide
+- **[NGINX_SHARED_CONFIG.md](./docs/deployment/NGINX_SHARED_CONFIG.md)** - Shared instance
+- **[DEPLOYMENT_CHECKLIST.md](./docs/deployment/DEPLOYMENT_CHECKLIST.md)** - Verification
+
 ### Reference
-- **[HACKATHON_CHECKLIST.md](./HACKATHON_CHECKLIST.md)** - Submission checklist
-- **[FINAL_STATUS.md](./FINAL_STATUS.md)** - Completion status
-- **[docs/](./docs/)** - Feature documentation
+- **[HACKATHON_CHECKLIST.md](./docs/hackathon/HACKATHON_CHECKLIST.md)** - Submission checklist
+- **[FINAL_STATUS.md](./docs/hackathon/FINAL_STATUS.md)** - Completion status
+- **[docs/](./docs/)** - All documentation
 
 ### Kiro Configuration
 - **[.kiro/steering/project-context.md](./.kiro/steering/project-context.md)** - Project context
