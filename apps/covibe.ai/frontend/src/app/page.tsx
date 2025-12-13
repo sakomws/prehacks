@@ -94,7 +94,7 @@ export default function Home() {
         </div>
 
         <div className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
-          <a href="http://localhost:8001/docs" target="_blank" className="hover:text-blue-500">
+          <a href={`${process.env.NEXT_PUBLIC_API_URL}/docs`} target="_blank" className="hover:text-blue-500">
             API Documentation
           </a>
           {" • "}

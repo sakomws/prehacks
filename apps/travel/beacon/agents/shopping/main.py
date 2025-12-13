@@ -28,17 +28,13 @@ else:
     print("Warning: AI21_API_KEY not found. Running in mock mode.")
     client = None
 
-# BrightData API configuration
-BRIGHTDATA_API_KEY = os.getenv("BRIGHTDATA_API_KEY")
-if BRIGHTDATA_API_KEY:
-    BRIGHTDATA_HEADERS = {
-        "Authorization": f"Bearer {BRIGHTDATA_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    print("BrightData API key loaded successfully")
-else:
-    print("Warning: BRIGHTDATA_API_KEY not found. Web scraping will be disabled.")
-    BRIGHTDATA_HEADERS = None
+# You.com API configuration
+import sys
+from pathlib import Path
+# Add parent directory to path to import you_api_service
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from you_api_service import get_you_api_service
+you_api = get_you_api_service()
 
 # Pydantic models
 class ProductSearchRequest(BaseModel):
@@ -88,59 +84,40 @@ class PurchaseResponse(BaseModel):
     product_details: ProductOption
     total_cost: float
 
-# Web scraping function for product search
+# Web scraping function for product search using You.com API
 async def search_products_web(location: str, category: str = "all", price_range: str = "all", brand: str = "all") -> List[ProductOption]:
-    """Search for products using web scraping via BrightData API"""
+    """Search for products using You.com API"""
     
-    if not BRIGHTDATA_HEADERS:
-        print("BrightData API not configured, skipping web scraping")
-        return []
-    
-    # Construct Google Search URL for products
-    location_encoded = quote_plus(location)
+    # Construct search query for products
     category_query = f"{category} products" if category != "all" else "products"
     brand_query = f" {brand}" if brand != "all" else ""
-    full_query = f"{category_query}{brand_query} in {location_encoded}"
-    search_url = f"https://www.google.com/search?q={quote_plus(full_query)}&brd_json=1"
-    
-    data = {
-        "zone": "serp_api1",
-        "url": search_url,
-        "format": "raw"
-    }
+    search_query = f"{category_query}{brand_query} in {location}"
     
     try:
         print(f"Searching for products: {location} - {category} - {brand}")
-        print(f"Search URL: {search_url}")
         
-        response = requests.post(
-            "https://api.brightdata.com/request",
-            json=data,
-            headers=BRIGHTDATA_HEADERS,
-            timeout=30
-        )
+        # Use You.com API to search
+        search_data = await you_api.search(search_query, count=10)
         
-        if response.status_code == 200:
-            # Save response for debugging
-            with open("brightdata_products_response.json", "w", encoding="utf-8") as f:
-                f.write(response.text)
-            print(f"Response saved ({len(response.text)} characters)")
-            
-            # Parse the JSON response for product data
-            try:
-                json_data = response.json()
-                products = parse_json_product_data(json_data, location, category, brand)
-                return products
-            except json.JSONDecodeError:
-                # Fallback to HTML parsing if JSON parsing fails
-                products = parse_product_data(response.text, location, category, brand)
-                return products
-        else:
-            print(f"BrightData API error: {response.status_code} - {response.text}")
+        # Parse the results
+        results = you_api.parse_search_results(search_data)
+        
+        if not results:
+            print("No product results from You.com API")
             return []
+        
+        # Save response for debugging
+        with open("you_api_products_response.json", "w", encoding="utf-8") as f:
+            json.dump(search_data, f, indent=2, ensure_ascii=False)
+        print(f"Response saved ({len(results)} results)")
+        
+        # Parse the results into product options
+        json_data = {"organic": results}
+        products = parse_json_product_data(json_data, location, category, brand)
+        return products
             
     except Exception as e:
-        print(f"Web scraping error: {str(e)}")
+        print(f"You.com API search error: {str(e)}")
         import traceback
         traceback.print_exc()
         return []

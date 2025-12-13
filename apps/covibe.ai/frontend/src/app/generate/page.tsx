@@ -15,7 +15,7 @@ export default function GeneratePage() {
     setCode("");
 
     try {
-      const response = await fetch("http://localhost:8001/api/code/generate", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/code/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, language }),

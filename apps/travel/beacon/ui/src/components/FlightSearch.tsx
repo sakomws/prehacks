@@ -64,11 +64,32 @@ export default function FlightSearch() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Search failed');
+        let errorData;
+        try {
+          const text = await response.text();
+          if (text) {
+            errorData = JSON.parse(text);
+          } else {
+            errorData = { error: `HTTP ${response.status}: ${response.statusText}` };
+          }
+        } catch (e) {
+          errorData = { error: `HTTP ${response.status}: ${response.statusText}` };
+        }
+        throw new Error(errorData.error || errorData.details || 'Search failed');
       }
 
-      const data = await response.json();
+      const text = await response.text();
+      if (!text || text.trim().length === 0) {
+        throw new Error('Empty response from server');
+      }
+      
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error('Invalid JSON response from server');
+      }
+      
       setResults(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');

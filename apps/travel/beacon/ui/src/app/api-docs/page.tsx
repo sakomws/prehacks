@@ -20,11 +20,19 @@ export default function ApiDocs() {
 
   const fetchAgents = async () => {
     try {
-      const response = await fetch('/api/proxy');
-      const data = await response.json();
+      const response = await fetch('/api/proxy', { cache: 'no-cache' });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      const text = await response.text();
+      if (!text) {
+        throw new Error('Empty response');
+      }
+      const data = JSON.parse(text);
       setAgents(data.availableAgents || []);
     } catch (err) {
       console.error('Failed to fetch agents:', err);
+      setAgents([]);
     } finally {
       setLoading(false);
     }

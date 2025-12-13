@@ -28,17 +28,13 @@ else:
     print("Warning: AI21_API_KEY not found. Running in mock mode.")
     client = None
 
-# BrightData API configuration
-BRIGHTDATA_API_KEY = os.getenv("BRIGHTDATA_API_KEY")
-if BRIGHTDATA_API_KEY:
-    BRIGHTDATA_HEADERS = {
-        "Authorization": f"Bearer {BRIGHTDATA_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    print("BrightData API key loaded successfully")
-else:
-    print("Warning: BRIGHTDATA_API_KEY not found. Web scraping will be disabled.")
-    BRIGHTDATA_HEADERS = None
+# You.com API configuration
+import sys
+from pathlib import Path
+# Add parent directory to path to import you_api_service
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from you_api_service import get_you_api_service
+you_api = get_you_api_service()
 
 # Pydantic models
 class ActivitySearchRequest(BaseModel):
@@ -86,58 +82,39 @@ class BookingResponse(BaseModel):
     confirmation_code: str
     activity_details: ActivityOption
 
-# Web scraping function for activity search
+# Web scraping function for activity search using You.com API
 async def search_activities_web(location: str, activity_type: str = "all", duration: str = "all", price_range: str = "all") -> List[ActivityOption]:
-    """Search for activities using web scraping via BrightData API"""
+    """Search for activities using You.com API"""
     
-    if not BRIGHTDATA_HEADERS:
-        print("BrightData API not configured, skipping web scraping")
-        return []
-    
-    # Construct Google Search URL for activities
-    location_encoded = quote_plus(location)
+    # Construct search query for activities
     activity_query = f"{activity_type} activities" if activity_type != "all" else "activities"
-    full_query = f"{activity_query} in {location_encoded}"
-    search_url = f"https://www.google.com/search?q={quote_plus(full_query)}&brd_json=1"
-    
-    data = {
-        "zone": "serp_api1",
-        "url": search_url,
-        "format": "raw"
-    }
+    search_query = f"{activity_query} in {location}"
     
     try:
         print(f"Searching for activities: {location} - {activity_type}")
-        print(f"Search URL: {search_url}")
         
-        response = requests.post(
-            "https://api.brightdata.com/request",
-            json=data,
-            headers=BRIGHTDATA_HEADERS,
-            timeout=30
-        )
+        # Use You.com API to search
+        search_data = await you_api.search(search_query, count=10)
         
-        if response.status_code == 200:
-            # Save response for debugging
-            with open("brightdata_activities_response.json", "w", encoding="utf-8") as f:
-                f.write(response.text)
-            print(f"Response saved ({len(response.text)} characters)")
-            
-            # Parse the JSON response for activity data
-            try:
-                json_data = response.json()
-                activities = parse_json_activity_data(json_data, location, activity_type)
-                return activities
-            except json.JSONDecodeError:
-                # Fallback to HTML parsing if JSON parsing fails
-                activities = parse_activity_data(response.text, location, activity_type)
-                return activities
-        else:
-            print(f"BrightData API error: {response.status_code} - {response.text}")
+        # Parse the results
+        results = you_api.parse_search_results(search_data)
+        
+        if not results:
+            print("No activity results from You.com API")
             return []
+        
+        # Save response for debugging
+        with open("you_api_activities_response.json", "w", encoding="utf-8") as f:
+            json.dump(search_data, f, indent=2, ensure_ascii=False)
+        print(f"Response saved ({len(results)} results)")
+        
+        # Parse the results into activity options
+        json_data = {"organic": results}
+        activities = parse_json_activity_data(json_data, location, activity_type)
+        return activities
             
     except Exception as e:
-        print(f"Web scraping error: {str(e)}")
+        print(f"You.com API search error: {str(e)}")
         import traceback
         traceback.print_exc()
         return []

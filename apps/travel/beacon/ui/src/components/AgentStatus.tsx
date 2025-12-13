@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface AgentStatus {
   name: string;
@@ -21,6 +21,10 @@ export default function AgentStatus() {
     { name: 'Commute Agent', status: 'checking', port: 8006, lastChecked: '' },
   ]);
 
+  const isMountedRef = useRef(true);
+  const isCheckingRef = useRef(false);
+  const lastCheckTimeRef = useRef(0);
+
   const checkAgentHealth = async (agent: AgentStatus) => {
     const startTime = Date.now();
     try {
@@ -36,10 +40,28 @@ export default function AgentStatus() {
       };
       
       const agentName = agentMap[agent.name] || agent.name.toLowerCase().split(' ')[0];
-      const response = await fetch(`/api/proxy?agent=${agentName}&action=health`);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      const response = await fetch(`/api/proxy?agent=${agentName}&action=health`, {
+        cache: 'no-cache',
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
       const responseTime = Date.now() - startTime;
       
       if (response.ok) {
+        // Try to parse JSON, but don't fail if it's empty
+        try {
+          const text = await response.text();
+          if (text) {
+            JSON.parse(text); // Validate it's JSON, but we don't need the data
+          }
+        } catch {
+          // Not JSON, but response was OK, so consider it healthy
+        }
+        
         return {
           ...agent,
           status: 'healthy' as const,
@@ -64,19 +86,72 @@ export default function AgentStatus() {
     }
   };
 
-  const checkAllAgents = useCallback(async () => {
+  const checkAllAgents = async () => {
+    // Prevent concurrent checks and ensure minimum 30 seconds between checks
+    const now = Date.now();
+    const timeSinceLastCheck = now - lastCheckTimeRef.current;
+    
+    if (isCheckingRef.current || (timeSinceLastCheck < 30000 && lastCheckTimeRef.current > 0)) {
+      return; // Skip if already checking or too soon since last check
+    }
+    
+    isCheckingRef.current = true;
+    lastCheckTimeRef.current = now;
+    
+    if (!isMountedRef.current) {
+      isCheckingRef.current = false;
+      return;
+    }
+    
+    const agentList: AgentStatus[] = [
+      { name: 'Flight Agent', status: 'checking' as const, port: 8000, lastChecked: '' },
+      { name: 'Food Agent', status: 'checking' as const, port: 8001, lastChecked: '' },
+      { name: 'Leisure Agent', status: 'checking' as const, port: 8002, lastChecked: '' },
+      { name: 'Shopping Agent', status: 'checking' as const, port: 8003, lastChecked: '' },
+      { name: 'Stay Agent', status: 'checking' as const, port: 8004, lastChecked: '' },
+      { name: 'Work Agent', status: 'checking' as const, port: 8005, lastChecked: '' },
+      { name: 'Commute Agent', status: 'checking' as const, port: 8006, lastChecked: '' },
+    ];
+    
+    // Update to checking state first
+    if (isMountedRef.current) {
+      setAgents(agentList);
+    }
+    
+    // Then check health
     const updatedAgents = await Promise.all(
-      agents.map(agent => checkAgentHealth(agent))
+      agentList.map(agent => checkAgentHealth(agent))
     );
-    setAgents(updatedAgents);
-  }, [agents]);
+    
+    if (isMountedRef.current) {
+      setAgents(updatedAgents);
+    }
+    
+    isCheckingRef.current = false;
+  };
 
   useEffect(() => {
+    isMountedRef.current = true;
+    let intervalId: NodeJS.Timeout | null = null;
+    
+    // Initial check
     checkAllAgents();
-    // Check every 30 seconds
-    const interval = setInterval(checkAllAgents, 30000);
-    return () => clearInterval(interval);
-  }, [checkAllAgents]);
+    
+    // Set up interval - check every 30 seconds (not continuously)
+    intervalId = setInterval(() => {
+      if (isMountedRef.current) {
+        checkAllAgents();
+      }
+    }, 30000); // 30 seconds between checks
+    
+    return () => {
+      isMountedRef.current = false;
+      isCheckingRef.current = false;
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, []); // Empty array - only run once on mount/unmount
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -123,7 +198,7 @@ export default function AgentStatus() {
             {healthyCount}/{totalCount} agents healthy
           </span>
           <button
-            onClick={checkAllAgents}
+            onClick={() => checkAllAgents()}
             className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors"
           >
             Refresh

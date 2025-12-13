@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import asyncio
-from ai21 import AI21Client
 import os
 from datetime import datetime, date
 import json
@@ -17,7 +16,7 @@ load_dotenv()
 
 app = FastAPI(
     title="Flight Booking Agent",
-    description="AI-powered flight booking agent using Maestro framework",
+    description="AI-powered flight booking agent using You.com API",
     version="1.0.0"
 )
 
@@ -30,25 +29,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize AI21 client
-api_key = os.getenv("AI21_API_KEY")
-if api_key:
-    client = AI21Client(api_key=api_key)
-else:
-    print("Warning: AI21_API_KEY not found. Running in mock mode.")
-    client = None
-
-# BrightData API configuration
-BRIGHTDATA_API_KEY = os.getenv("BRIGHTDATA_API_KEY")
-if BRIGHTDATA_API_KEY:
-    BRIGHTDATA_HEADERS = {
-        "Authorization": f"Bearer {BRIGHTDATA_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    print("BrightData API key loaded successfully")
-else:
-    print("Warning: BRIGHTDATA_API_KEY not found. Web scraping will be disabled.")
-    BRIGHTDATA_HEADERS = None
+# You.com API configuration
+import sys
+from pathlib import Path
+# Add parent directory to path to import you_api_service
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from you_api_service import get_you_api_service
+you_api = get_you_api_service()
 
 # Pydantic models
 class FlightSearchRequest(BaseModel):
@@ -100,58 +87,37 @@ class BookingResponse(BaseModel):
     total_cost: float
     flight_details: FlightOption
 
-# Web scraping function for flight search using BrightData API
+# Web scraping function for flight search using You.com API
 async def search_flights_web(origin: str, destination: str, departure_date: str, passengers: int = 1) -> List[FlightOption]:
-    """Search for flights using web scraping via BrightData API"""
+    """Search for flights using You.com API"""
     
-    if not BRIGHTDATA_HEADERS:
-        print("BrightData API not configured, skipping web scraping")
-        return []
-    
-    # Construct Google Search URL for flights (like in your 1.py)
-    from urllib.parse import quote_plus
-    origin_encoded = quote_plus(origin)
-    destination_encoded = quote_plus(destination)
-    search_url = f"https://www.google.com/search?q=Flights%20from%20{origin_encoded}%20to%20{destination_encoded}%20on%20{departure_date}&brd_json=1"
-    
-    data = {
-        "zone": "serp_api1",
-        "url": search_url,
-        "format": "raw"
-    }
+    # Construct search query for flights
+    search_query = f"flights from {origin} to {destination} on {departure_date}"
     
     try:
         print(f"Searching for flights: {origin} to {destination} on {departure_date}")
-        print(f"Search URL: {search_url}")
         
-        response = requests.post(
-            "https://api.brightdata.com/request",
-            json=data,
-            headers=BRIGHTDATA_HEADERS,
-            timeout=30
-        )
+        # Use You.com API to search
+        search_data = await you_api.search(search_query, count=10)
         
-        if response.status_code == 200:
-            # Save response for debugging
-            with open("brightdata_response.json", "w", encoding="utf-8") as f:
-                f.write(response.text)
-            print(f"Response saved ({len(response.text)} characters)")
-            
-            # Parse the JSON response for flight data
-            try:
-                json_data = response.json()
-                flights = parse_json_flight_data(json_data, origin, destination, departure_date, passengers)
-                return flights
-            except json.JSONDecodeError:
-                # Fallback to HTML parsing if JSON parsing fails
-                flights = parse_flight_data(response.text, origin, destination, departure_date, passengers)
-                return flights
-        else:
-            print(f"BrightData API error: {response.status_code} - {response.text}")
+        # Parse the results
+        results = you_api.parse_search_results(search_data)
+        
+        if not results:
+            print("No flight results from You.com API")
             return []
+        
+        # Save response for debugging
+        with open("you_api_flight_response.json", "w", encoding="utf-8") as f:
+            json.dump(search_data, f, indent=2, ensure_ascii=False)
+        print(f"Response saved ({len(results)} results)")
+        
+        # Parse the results into flight options
+        flights = parse_you_api_flight_data(results, origin, destination, departure_date, passengers)
+        return flights
             
     except Exception as e:
-        print(f"Web scraping error: {str(e)}")
+        print(f"You.com API search error: {str(e)}")
         import traceback
         traceback.print_exc()
         return []
@@ -263,12 +229,23 @@ def calculate_flight_scores(flights: List[FlightOption]) -> List[FlightOption]:
     
     return flights
 
-def parse_json_flight_data(json_data: dict, origin: str, destination: str, departure_date: str, passengers: int) -> List[FlightOption]:
-    """Parse flight data from BrightData JSON response"""
+def parse_you_api_flight_data(results: List[Dict[str, Any]], origin: str, destination: str, departure_date: str, passengers: int) -> List[FlightOption]:
+    """Parse flight data from You.com API results"""
     
     flights = []
     
-    print(f"Parsing JSON flight data from BrightData response")
+    print(f"Parsing flight data from You.com API results")
+    
+    # Use the existing JSON parsing logic but adapt it for You.com API format
+    json_data = {"organic": results}
+    return parse_json_flight_data(json_data, origin, destination, departure_date, passengers)
+
+def parse_json_flight_data(json_data: dict, origin: str, destination: str, departure_date: str, passengers: int) -> List[FlightOption]:
+    """Parse flight data from search results (compatible with both BrightData and You.com API formats)"""
+    
+    flights = []
+    
+    print(f"Parsing JSON flight data from search results")
     
     try:
         # Extract flight data from the JSON structure

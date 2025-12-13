@@ -28,17 +28,13 @@ else:
     print("Warning: AI21_API_KEY not found. Running in mock mode.")
     client = None
 
-# BrightData API configuration
-BRIGHTDATA_API_KEY = os.getenv("BRIGHTDATA_API_KEY")
-if BRIGHTDATA_API_KEY:
-    BRIGHTDATA_HEADERS = {
-        "Authorization": f"Bearer {BRIGHTDATA_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    print("BrightData API key loaded successfully")
-else:
-    print("Warning: BRIGHTDATA_API_KEY not found. Web scraping will be disabled.")
-    BRIGHTDATA_HEADERS = None
+# You.com API configuration
+import sys
+from pathlib import Path
+# Add parent directory to path to import you_api_service
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from you_api_service import get_you_api_service
+you_api = get_you_api_service()
 
 # Pydantic models
 class HotelSearchRequest(BaseModel):
@@ -94,57 +90,38 @@ class BookingResponse(BaseModel):
     hotel_details: HotelOption
     total_cost: float
 
-# Web scraping function for hotel search
+# Web scraping function for hotel search using You.com API
 async def search_hotels_web(location: str, check_in: str, check_out: str, guests: int = 2, rooms: int = 1, hotel_type: str = "all", price_range: str = "all") -> List[HotelOption]:
-    """Search for hotels using web scraping via BrightData API"""
+    """Search for hotels using You.com API"""
     
-    if not BRIGHTDATA_HEADERS:
-        print("BrightData API not configured, skipping web scraping")
-        return []
-    
-    # Construct Google Search URL for hotels
-    location_encoded = quote_plus(location)
-    hotel_query = f"hotels in {location_encoded}"
-    search_url = f"https://www.google.com/search?q={quote_plus(hotel_query)}&brd_json=1"
-    
-    data = {
-        "zone": "serp_api1",
-        "url": search_url,
-        "format": "raw"
-    }
+    # Construct search query for hotels
+    search_query = f"hotels in {location} check in {check_in} check out {check_out}"
     
     try:
         print(f"Searching for hotels: {location} - {check_in} to {check_out}")
-        print(f"Search URL: {search_url}")
         
-        response = requests.post(
-            "https://api.brightdata.com/request",
-            json=data,
-            headers=BRIGHTDATA_HEADERS,
-            timeout=30
-        )
+        # Use You.com API to search
+        search_data = await you_api.search(search_query, count=10)
         
-        if response.status_code == 200:
-            # Save response for debugging
-            with open("brightdata_hotels_response.json", "w", encoding="utf-8") as f:
-                f.write(response.text)
-            print(f"Response saved ({len(response.text)} characters)")
-            
-            # Parse the JSON response for hotel data
-            try:
-                json_data = response.json()
-                hotels = parse_json_hotel_data(json_data, location, check_in, check_out, guests, rooms)
-                return hotels
-            except json.JSONDecodeError:
-                # Fallback to HTML parsing if JSON parsing fails
-                hotels = parse_hotel_data(response.text, location, check_in, check_out, guests, rooms)
-                return hotels
-        else:
-            print(f"BrightData API error: {response.status_code} - {response.text}")
+        # Parse the results
+        results = you_api.parse_search_results(search_data)
+        
+        if not results:
+            print("No hotel results from You.com API")
             return []
+        
+        # Save response for debugging
+        with open("you_api_hotels_response.json", "w", encoding="utf-8") as f:
+            json.dump(search_data, f, indent=2, ensure_ascii=False)
+        print(f"Response saved ({len(results)} results)")
+        
+        # Parse the results into hotel options
+        json_data = {"organic": results}
+        hotels = parse_json_hotel_data(json_data, location, check_in, check_out, guests, rooms)
+        return hotels
             
     except Exception as e:
-        print(f"Web scraping error: {str(e)}")
+        print(f"You.com API search error: {str(e)}")
         import traceback
         traceback.print_exc()
         return []

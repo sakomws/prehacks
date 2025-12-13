@@ -80,7 +80,36 @@ export async function POST(request: NextRequest) {
       foodAnalysis = await analyzeFoodWithOpenAI(imageData);
     } catch (openaiError) {
       console.error('OpenAI analysis failed:', openaiError);
-      throw new Error(`Food analysis failed: ${openaiError instanceof Error ? openaiError.message : 'Unknown error'}`);
+      
+      // Return specific error messages based on the error type
+      if (openaiError instanceof Error) {
+        if (openaiError.message.includes('401')) {
+          return NextResponse.json(
+            { error: 'Invalid OpenAI API key. Please check your configuration.' },
+            { status: 401 }
+          );
+        } else if (openaiError.message.includes('429') || openaiError.message.includes('insufficient_quota')) {
+          return NextResponse.json(
+            { error: 'OpenAI API quota exceeded. Please check your billing or try again later.' },
+            { status: 429 }
+          );
+        } else if (openaiError.message.includes('400')) {
+          return NextResponse.json(
+            { error: 'Invalid image format. Please use a valid image (PNG, JPEG, GIF, WebP).' },
+            { status: 400 }
+          );
+        } else if (!process.env.OPENAI_API_KEY) {
+          return NextResponse.json(
+            { error: 'OpenAI API key not configured. Please add OPENAI_API_KEY to your environment variables.' },
+            { status: 503 }
+          );
+        }
+      }
+      
+      return NextResponse.json(
+        { error: 'Food analysis service temporarily unavailable. Please try again later.' },
+        { status: 503 }
+      );
     }
     
     // Get restaurant information if location or URL is provided
@@ -88,8 +117,11 @@ export async function POST(request: NextRequest) {
     if (restaurantUrl) {
       try {
         console.log('Scraping restaurant from URL:', restaurantUrl);
-        restaurantInfo = await RestaurantScraper.scrapeRestaurant(restaurantUrl);
-        console.log('Restaurant info obtained:', restaurantInfo.name);
+        const scraper = RestaurantScraper.getInstance();
+        restaurantInfo = await scraper.scrapeRestaurantMenu(restaurantUrl);
+        if (restaurantInfo) {
+          console.log('Restaurant info obtained:', restaurantInfo.name);
+        }
       } catch (error) {
         console.error('Error scraping restaurant:', error);
         // Continue without restaurant info rather than failing
@@ -97,7 +129,8 @@ export async function POST(request: NextRequest) {
     } else if (location) {
       try {
         console.log('Finding restaurant by location:', location);
-        restaurantInfo = await RestaurantScraper.findRestaurantByLocation(
+        const scraper = RestaurantScraper.getInstance();
+        restaurantInfo = await scraper.getRestaurantFromCoordinates(
           location.latitude,
           location.longitude
         );
@@ -310,110 +343,5 @@ Focus especially on sugar content in grams. Make reasonable estimates based on w
   }
 }
 
-// Mock data fallback function with variety
-function getMockFoodAnalysis(): Omit<FoodAnalysisResponse, 'location' | 'timestamp'> {
-  const mockFoods = [
-    {
-      name: "Grilled Chicken Salad",
-      confidence: 0.95,
-      ingredients: ["chicken breast", "lettuce", "tomatoes", "cucumbers", "olive oil", "lemon"],
-      calories: 320,
-      healthScore: 85,
-      allergens: [],
-      nutritionalInfo: {
-        protein: 35,
-        carbs: 12,
-        fat: 15,
-        fiber: 4,
-        sugar: 6,
-        sodium: 280
-      }
-    },
-    {
-      name: "Caesar Dressing",
-      confidence: 0.88,
-      ingredients: ["mayonnaise", "parmesan cheese", "garlic", "anchovies", "lemon juice"],
-      calories: 150,
-      healthScore: 45,
-      allergens: ["dairy", "fish"],
-      nutritionalInfo: {
-        protein: 2,
-        carbs: 3,
-        fat: 16,
-        fiber: 0,
-        sugar: 2,
-        sodium: 450
-      }
-    },
-    {
-      name: "Chocolate Chip Cookie",
-      confidence: 0.92,
-      ingredients: ["flour", "butter", "sugar", "chocolate chips", "eggs", "vanilla"],
-      calories: 250,
-      healthScore: 25,
-      allergens: ["gluten", "dairy", "eggs"],
-      nutritionalInfo: {
-        protein: 3,
-        carbs: 35,
-        fat: 12,
-        fiber: 1,
-        sugar: 22,
-        sodium: 180
-      }
-    },
-    {
-      name: "Fresh Fruit Bowl",
-      confidence: 0.90,
-      ingredients: ["strawberries", "blueberries", "banana", "apple", "grapes"],
-      calories: 120,
-      healthScore: 95,
-      allergens: [],
-      nutritionalInfo: {
-        protein: 2,
-        carbs: 30,
-        fat: 0,
-        fiber: 6,
-        sugar: 24,
-        sodium: 5
-      }
-    },
-    {
-      name: "Avocado Toast",
-      confidence: 0.87,
-      ingredients: ["sourdough bread", "avocado", "lemon", "salt", "pepper", "olive oil"],
-      calories: 280,
-      healthScore: 75,
-      allergens: ["gluten"],
-      nutritionalInfo: {
-        protein: 8,
-        carbs: 25,
-        fat: 18,
-        fiber: 8,
-        sugar: 3,
-        sodium: 320
-      }
-    }
-  ];
 
-  // Randomly select 1-2 food items
-  const numItems = Math.random() < 0.5 ? 1 : 2;
-  const selectedFoods = mockFoods.sort(() => 0.5 - Math.random()).slice(0, numItems);
-  
-  const overallHealthScore = Math.round(
-    selectedFoods.reduce((sum, food) => sum + food.healthScore, 0) / selectedFoods.length
-  );
-
-  const recommendations = [
-    "Consider the sugar content when making food choices",
-    "Look for foods with higher protein and fiber content",
-    "Be mindful of sodium levels in processed foods",
-    "Choose whole foods over processed alternatives when possible"
-  ];
-
-  return {
-    foodItems: selectedFoods,
-    overallHealthScore,
-    recommendations: recommendations.slice(0, Math.floor(Math.random() * 3) + 2)
-  };
-}
 

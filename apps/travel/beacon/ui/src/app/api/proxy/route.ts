@@ -123,7 +123,12 @@ export async function POST(request: NextRequest) {
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
+      let errorText = '';
+      try {
+        errorText = await response.text();
+      } catch (e) {
+        errorText = `HTTP ${response.status} ${response.statusText}`;
+      }
       console.error(`${agentConfig.name} error:`, response.status, errorText);
       return NextResponse.json(
         { 
@@ -136,7 +141,43 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data = await response.json();
+    // Check if response has content
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      return NextResponse.json(
+        { 
+          error: 'Invalid response format',
+          details: `Expected JSON but got ${contentType || 'unknown'}`,
+          response: text.substring(0, 200)
+        },
+        { status: 500 }
+      );
+    }
+
+    let data;
+    try {
+      const text = await response.text();
+      if (!text || text.trim().length === 0) {
+        return NextResponse.json(
+          { 
+            error: 'Empty response',
+            details: 'Agent returned an empty response'
+          },
+          { status: 500 }
+        );
+      }
+      data = JSON.parse(text);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      return NextResponse.json(
+        { 
+          error: 'Invalid JSON response',
+          details: parseError instanceof Error ? parseError.message : 'Failed to parse JSON'
+        },
+        { status: 500 }
+      );
+    }
     
     // Add metadata to response
     return NextResponse.json({
@@ -151,10 +192,25 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Proxy error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
+    // Check if it's a connection error
+    if (errorMessage.includes('fetch failed') || errorMessage.includes('ECONNREFUSED')) {
+      return NextResponse.json(
+        { 
+          error: 'Agent connection failed',
+          details: `Unable to connect to ${agentConfig.name} on port ${agentConfig.port}. The agent may not be running.`,
+          agent: agent,
+          port: agentConfig.port
+        },
+        { status: 503 }
+      );
+    }
+    
     return NextResponse.json(
       { 
         error: 'Internal proxy error',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: errorMessage
       },
       { status: 500 }
     );
@@ -223,7 +279,12 @@ export async function GET(request: NextRequest) {
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
+      let errorText = '';
+      try {
+        errorText = await response.text();
+      } catch (e) {
+        errorText = `HTTP ${response.status} ${response.statusText}`;
+      }
       console.error(`${agentConfig.name} error:`, response.status, errorText);
       return NextResponse.json(
         { 
@@ -236,7 +297,43 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const data = await response.json();
+    // Check if response has content
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      return NextResponse.json(
+        { 
+          error: 'Invalid response format',
+          details: `Expected JSON but got ${contentType || 'unknown'}`,
+          response: text.substring(0, 200)
+        },
+        { status: 500 }
+      );
+    }
+
+    let data;
+    try {
+      const text = await response.text();
+      if (!text || text.trim().length === 0) {
+        return NextResponse.json(
+          { 
+            error: 'Empty response',
+            details: 'Agent returned an empty response'
+          },
+          { status: 500 }
+        );
+      }
+      data = JSON.parse(text);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      return NextResponse.json(
+        { 
+          error: 'Invalid JSON response',
+          details: parseError instanceof Error ? parseError.message : 'Failed to parse JSON'
+        },
+        { status: 500 }
+      );
+    }
     
     // Add metadata to response
     return NextResponse.json({
@@ -251,10 +348,25 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Proxy error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
+    // Check if it's a connection error
+    if (errorMessage.includes('fetch failed') || errorMessage.includes('ECONNREFUSED')) {
+      return NextResponse.json(
+        { 
+          error: 'Agent connection failed',
+          details: `Unable to connect to ${agentConfig.name} on port ${agentConfig.port}. The agent may not be running.`,
+          agent: agent,
+          port: agentConfig.port
+        },
+        { status: 503 }
+      );
+    }
+    
     return NextResponse.json(
       { 
         error: 'Internal proxy error',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: errorMessage
       },
       { status: 500 }
     );

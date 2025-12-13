@@ -30,9 +30,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# BrightData API configuration
-BRIGHTDATA_API_KEY = os.getenv("BRIGHTDATA_API_KEY")
-BRIGHTDATA_ENDPOINT = "https://api.brightdata.com/request"
+# You.com API configuration
+import sys
+from pathlib import Path
+# Add parent directory to path to import you_api_service
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from you_api_service import get_you_api_service
+you_api = get_you_api_service()
 
 class CommuteRequest(BaseModel):
     origin: str
@@ -58,11 +62,7 @@ class CommuteResponse(BaseModel):
     search_time: str
 
 async def search_commute_options(origin: str, destination: str, transport_mode: str = "all") -> list[CommuteOption]:
-    """Search for commute options using BrightData API"""
-    
-    if not BRIGHTDATA_API_KEY:
-        # Fallback to mock data if no API key
-        return get_mock_commute_options(origin, destination)
+    """Search for commute options using You.com API"""
     
     try:
         # Create search query for commute options
@@ -70,38 +70,31 @@ async def search_commute_options(origin: str, destination: str, transport_mode: 
         if transport_mode != "all":
             search_query += f" {transport_mode}"
         
-        # BrightData API request
-        headers = {
-            "Authorization": f"Bearer {BRIGHTDATA_API_KEY}",
-            "Content-Type": "application/json"
-        }
+        # Use You.com API to search
+        search_data = await you_api.search(search_query, count=10)
         
-        payload = {
-            "query": search_query,
-            "location": f"{origin}, {destination}",
-            "max_results": 10
-        }
+        # Parse the results
+        results = you_api.parse_search_results(search_data)
         
-        async with aiohttp.ClientSession() as session:
-            async with session.post(BRIGHTDATA_ENDPOINT, headers=headers, json=payload) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    
-                    # Save response for debugging
-                    with open("brightdata_commute_response.json", "w", encoding="utf-8") as f:
-                        json.dump(data, f, indent=2, ensure_ascii=False)
-                    
-                    return parse_commute_data(data, origin, destination)
-                else:
-                    print(f"BrightData API error: {response.status}")
-                    return get_mock_commute_options(origin, destination)
+        if not results:
+            print("No commute results from You.com API, using mock data")
+            return get_mock_commute_options(origin, destination)
+        
+        # Save response for debugging
+        with open("you_api_commute_response.json", "w", encoding="utf-8") as f:
+            json.dump(search_data, f, indent=2, ensure_ascii=False)
+        print(f"Response saved ({len(results)} results)")
+        
+        # Parse the results into commute options
+        data = {"organic": results}
+        return parse_commute_data(data, origin, destination)
     
     except Exception as e:
         print(f"Error searching commute options: {e}")
         return get_mock_commute_options(origin, destination)
 
 def parse_commute_data(data: dict, origin: str, destination: str) -> list[CommuteOption]:
-    """Parse BrightData response for commute options"""
+    """Parse You.com API response for commute options"""
     options = []
     
     try:

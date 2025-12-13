@@ -15,7 +15,7 @@ export default function AnalyzePage() {
     setAnalysis("");
 
     try {
-      const response = await fetch("http://localhost:8001/api/code/analyze", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/code/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, language }),

@@ -51,11 +51,27 @@ export default function RestaurantSearch() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to search restaurants');
+        let errorData;
+        try {
+          const text = await response.text();
+          errorData = text ? JSON.parse(text) : { error: `HTTP ${response.status}` };
+        } catch (e) {
+          errorData = { error: `HTTP ${response.status}: ${response.statusText}` };
+        }
+        throw new Error(errorData.error || errorData.details || 'Failed to search restaurants');
       }
 
-      const data = await response.json();
+      const text = await response.text();
+      if (!text || text.trim().length === 0) {
+        throw new Error('Empty response from server');
+      }
+      
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error('Invalid JSON response from server');
+      }
       setResults(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');

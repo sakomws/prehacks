@@ -27,17 +27,13 @@ else:
     print("Warning: AI21_API_KEY not found. Running in mock mode.")
     client = None
 
-# BrightData API configuration
-BRIGHTDATA_API_KEY = os.getenv("BRIGHTDATA_API_KEY")
-if BRIGHTDATA_API_KEY:
-    BRIGHTDATA_HEADERS = {
-        "Authorization": f"Bearer {BRIGHTDATA_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    print("BrightData API key loaded successfully")
-else:
-    print("Warning: BRIGHTDATA_API_KEY not found. Web scraping will be disabled.")
-    BRIGHTDATA_HEADERS = None
+# You.com API configuration
+import sys
+from pathlib import Path
+# Add parent directory to path to import you_api_service
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from you_api_service import get_you_api_service
+you_api = get_you_api_service()
 
 # Pydantic models
 class RestaurantSearchRequest(BaseModel):
@@ -84,60 +80,40 @@ class ReservationResponse(BaseModel):
     confirmation_code: str
     restaurant_details: RestaurantOption
 
-# Web scraping function for restaurant search
+# Web scraping function for restaurant search using You.com API
 async def search_restaurants_web(location: str, cuisine: str = "all", price_range: str = "all", rating: float = 0.0) -> List[RestaurantOption]:
-    """Search for restaurants using web scraping via BrightData API"""
+    """Search for restaurants using You.com API"""
     
-    if not BRIGHTDATA_HEADERS:
-        print("BrightData API not configured, skipping web scraping")
-        return []
-    
-    # Construct Google Search URL for restaurants
-    from urllib.parse import quote_plus
-    location_encoded = quote_plus(location)
+    # Construct search query for restaurants
     cuisine_query = f" {cuisine}" if cuisine != "all" else ""
     price_query = f" {price_range}" if price_range != "all" else ""
-    search_query = f"restaurants{cuisine_query}{price_query} in {location_encoded}"
-    search_url = f"https://www.google.com/search?q={quote_plus(search_query)}"
-    
-    data = {
-        "zone": "serp_api1",
-        "url": search_url,
-        "format": "raw"
-    }
+    search_query = f"restaurants{cuisine_query}{price_query} in {location}"
     
     try:
         print(f"Searching for restaurants: {location} - {cuisine} - {price_range}")
-        print(f"Search URL: {search_url}")
         
-        response = requests.post(
-            "https://api.brightdata.com/request",
-            json=data,
-            headers=BRIGHTDATA_HEADERS,
-            timeout=60
-        )
+        # Use You.com API to search
+        search_data = await you_api.search(search_query, count=10)
         
-        if response.status_code == 200:
-            # Save response for debugging
-            with open("brightdata_restaurants_response.json", "w", encoding="utf-8") as f:
-                f.write(response.text)
-            print(f"Response saved ({len(response.text)} characters)")
-            
-            # Parse the JSON response for restaurant data
-            try:
-                json_data = response.json()
-                restaurants = parse_json_restaurant_data(json_data, location, cuisine, price_range)
-                return restaurants
-            except json.JSONDecodeError:
-                # Fallback to HTML parsing if JSON parsing fails
-                restaurants = parse_restaurant_data(response.text, location, cuisine, price_range)
-                return restaurants
-        else:
-            print(f"BrightData API error: {response.status_code} - {response.text}")
+        # Parse the results
+        results = you_api.parse_search_results(search_data)
+        
+        if not results:
+            print("No restaurant results from You.com API")
             return []
+        
+        # Save response for debugging
+        with open("you_api_restaurants_response.json", "w", encoding="utf-8") as f:
+            json.dump(search_data, f, indent=2, ensure_ascii=False)
+        print(f"Response saved ({len(results)} results)")
+        
+        # Parse the results into restaurant options
+        json_data = {"organic": results}
+        restaurants = parse_json_restaurant_data(json_data, location, cuisine, price_range)
+        return restaurants
             
     except Exception as e:
-        print(f"Web scraping error: {str(e)}")
+        print(f"You.com API search error: {str(e)}")
         import traceback
         traceback.print_exc()
         return []
