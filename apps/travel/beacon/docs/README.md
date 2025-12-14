@@ -38,7 +38,7 @@ Welcome to the Beacon Travel Agent documentation. This comprehensive guide cover
 
 - Python 3.11.6+
 - Node.js 18.0+
-- BrightData API Key
+- You.com API Key
 - AI21 API Key
 
 ### Installation

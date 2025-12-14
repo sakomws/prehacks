@@ -6,7 +6,7 @@ The Work Agent provides coworking space search and discovery capabilities with c
 ## Current Status
 - **Status**: ✅ Healthy and operational
 - **Port**: 8005
-- **Data Source**: BrightData API (real-time data only)
+- **Data Source**: You.com API (real-time search data)
 - **Dynamic Locations**: ✅ Fixed - Now returns location-specific results
 - **Booking Integration**: Direct booking links included
 
@@ -134,13 +134,13 @@ The Work Agent uses a comprehensive scoring system (0-100 scale) with the follow
 ## Data Sources
 
 ### Real Data Only
-- **BrightData API**: Web scraping from coworking space directories
+- **You.com API**: Web search from coworking space directories
 - **Response Format**: JSON with space details and amenities
 - **Update Frequency**: Real-time during search
 - **No Mock Data**: System uses only real-time data
 
 ### Data Processing
-- **Web Scraping**: Live data from coworking directories via BrightData
+- **Web Search**: Live data from coworking directories via You.com API
 - **JSON Parsing**: Structured data extraction
 - **Booking URL Generation**: Direct links to booking platforms
 - **Score Calculation**: AI-powered recommendation scoring
@@ -150,7 +150,7 @@ The Work Agent uses a comprehensive scoring system (0-100 scale) with the follow
 ### Environment Variables
 ```bash
 # Required for web scraping
-BRIGHTDATA_API_KEY=your_brightdata_api_key
+YOU_API_KEY=your_you_api_key
 
 # Optional for AI features
 AI21_API_KEY=your_ai21_api_key

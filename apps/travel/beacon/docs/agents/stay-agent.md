@@ -6,7 +6,7 @@ The Stay Agent provides hotel search and booking capabilities with comprehensive
 ## Current Status
 - **Status**: ✅ Healthy and operational
 - **Port**: 8004
-- **Data Source**: BrightData API (real-time data only)
+- **Data Source**: You.com API (real-time search data)
 - **Booking Integration**: Direct booking links included
 - **UI Integration**: Fully functional with frontend
 
@@ -162,7 +162,7 @@ The Stay Agent uses a comprehensive scoring system (0-100 scale) with the follow
 ### Environment Variables
 ```bash
 # Required for web scraping
-BRIGHTDATA_API_KEY=your_brightdata_api_key
+YOU_API_KEY=your_you_api_key
 
 # Optional for AI features
 AI21_API_KEY=your_ai21_api_key

@@ -9,7 +9,7 @@ The Beacon Travel Agent provides a comprehensive REST API for travel-related ser
 ### ✅ All APIs Operational
 - **7 Agent APIs**: All running and healthy on ports 8000-8006
 - **API Proxy**: Unified gateway on port 3000
-- **Real Data**: All agents use BrightData API for live data
+- **Real Data**: All agents use You.com API for live search data
 - **Booking Integration**: Direct booking links in all responses
 - **UI Integration**: All APIs working with frontend interface
 
@@ -416,7 +416,7 @@ Currently, the API is open and doesn't require authentication. Future versions w
 ## Data Sources
 
 All agents use the following external data sources:
-- **BrightData API**: Primary data source for web scraping
+- **You.com API**: Primary data source for web search
 - **AI21 API**: AI-powered data enhancement
 - **Google Search**: Fallback search mechanism
 

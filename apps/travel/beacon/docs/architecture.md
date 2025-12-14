@@ -8,7 +8,7 @@ The Beacon Travel Agent is a comprehensive travel planning platform that uses AI
 
 ### ✅ All Systems Operational
 - **7 AI Agents**: All running and healthy on ports 8000-8006
-- **Real Data Integration**: BrightData API for live web scraping
+- **Real Data Integration**: You.com API for live web search
 - **No Mock Data**: All agents use real-time data exclusively
 - **Booking Integration**: Direct booking links for all services
 - **UI**: Fully functional with all tabs working on port 3000
@@ -38,7 +38,7 @@ graph TB
     end
     
     subgraph "External Services"
-        BrightData[BrightData API]
+        YouAPI[You.com API]
         AI21[AI21 API]
     end
     
@@ -58,13 +58,13 @@ graph TB
     Proxy --> Shopping
     Proxy --> Commute
     
-    Flight --> BrightData
-    Food --> BrightData
-    Stay --> BrightData
-    Work --> BrightData
-    Leisure --> BrightData
-    Shopping --> BrightData
-    Commute --> BrightData
+    Flight --> YouAPI
+    Food --> YouAPI
+    Stay --> YouAPI
+    Work --> YouAPI
+    Leisure --> YouAPI
+    Shopping --> YouAPI
+    Commute --> YouAPI
     
     Flight --> AI21
     Food --> AI21
@@ -74,7 +74,7 @@ graph TB
     Shopping --> AI21
     Commute --> AI21
     
-    BrightData --> JSON
+    YouAPI --> JSON
     JSON --> Cache
 ```
 
@@ -115,14 +115,14 @@ Each agent is an independent FastAPI service with specific responsibilities:
 #### Flight Agent (`agents/flight/`)
 - **Port**: 8000
 - **Purpose**: Flight search and booking
-- **Data Sources**: BrightData API for flight information
+- **Data Sources**: You.com API for flight search
 - **Key Features**: Multi-airline search, price comparison, booking links
 - **Status**: ✅ Healthy - Real-time data integration working
 
 #### Food Agent (`agents/food/`)
 - **Port**: 8001
 - **Purpose**: Restaurant search and recommendations
-- **Data Sources**: BrightData API for restaurant data
+- **Data Sources**: You.com API for restaurant search
 - **Key Features**: Cuisine filtering, rating system, booking integration
 - **Status**: ✅ Healthy - UI fixed, displaying search results correctly
 
@@ -136,7 +136,7 @@ Each agent is an independent FastAPI service with specific responsibilities:
 #### Work Agent (`agents/work/`)
 - **Port**: 8005
 - **Purpose**: Coworking space search
-- **Data Sources**: BrightData API for coworking data
+- **Data Sources**: You.com API for coworking space search
 - **Key Features**: Space type filtering, amenity matching, location-based search
 - **Status**: ✅ Healthy - Dynamic location support implemented
 
@@ -150,14 +150,14 @@ Each agent is an independent FastAPI service with specific responsibilities:
 #### Shopping Agent (`agents/shopping/`)
 - **Port**: 8003
 - **Purpose**: Product and shopping search
-- **Data Sources**: BrightData API for product information
+- **Data Sources**: You.com API for product search
 - **Key Features**: Category filtering, brand matching, purchase links
 - **Status**: ✅ Healthy - Real-time data integration working
 
 #### Commute Agent (`agents/commute/`)
 - **Port**: 8006
 - **Purpose**: Transportation and commute options search
-- **Data Sources**: BrightData API for transportation data
+- **Data Sources**: You.com API for transportation search
 - **Key Features**: Multi-mode transport search, real-time updates, booking integration
 - **Status**: ✅ Healthy - Real-time data integration working
 
@@ -171,14 +171,14 @@ sequenceDiagram
     participant UI as Frontend
     participant P as API Proxy
     participant A as Agent
-    participant BD as BrightData
+    participant YAPI as You.com API
     participant AI as AI21
     
     U->>UI: Search Request
     UI->>P: API Call
     P->>A: Forward Request
-    A->>BD: Web Scraping
-    BD-->>A: Raw Data
+    A->>YAPI: Web Search
+    YAPI-->>A: Search Results
     A->>AI: AI Processing (Optional)
     AI-->>A: Enhanced Data
     A->>A: Parse & Score
@@ -193,7 +193,7 @@ sequenceDiagram
 flowchart TD
     A[User Search] --> B[Agent Receives Request]
     B --> C[Validate Parameters]
-    C --> D[BrightData API Call]
+    C --> D[You.com API Call]
     D --> E[Parse Response]
     E --> F[Extract Relevant Data]
     F --> G[Generate Booking Links]
@@ -208,7 +208,7 @@ flowchart TD
 - **Framework**: FastAPI
 - **Language**: Python 3.11
 - **Data Processing**: Pydantic models
-- **Web Scraping**: BrightData API
+- **Web Search**: You.com API
 - **AI Integration**: AI21 API
 - **HTTP Client**: Requests library
 
@@ -220,7 +220,7 @@ flowchart TD
 - **HTTP Client**: Fetch API
 
 ### External Services
-- **Web Scraping**: BrightData API
+- **Web Search**: You.com API
 - **AI Processing**: AI21 API
 - **Search Engine**: Google Search (via BrightData)
 
@@ -231,7 +231,7 @@ flowchart TD
 Each agent requires:
 ```bash
 AI21_API_KEY=your_ai21_key
-BRIGHTDATA_API_KEY=your_brightdata_key
+YOU_API_KEY=your_you_api_key
 ```
 
 ### Port Configuration

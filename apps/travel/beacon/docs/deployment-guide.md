@@ -15,12 +15,12 @@
 
 - **All Agents**: ✅ Running and healthy
 - **UI**: ✅ Fully functional on port 3000
-- **Real Data**: ✅ BrightData API integration working
+- **Real Data**: ✅ You.com API integration working
 - **Booking Links**: ✅ All services have direct booking integration
 
 ### Required API Keys
 
-1. **BrightData API Key**: For web scraping services
+1. **You.com API Key**: For web search services
 2. **AI21 API Key**: For AI-powered data enhancement
 
 ## Quick Start
@@ -54,7 +54,7 @@ Edit each `.env` file with your API keys:
 ```bash
 # Example for agents/flight/.env
 AI21_API_KEY=your_ai21_api_key_here
-BRIGHTDATA_API_KEY=your_brightdata_api_key_here
+YOU_API_KEY=your_you_api_key_here
 ```
 
 ### 4. Install Dependencies
@@ -167,7 +167,7 @@ services:
       - "8000:8000"
     environment:
       - AI21_API_KEY=${AI21_API_KEY}
-      - BRIGHTDATA_API_KEY=${BRIGHTDATA_API_KEY}
+      - YOU_API_KEY=${YOU_API_KEY}
     restart: unless-stopped
 
   food-agent:
@@ -176,7 +176,7 @@ services:
       - "8001:8001"
     environment:
       - AI21_API_KEY=${AI21_API_KEY}
-      - BRIGHTDATA_API_KEY=${BRIGHTDATA_API_KEY}
+      - YOU_API_KEY=${YOU_API_KEY}
     restart: unless-stopped
 
   stay-agent:
@@ -185,7 +185,7 @@ services:
       - "8004:8004"
     environment:
       - AI21_API_KEY=${AI21_API_KEY}
-      - BRIGHTDATA_API_KEY=${BRIGHTDATA_API_KEY}
+      - YOU_API_KEY=${YOU_API_KEY}
     restart: unless-stopped
 
   work-agent:
@@ -194,7 +194,7 @@ services:
       - "8005:8005"
     environment:
       - AI21_API_KEY=${AI21_API_KEY}
-      - BRIGHTDATA_API_KEY=${BRIGHTDATA_API_KEY}
+      - YOU_API_KEY=${YOU_API_KEY}
     restart: unless-stopped
 
   leisure-agent:
@@ -203,7 +203,7 @@ services:
       - "8002:8002"
     environment:
       - AI21_API_KEY=${AI21_API_KEY}
-      - BRIGHTDATA_API_KEY=${BRIGHTDATA_API_KEY}
+      - YOU_API_KEY=${YOU_API_KEY}
     restart: unless-stopped
 
   shopping-agent:
@@ -212,7 +212,7 @@ services:
       - "8003:8003"
     environment:
       - AI21_API_KEY=${AI21_API_KEY}
-      - BRIGHTDATA_API_KEY=${BRIGHTDATA_API_KEY}
+      - YOU_API_KEY=${YOU_API_KEY}
     restart: unless-stopped
 
   ui:
@@ -234,7 +234,7 @@ services:
 ```bash
 # Create environment file
 echo "AI21_API_KEY=your_key" > .env
-echo "BRIGHTDATA_API_KEY=your_key" >> .env
+echo "YOU_API_KEY=your_key" >> .env
 
 # Start all services
 docker-compose up -d
@@ -264,7 +264,7 @@ metadata:
   namespace: beacon-travel
 data:
   AI21_API_KEY: "your_ai21_key"
-  BRIGHTDATA_API_KEY: "your_brightdata_key"
+  YOU_API_KEY: "your_you_api_key"
 ```
 
 ```yaml
@@ -427,7 +427,7 @@ redis_client = redis.Redis(host='localhost', port=6379, db=0)
 ```bash
 # Use environment variables
 export AI21_API_KEY="your_secure_key"
-export BRIGHTDATA_API_KEY="your_secure_key"
+export YOU_API_KEY="your_secure_key"
 
 # Never commit keys to version control
 echo "*.env" >> .gitignore
@@ -491,8 +491,8 @@ echo $AI21_API_KEY
 echo $BRIGHTDATA_API_KEY
 
 # Test API connectivity
-curl -H "Authorization: Bearer $BRIGHTDATA_API_KEY" \
-     https://api.brightdata.com/request
+curl -H "X-API-Key: $YOU_API_KEY" \
+     "https://ydc-index.io/v1/search?query=test"
 ```
 
 #### 3. Memory Issues
@@ -533,7 +533,7 @@ tar -czf beacon-config-backup.tar.gz agents/*/.env ui/.env.local
 
 ```bash
 # Backup response cache
-tar -czf beacon-data-backup.tar.gz agents/*/brightdata_*_response.json
+tar -czf beacon-data-backup.tar.gz agents/*/you_api_*_response.json
 ```
 
 ### 3. Recovery

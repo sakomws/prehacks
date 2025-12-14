@@ -6,7 +6,7 @@ The Commute Agent provides real-time transportation and commute options search w
 ## Current Status
 - **Status**: ✅ Healthy and operational
 - **Port**: 8006
-- **Data Source**: BrightData API (real-time data only)
+- **Data Source**: You.com API (real-time search data)
 - **Booking Integration**: Direct booking links for each transport mode
 - **UI Integration**: Fully functional with CommuteSearch component
 
@@ -230,7 +230,7 @@ const response = await fetch('/api/commute', {
 ### Environment Variables
 ```bash
 # Required
-BRIGHTDATA_API_KEY=your_brightdata_api_key
+YOU_API_KEY=your_you_api_key
 
 # Optional
 AI21_API_KEY=your_ai21_api_key
@@ -324,7 +324,7 @@ agents/commute/
 ├── main.py              # FastAPI application
 ├── requirements.txt     # Dependencies
 ├── .env                 # Environment variables
-└── brightdata_commute_response.json  # Debug output
+└── you_api_commute_response.json  # Debug output
 ```
 
 ### Adding New Transport Modes
@@ -368,7 +368,7 @@ tail -f agents/commute/logs/app.log
 4. Check for API rate limits
 
 #### Slow Response Times
-1. Check BrightData API status
+1. Check You.com API status
 2. Verify network latency
 3. Review server resources
 4. Check for concurrent request limits

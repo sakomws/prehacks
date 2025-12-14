@@ -18,7 +18,7 @@ Each agent follows the same architectural pattern:
   - `POST /search-flights` - Search for flights
   - `POST /book-flight` - Book a flight
   - `GET /health` - Health check
-- **Features**: Web scraping via BrightData API, flight scoring system
+- **Features**: Web search via You.com API, flight scoring system
 
 ### 2. Food Agent (Port 8001)
 - **Location**: `food/main.py`
@@ -113,8 +113,8 @@ Each agent requires the following environment variables:
 # AI21 API Key (optional - for AI features)
 AI21_API_KEY=your_ai21_api_key
 
-# BrightData API Key (optional - for web scraping)
-BRIGHTDATA_API_KEY=your_brightdata_api_key
+# You.com API Key (required - for web search)
+YOU_API_KEY=your_you_api_key
 ```
 
 ## API Integration

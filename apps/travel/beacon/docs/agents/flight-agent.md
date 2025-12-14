@@ -6,7 +6,7 @@ The Flight Agent provides real-time flight search and booking capabilities with 
 ## Current Status
 - **Status**: ✅ Healthy and operational
 - **Port**: 8000
-- **Data Source**: BrightData API (real-time data only)
+- **Data Source**: You.com API (real-time search data)
 - **Booking Integration**: Direct booking links included
 - **UI Integration**: Fully functional with frontend
 
@@ -129,13 +129,13 @@ The Flight Agent uses a comprehensive scoring system (0-100 scale) with the foll
 ## Data Sources
 
 ### Real Data Only
-- **BrightData API**: Web scraping from Google Flights
+- **You.com API**: Web search for flights
 - **Response Format**: JSON with flight pricing and details
 - **Update Frequency**: Real-time during search
 - **No Mock Data**: System uses only real-time data
 
 ### Data Processing
-- **Web Scraping**: Live data from Google Flights via BrightData
+- **Web Search**: Live data from flight search via You.com API
 - **JSON Parsing**: Structured data extraction
 - **Booking URL Generation**: Direct links to booking platforms
 - **Score Calculation**: AI-powered recommendation scoring
@@ -145,7 +145,7 @@ The Flight Agent uses a comprehensive scoring system (0-100 scale) with the foll
 ### Environment Variables
 ```bash
 # Required for web scraping
-BRIGHTDATA_API_KEY=your_brightdata_api_key
+YOU_API_KEY=your_you_api_key
 
 # Optional for AI features
 AI21_API_KEY=your_ai21_api_key

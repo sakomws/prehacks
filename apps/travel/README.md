@@ -24,7 +24,7 @@ The Beacon Travel Agent is a microservices-based application that provides intel
 
 #### Key Features
 - **7 AI Agents** - Specialized microservices for different travel domains
-- **Real-time Data** - Live web scraping with BrightData API
+- **Real-time Data** - Live web search with You.com API
 - **AI Scoring** - Intelligent recommendations based on multiple factors
 - **Direct Booking** - Integration with booking platforms
 - **Health Monitoring** - Real-time agent status and performance metrics

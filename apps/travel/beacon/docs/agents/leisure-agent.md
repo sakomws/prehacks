@@ -6,7 +6,7 @@ The Leisure Agent provides activity search and booking capabilities with compreh
 ## Current Status
 - **Status**: ✅ Healthy and operational
 - **Port**: 8002
-- **Data Source**: BrightData API (real-time data only)
+- **Data Source**: You.com API (real-time search data)
 - **Booking Integration**: Direct booking links included
 - **UI Integration**: Fully functional with frontend
 
@@ -137,7 +137,7 @@ The Leisure Agent uses a comprehensive scoring system (0-100 scale) with the fol
 ## Data Sources
 
 ### Real Data
-- **BrightData API**: Web scraping from activity booking platforms
+- **You.com API**: Web search from activity booking platforms
 - **Response Format**: JSON with activity details and pricing
 - **Update Frequency**: Real-time during search
 
@@ -151,7 +151,7 @@ The Leisure Agent uses a comprehensive scoring system (0-100 scale) with the fol
 ### Environment Variables
 ```bash
 # Required for web scraping
-BRIGHTDATA_API_KEY=your_brightdata_api_key
+YOU_API_KEY=your_you_api_key
 
 # Optional for AI features
 AI21_API_KEY=your_ai21_api_key

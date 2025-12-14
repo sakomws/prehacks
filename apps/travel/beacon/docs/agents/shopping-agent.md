@@ -6,7 +6,7 @@ The Shopping Agent provides product search and purchasing capabilities with comp
 ## Current Status
 - **Status**: ✅ Healthy and operational
 - **Port**: 8003
-- **Data Source**: BrightData API (real-time data only)
+- **Data Source**: You.com API (real-time search data)
 - **Booking Integration**: Direct purchase links included
 - **UI Integration**: Fully functional with frontend
 
@@ -145,7 +145,7 @@ The Shopping Agent uses a comprehensive scoring system (0-100 scale) with the fo
 ## Data Sources
 
 ### Real Data
-- **BrightData API**: Web scraping from e-commerce platforms
+- **You.com API**: Web search from e-commerce platforms
 - **Response Format**: JSON with product details and pricing
 - **Update Frequency**: Real-time during search
 
@@ -159,7 +159,7 @@ The Shopping Agent uses a comprehensive scoring system (0-100 scale) with the fo
 ### Environment Variables
 ```bash
 # Required for web scraping
-BRIGHTDATA_API_KEY=your_brightdata_api_key
+YOU_API_KEY=your_you_api_key
 
 # Optional for AI features
 AI21_API_KEY=your_ai21_api_key

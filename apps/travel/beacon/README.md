@@ -6,7 +6,7 @@ A comprehensive AI-powered travel companion system that provides intelligent rec
 
 ### ✅ All Systems Operational
 - **7 AI Agents**: All running and healthy
-- **Real Data Integration**: BrightData API for live web scraping
+- **Real Data Integration**: You.com API for live web search
 - **No Mock Data**: All agents use real-time data only
 - **Booking Integration**: Direct booking links for all services
 - **UI**: Fully functional with all tabs working
@@ -28,7 +28,7 @@ A comprehensive AI-powered travel companion system that provides intelligent rec
 ## 🎉 Recent Updates
 
 ### ✅ Completed Features
-- **Real Data Integration**: All agents now use BrightData API for live data
+- **Real Data Integration**: All agents now use You.com API for live search data
 - **Booking Links**: Direct booking URLs for all services
 - **UI Fixes**: Food agent now properly displays search results
 - **Comprehensive Documentation**: Complete architecture and deployment guides
@@ -158,8 +158,8 @@ Create `.env` files in each agent directory:
 # AI21 API Key (optional - for AI features)
 AI21_API_KEY=your_ai21_api_key
 
-# BrightData API Key (optional - for web scraping)
-BRIGHTDATA_API_KEY=your_brightdata_api_key
+# You.com API Key (required - for web search)
+YOU_API_KEY=your_you_api_key
 ```
 
 ### Dependencies
@@ -392,7 +392,7 @@ curl http://localhost:8006/health  # Commute
 
 ## 📊 Data Sources
 
-- **Real Data Only**: BrightData API for live web scraping
+- **Real Data Only**: You.com API for live web search
 - **No Mock Data**: All agents use real-time data exclusively
 - **AI Integration**: AI21 API for intelligent recommendations
 - **Booking Integration**: Direct links to booking platforms

@@ -42,7 +42,7 @@ The Beacon Travel Agent addresses these challenges through:
 #### 2. AI-Powered Data Processing
 
 **Components**:
-- **BrightData Integration**: Real-time web scraping for current data
+- **You.com API Integration**: Real-time web search for current data
 - **AI21 Processing**: Intelligent data enhancement and scoring
 - **Pattern Recognition**: Smart extraction of relevant information
 - **Dynamic Pricing**: Real-time price updates and comparisons
@@ -61,18 +61,18 @@ The Beacon Travel Agent addresses these challenges through:
 
 | Service | Capabilities | Data Sources |
 |---------|-------------|--------------|
-| **Flights** | Multi-airline search, price comparison, booking links | BrightData + Google Search |
-| **Food** | Restaurant discovery, cuisine filtering, ratings | BrightData + Local directories |
-| **Stay** | Hotel search, amenity matching, price comparison | BrightData + Booking platforms |
-| **Work** | Coworking space discovery, amenity filtering | BrightData + Space directories |
-| **Leisure** | Activity discovery, booking integration | BrightData + Activity platforms |
-| **Shopping** | Product search, local brand discovery | BrightData + E-commerce sites |
-| **Commute** | Transportation options, multi-mode search, real-time updates | BrightData + Transport APIs |
+| **Flights** | Multi-airline search, price comparison, booking links | You.com API |
+| **Food** | Restaurant discovery, cuisine filtering, ratings | You.com API |
+| **Stay** | Hotel search, amenity matching, price comparison | You.com API |
+| **Work** | Coworking space discovery, amenity filtering | You.com API |
+| **Leisure** | Activity discovery, booking integration | You.com API |
+| **Shopping** | Product search, local brand discovery | You.com API |
+| **Commute** | Transportation options, multi-mode search, real-time updates | You.com API |
 
 ### 2. Real-Time Data Integration
 
 **Technical Implementation**:
-- **BrightData API**: High-performance web scraping
+- **You.com API**: High-performance web search
 - **JSON Response Processing**: Structured data extraction
 - **HTML Parsing Fallback**: Robust data extraction from various formats
 - **Caching Strategy**: Optimized response times

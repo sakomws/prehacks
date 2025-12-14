@@ -62,7 +62,7 @@ flight/
    cp env_example.txt .env
    # Edit .env and add your API keys:
    # - AI21_API_KEY: Your AI21 API key for Maestro framework
-   # - BRIGHTDATA_API_KEY: Your BrightData API key for web scraping
+   # - YOU_API_KEY: Your You.com API key for web search
    ```
 
 5. **Run the application**:
@@ -169,7 +169,7 @@ The agent uses the Maestro framework to:
 ### Environment Variables
 
 - `AI21_API_KEY`: Optional. Your AI21 API key for Maestro framework (falls back to mock mode if not provided)
-- `BRIGHTDATA_API_KEY`: Optional. Your BrightData API key for web scraping (falls back to mock data if not provided)
+- `YOU_API_KEY`: Required. Your You.com API key for web search
 - `DEBUG`: Optional. Enable debug mode (default: True)
 - `LOG_LEVEL`: Optional. Logging level (default: INFO)
 
