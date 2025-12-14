@@ -20,7 +20,7 @@ class AIService:
                 from google.generativeai.types import HarmCategory, HarmBlockThreshold
                 
                 genai.configure(api_key=self.google_api_key)
-                self.gemini_model = genai.GenerativeModel('gemini-pro')
+                self.gemini_model = genai.GenerativeModel('gemini-2.5-flash')
                 
                 # Safety settings aligned with AI parenting principles
                 self.safety_settings = {
@@ -36,24 +36,49 @@ class AIService:
         else:
             print(f"⚠️ Google API key not found. Please set GOOGLE_API_KEY or GOOGLE_AI_API_KEY in your .env file")
     
-    def _build_ai_parenting_prompt(self, base_prompt: str, context: str = "code generation") -> str:
+    def _build_ai_parenting_prompt(self, base_prompt: str, context: str = "code generation", rulesets: Optional[Dict[str, bool]] = None) -> str:
         """Build prompt incorporating AI parenting metaphor and ethical principles"""
+        
+        # Default rulesets (all enabled)
+        if rulesets is None:
+            rulesets = {
+                "ethicalFoundation": True,
+                "biasAwareness": True,
+                "safetyFirst": True,
+                "responsibleDesign": True,
+            }
+        
+        principles = []
+        
+        if rulesets.get("ethicalFoundation", True):
+            principles.append("**Ethical Foundation**: Generate code that promotes fairness, transparency, and responsible AI development")
+        
+        if rulesets.get("biasAwareness", True):
+            principles.append("**Bias Awareness**: Be mindful of potential biases that could be inherited by AI systems")
+        
+        if rulesets.get("safetyFirst", True):
+            principles.append("**Safety First**: Prioritize security, error handling, and safe defaults")
+        
+        # Educational value is always included
+        principles.append("**Educational Value**: Include clear documentation and comments that teach best practices")
+        
+        if rulesets.get("responsibleDesign", True):
+            principles.append("**Responsible Design**: Consider the long-term impact of the code on AI systems and users")
+        
+        principles_text = "\n".join([f"{i+1}. {p}" for i, p in enumerate(principles)])
+        
         return f"""You are an expert programmer who understands the responsibility of "parenting AI" - teaching code that will be used to train, guide, or interact with AI systems.
 
 {base_prompt}
 
 **AI Parenting Principles to Apply:**
-1. **Ethical Foundation**: Generate code that promotes fairness, transparency, and responsible AI development
-2. **Bias Awareness**: Be mindful of potential biases that could be inherited by AI systems
-3. **Safety First**: Prioritize security, error handling, and safe defaults
-4. **Educational Value**: Include clear documentation and comments that teach best practices
-5. **Responsible Design**: Consider the long-term impact of the code on AI systems and users
+{principles_text}
 
 **Context**: {context}
 
 Remember: Just as children learn from their environment, AI systems learn from the code and data we provide. Write code that you'd be proud to have an AI "child" learn from."""
         
-    async def generate_code(self, prompt: str, language: str = "python") -> Dict[str, Any]:
+    async def generate_code(self, prompt: str, language: str = "python", rulesets: Optional[Dict[str, bool]] = None) -> Dict[str, Any]:
         """Generate code based on prompt using Gemini with AI parenting principles"""
         
         if not self.google_api_key or not self.gemini_model:
@@ -76,7 +101,7 @@ User request: {prompt}
 - Write code that promotes responsible AI development
 - Return only the code without markdown formatting unless specifically requested"""
             
-            full_prompt = self._build_ai_parenting_prompt(base_prompt, f"generating {language} code")
+            full_prompt = self._build_ai_parenting_prompt(base_prompt, f"generating {language} code", rulesets)
             
             response = self.gemini_model.generate_content(
                 full_prompt,
@@ -101,7 +126,7 @@ User request: {prompt}
             return {
                 "code": code,
                 "language": language,
-                "model": "gemini-pro",
+                "model": "gemini-2.5-flash",
                 "provider": "google",
                 "ethical_guidance": True,
                 "ai_parenting_principles": "applied"
@@ -180,7 +205,7 @@ if __name__ == "__main__":
                 "note": f"⚠️ Demo mode: {error_msg[:200]}"
             }
     
-    async def analyze_code(self, code: str, language: str = "python") -> Dict[str, Any]:
+    async def analyze_code(self, code: str, language: str = "python", rulesets: Optional[Dict[str, bool]] = None) -> Dict[str, Any]:
         """Analyze code for issues and improvements using Gemini with AI parenting lens"""
         
         if not self.google_api_key or not self.gemini_model:
@@ -217,7 +242,7 @@ Code to analyze:
 
 Provide a comprehensive analysis with specific line numbers and actionable recommendations. Frame feedback in the context of "parenting AI" - what would an AI system learn from this code?"""
 
-            full_prompt = self._build_ai_parenting_prompt(base_prompt, f"analyzing {language} code")
+            full_prompt = self._build_ai_parenting_prompt(base_prompt, f"analyzing {language} code", rulesets)
             
             response = self.gemini_model.generate_content(
                 full_prompt,
@@ -233,7 +258,7 @@ Provide a comprehensive analysis with specific line numbers and actionable recom
             return {
                 "analysis": analysis,
                 "language": language,
-                "model": "gemini-pro",
+                "model": "gemini-2.5-flash",
                 "provider": "google",
                 "ethical_guidance": True,
                 "ai_parenting_principles": "applied"
@@ -353,7 +378,7 @@ Remember: Just as children learn from their environment, AI systems learn from t
             
             return {
                 "response": response.text.strip(),
-                "model": "gemini-pro",
+                "model": "gemini-2.5-flash",
                 "provider": "google",
                 "ethical_guidance": True,
                 "ai_parenting_principles": "applied"
@@ -461,7 +486,7 @@ Provide guidance in a nurturing, educational tone that helps developers understa
             return {
                 "guidance": response.text.strip(),
                 "language": language,
-                "model": "gemini-pro",
+                "model": "gemini-2.5-flash",
                 "perspective": "AI Parenting"
             }
         except Exception as e:
