@@ -50,14 +50,19 @@ class CodeAnalysisRequest(BaseModel):
 async def root():
     """Root endpoint"""
     return {
-        "message": "Welcome to Covibe.ai API",
+        "message": "Welcome to Covibe.ai API - AI Parenting Principles Applied",
         "version": "1.0.0",
         "docs": "/docs",
+        "features": {
+            "ai_parenting": "Enabled - Ethical AI development guidance",
+            "ethical_analysis": "Available - Code analysis with AI parenting perspective"
+        },
         "endpoints": {
             "health": "/health",
             "chat": "/api/chat",
             "generate": "/api/code/generate",
             "analyze": "/api/code/analyze",
+            "ethical_guidance": "/api/code/ethical-guidance",
         }
     }
 
@@ -65,13 +70,16 @@ async def root():
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
+    google_configured = bool(os.getenv("GOOGLE_API_KEY") or os.getenv("GOOGLE_AI_API_KEY"))
     openai_configured = bool(os.getenv("OPENAI_API_KEY"))
     anthropic_configured = bool(os.getenv("ANTHROPIC_API_KEY"))
     
     return {
         "status": "healthy",
         "service": "covibe-api",
+        "ai_parenting": "enabled",
         "ai_services": {
+            "google_gemini": "configured" if google_configured else "not configured (primary)",
             "openai": "configured" if openai_configured else "not configured",
             "anthropic": "configured" if anthropic_configured else "not configured",
         }
@@ -102,11 +110,22 @@ async def generate_code(request: CodeGenerationRequest):
 
 @app.post("/api/code/analyze")
 async def analyze_code(request: CodeAnalysisRequest):
-    """Analyze code for issues and improvements"""
+    """Analyze code for issues and improvements with AI parenting perspective"""
     result = await ai_service.analyze_code(request.code, request.language)
     
     if "error" in result and result.get("analysis") is None:
         raise HTTPException(status_code=500, detail=result["error"])
+    
+    return result
+
+
+@app.post("/api/code/ethical-guidance")
+async def ethical_guidance(request: CodeAnalysisRequest):
+    """Get ethical guidance for code from an AI parenting perspective"""
+    result = await ai_service.generate_ethical_guidance(request.code, request.language)
+    
+    if "error" in result and result.get("guidance") is None:
+        raise HTTPException(status_code=500, detail=result.get("error", "Failed to generate ethical guidance"))
     
     return result
 

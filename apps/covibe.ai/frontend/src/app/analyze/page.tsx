@@ -7,6 +7,7 @@ export default function AnalyzePage() {
   const [language, setLanguage] = useState("python");
   const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showEthical, setShowEthical] = useState(false);
 
   const analyzeCode = async () => {
     if (!code.trim()) return;
@@ -15,14 +16,18 @@ export default function AnalyzePage() {
     setAnalysis("");
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/code/analyze`, {
+      const endpoint = showEthical 
+        ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/code/ethical-guidance`
+        : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/code/analyze`;
+      
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, language }),
       });
 
       const data = await response.json();
-      setAnalysis(data.analysis || data.error || "No analysis available");
+      setAnalysis(data.analysis || data.guidance || data.error || "No analysis available");
     } catch (error) {
       setAnalysis("Error: Could not connect to API");
     } finally {
@@ -36,9 +41,9 @@ export default function AnalyzePage() {
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">🔍 Code Analyzer</h1>
+            <h1 className="text-2xl font-bold">🔍 AI Parenting Code Analysis</h1>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Find bugs, security issues, and optimization opportunities
+              Analyze code for technical issues and ethical implications from an AI parenting perspective
             </p>
           </div>
           <a
@@ -51,6 +56,14 @@ export default function AnalyzePage() {
       </div>
 
       <div className="max-w-6xl mx-auto p-6">
+        <div className="mb-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            <strong>AI Parenting Analysis:</strong> We analyze code from two perspectives - technical quality 
+            and ethical implications. Consider: What would an AI system "learn" from this code? Are there potential 
+            biases or fairness issues?
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Panel */}
           <div className="space-y-4">
@@ -80,9 +93,22 @@ export default function AnalyzePage() {
                   <textarea
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    placeholder="def factorial(n):&#10;    return n * factorial(n-1)"
+                    placeholder="def process_data(data):&#10;    return data.filter(lambda x: x > 0)"
                     className="w-full h-96 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 font-mono text-sm"
                   />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="ethical"
+                    checked={showEthical}
+                    onChange={(e) => setShowEthical(e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="ethical" className="text-sm text-gray-700 dark:text-gray-300">
+                    Focus on ethical guidance (AI Parenting perspective)
+                  </label>
                 </div>
 
                 <button
@@ -90,7 +116,7 @@ export default function AnalyzePage() {
                   disabled={loading || !code.trim()}
                   className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
-                  {loading ? "Analyzing..." : "Analyze Code"}
+                  {loading ? "Analyzing..." : showEthical ? "Get Ethical Guidance" : "Analyze Code"}
                 </button>
               </div>
             </div>
@@ -98,19 +124,24 @@ export default function AnalyzePage() {
 
           {/* Output Panel */}
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-            <h2 className="text-lg font-semibold mb-4">Analysis Results</h2>
+            <h2 className="text-lg font-semibold mb-4">
+              {showEthical ? "Ethical Guidance" : "Analysis Results"}
+            </h2>
 
             {!analysis && !loading && (
               <div className="h-96 flex items-center justify-center text-gray-400">
                 <div className="text-center">
-                  <div className="text-6xl mb-4">🔍</div>
+                  <div className="text-6xl mb-4">🌱</div>
                   <p>Analysis results will appear here</p>
                   <p className="text-sm mt-2">We'll check for:</p>
-                  <ul className="text-sm mt-2 space-y-1">
+                  <ul className="text-sm mt-2 space-y-1 text-left max-w-xs mx-auto">
                     <li>🐛 Bugs and errors</li>
                     <li>🔒 Security vulnerabilities</li>
                     <li>⚡ Performance issues</li>
                     <li>📚 Best practices</li>
+                    <li>🤖 <strong>AI Parenting:</strong> Bias detection</li>
+                    <li>⚖️ <strong>Ethical:</strong> Fairness & transparency</li>
+                    <li>🛡️ <strong>Safety:</strong> Responsible AI considerations</li>
                   </ul>
                 </div>
               </div>
@@ -119,15 +150,17 @@ export default function AnalyzePage() {
             {loading && (
               <div className="h-96 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="text-6xl mb-4 animate-pulse">🔍</div>
-                  <p className="text-gray-600 dark:text-gray-400">Analyzing your code...</p>
+                  <div className="text-6xl mb-4 animate-pulse">🌱</div>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {showEthical ? "Analyzing ethical implications..." : "Analyzing your code..."}
+                  </p>
                 </div>
               </div>
             )}
 
             {analysis && (
               <div className="prose dark:prose-invert max-w-none">
-                <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg whitespace-pre-wrap">
+                <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg whitespace-pre-wrap max-h-96 overflow-y-auto">
                   {analysis}
                 </div>
               </div>

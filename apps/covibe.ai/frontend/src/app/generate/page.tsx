@@ -15,7 +15,7 @@ export default function GeneratePage() {
     setCode("");
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/code/generate`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/code/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, language }),
@@ -40,9 +40,9 @@ export default function GeneratePage() {
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">🧠 Code Generator</h1>
+            <h1 className="text-2xl font-bold">🧠 Ethical Code Generator</h1>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Generate code from natural language
+              Generate code that promotes responsible AI development and ethical practices
             </p>
           </div>
           <a
@@ -55,11 +55,19 @@ export default function GeneratePage() {
       </div>
 
       <div className="max-w-6xl mx-auto p-6">
+        <div className="mb-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            <strong>AI Parenting Note:</strong> The code generated follows ethical AI development principles, 
+            including bias awareness, safety considerations, and responsible design. Just as children learn from 
+            their environment, AI systems learn from the code we write.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Panel */}
           <div className="space-y-4">
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-              <h2 className="text-lg font-semibold mb-4">What do you want to build?</h2>
+              <h2 className="text-lg font-semibold mb-4">What ethical code do you want to generate?</h2>
               
               <div className="space-y-4">
                 <div>
@@ -84,7 +92,7 @@ export default function GeneratePage() {
                   <textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="Example: Create a function to calculate fibonacci numbers recursively with memoization"
+                    placeholder="Example: Create a function to process user data with fairness checks and bias detection"
                     className="w-full h-48 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700"
                   />
                 </div>
@@ -94,32 +102,32 @@ export default function GeneratePage() {
                   disabled={loading || !prompt.trim()}
                   className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
-                  {loading ? "Generating..." : "Generate Code"}
+                  {loading ? "Generating ethical code..." : "Generate Ethical Code"}
                 </button>
               </div>
             </div>
 
             {/* Examples */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-              <h3 className="font-semibold mb-3">Example Prompts</h3>
+              <h3 className="font-semibold mb-3">Example Prompts (AI Parenting Focus)</h3>
               <div className="space-y-2">
                 <button
-                  onClick={() => setPrompt("Create a function to check if a number is prime")}
+                  onClick={() => setPrompt("Create a function to validate user input with fairness checks and bias prevention")}
                   className="w-full text-left p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 text-sm"
                 >
-                  Check if number is prime
+                  Fair input validation with bias checks
                 </button>
                 <button
-                  onClick={() => setPrompt("Implement a binary search tree with insert, delete, and search methods")}
+                  onClick={() => setPrompt("Implement a recommendation system with transparency and explainability features")}
                   className="w-full text-left p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 text-sm"
                 >
-                  Binary search tree implementation
+                  Transparent recommendation system
                 </button>
                 <button
-                  onClick={() => setPrompt("Create a REST API endpoint for user authentication with JWT")}
+                  onClick={() => setPrompt("Create an API endpoint for AI model inference with safety checks and error handling")}
                   className="w-full text-left p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 text-sm"
                 >
-                  REST API with JWT auth
+                  Safe AI inference endpoint
                 </button>
               </div>
             </div>
@@ -128,7 +136,7 @@ export default function GeneratePage() {
           {/* Output Panel */}
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Generated Code</h2>
+              <h2 className="text-lg font-semibold">Generated Ethical Code</h2>
               {code && (
                 <button
                   onClick={copyCode}
@@ -142,8 +150,9 @@ export default function GeneratePage() {
             {!code && !loading && (
               <div className="h-96 flex items-center justify-center text-gray-400">
                 <div className="text-center">
-                  <div className="text-6xl mb-4">💻</div>
-                  <p>Your generated code will appear here</p>
+                  <div className="text-6xl mb-4">🌱</div>
+                  <p>Your ethical code will appear here</p>
+                  <p className="text-sm mt-2 text-gray-500">Generated with AI parenting principles</p>
                 </div>
               </div>
             )}
@@ -151,8 +160,8 @@ export default function GeneratePage() {
             {loading && (
               <div className="h-96 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="text-6xl mb-4 animate-pulse">⚡</div>
-                  <p className="text-gray-600 dark:text-gray-400">Generating code...</p>
+                  <div className="text-6xl mb-4 animate-pulse">🌱</div>
+                  <p className="text-gray-600 dark:text-gray-400">Generating ethical code...</p>
                 </div>
               </div>
             )}

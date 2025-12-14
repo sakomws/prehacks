@@ -13,7 +13,7 @@ class Settings:
     # API Keys
     openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY")
     anthropic_api_key: Optional[str] = os.getenv("ANTHROPIC_API_KEY")
-    google_api_key: Optional[str] = os.getenv("GOOGLE_API_KEY")
+    google_api_key: Optional[str] = os.getenv("GOOGLE_API_KEY") or os.getenv("GOOGLE_AI_API_KEY")
     
     # Database
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./covibe.db")
