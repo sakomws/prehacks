@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import RulesetConfig, { useRulesetConfig } from "@/components/RulesetConfig";
 
 export default function GeneratePage() {
   const [prompt, setPrompt] = useState("");
   const [language, setLanguage] = useState("python");
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
+  const rulesets = useRulesetConfig();
 
   const generateCode = async () => {
     if (!prompt.trim()) return;
@@ -15,16 +17,53 @@ export default function GeneratePage() {
     setCode("");
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/code/generate`, {
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/code/generate`;
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, language }),
+        body: JSON.stringify({ 
+          prompt, 
+          language,
+          rulesets: {
+            ethicalFoundation: rulesets.ethicalFoundation,
+            biasAwareness: rulesets.biasAwareness,
+            safetyFirst: rulesets.safetyFirst,
+            responsibleDesign: rulesets.responsibleDesign,
+          }
+        }),
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API error (${response.status}): ${errorText || response.statusText}`);
+      }
+
       const data = await response.json();
-      setCode(data.code || data.error || "No code generated");
-    } catch (error) {
-      setCode("Error: Could not connect to API");
+      const generatedCode = data.code || data.error || "No code generated";
+      
+      // Check if code appears truncated
+      if (generatedCode && !generatedCode.includes("Error") && !generatedCode.includes("Demo Mode")) {
+        // Check for common truncation indicators
+        const isTruncated = (
+          generatedCode.trim().endsWith("...") ||
+          (language === "python" && generatedCode.includes("def ") && 
+           !generatedCode.match(/def\s+\w+\([^)]*\):\s*$/m) && 
+           generatedCode.split("def ").length > 1 && 
+           !generatedCode.trim().endsWith(":"))
+        );
+        
+        if (isTruncated) {
+          setCode(generatedCode + "\n\n# ⚠️ Code may be incomplete. Please regenerate if needed.");
+        } else {
+          setCode(generatedCode);
+        }
+      } else {
+        setCode(generatedCode);
+      }
+    } catch (error: any) {
+      const errorMessage = error?.message || "Could not connect to API";
+      console.error("Code generation API error:", error);
+      setCode(`Error: ${errorMessage}. Please check if the backend is running on ${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}`);
     } finally {
       setLoading(false);
     }
@@ -55,12 +94,8 @@ export default function GeneratePage() {
       </div>
 
       <div className="max-w-6xl mx-auto p-6">
-        <div className="mb-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-          <p className="text-sm text-gray-700 dark:text-gray-300">
-            <strong>AI Parenting Note:</strong> The code generated follows ethical AI development principles, 
-            including bias awareness, safety considerations, and responsible design. Just as children learn from 
-            their environment, AI systems learn from the code we write.
-          </p>
+        <div className="mb-6">
+          <RulesetConfig compact />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

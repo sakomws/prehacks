@@ -1,4 +1,5 @@
 import Link from "next/link";
+import RulesetConfig from "@/components/RulesetConfig";
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           <Link href="/chat">
             <div className="p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-lg transition-shadow cursor-pointer">
               <div className="text-4xl mb-3">💬</div>
@@ -49,48 +50,87 @@ export default function Home() {
               <div className="mt-4 text-blue-500 font-medium">Analyze code →</div>
             </div>
           </Link>
+
+          <Link href="/playground">
+            <div className="p-6 bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-white/20">
+              <div className="text-4xl mb-3">🎮</div>
+              <h2 className="text-xl font-semibold mb-2">AI Parenting Playground</h2>
+              <p className="text-white/90">
+                Live code editor with real-time AI parenting scores and instant improvements
+              </p>
+              <div className="mt-4 text-white font-medium flex items-center gap-2">
+                Try it now →
+                <span className="text-xs bg-white/20 px-2 py-1 rounded">NEW</span>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/vision">
+            <div className="p-6 bg-gradient-to-br from-green-500 to-teal-600 text-white rounded-lg hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-white/20">
+              <div className="text-4xl mb-3">📸</div>
+              <h2 className="text-xl font-semibold mb-2">Multimodal Analysis</h2>
+              <p className="text-white/90">
+                Upload code screenshots and get instant AI Parenting analysis
+              </p>
+              <div className="mt-4 text-white font-medium flex items-center gap-2">
+                Try it now →
+                <span className="text-xs bg-white/20 px-2 py-1 rounded">MULTIMODAL</span>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/pr-review">
+            <div className="p-6 bg-gradient-to-br from-orange-500 to-red-600 text-white rounded-lg hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-white/20">
+              <div className="text-4xl mb-3">🔍</div>
+              <h2 className="text-xl font-semibold mb-2">PR Review</h2>
+              <p className="text-white/90">
+                Generate ethical PRs or review existing ones with AI Parenting principles
+              </p>
+              <div className="mt-4 text-white font-medium flex items-center gap-2">
+                Try it now →
+                <span className="text-xs bg-white/20 px-2 py-1 rounded">NEW</span>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/video">
+            <div className="p-6 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-white/20">
+              <div className="text-4xl mb-3">🎬</div>
+              <h2 className="text-xl font-semibold mb-2">Video Generator</h2>
+              <p className="text-white/90">
+                Generate educational videos for all 4 AI Parenting principles
+              </p>
+              <div className="mt-4 text-white font-medium flex items-center gap-2">
+                Try it now →
+                <span className="text-xs bg-white/20 px-2 py-1 rounded">NEW</span>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/images">
+            <div className="p-6 bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-lg hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-white/20">
+              <div className="text-4xl mb-3">🖼️</div>
+              <h2 className="text-xl font-semibold mb-2">Image Generator</h2>
+              <p className="text-white/90">
+                Generate images and visuals for all 4 AI Parenting principles
+              </p>
+              <div className="mt-4 text-white font-medium flex items-center gap-2">
+                Try it now →
+                <span className="text-xs bg-white/20 px-2 py-1 rounded">NEW</span>
+              </div>
+            </div>
+          </Link>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8">
-          <h3 className="text-xl font-semibold mb-4">AI Parenting Principles</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3">
-              <div className="text-2xl">🌱</div>
-              <div>
-                <div className="font-medium">Ethical Foundation</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Code that promotes fairness and responsible AI development
-                </div>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="text-2xl">⚖️</div>
-              <div>
-                <div className="font-medium">Bias Awareness</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Detect and prevent biases that AI systems might inherit
-                </div>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="text-2xl">🛡️</div>
-              <div>
-                <div className="font-medium">Safety First</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Prioritize security, error handling, and safe defaults
-                </div>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="text-2xl">📚</div>
-              <div>
-                <div className="font-medium">Responsible Design</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Consider long-term impact on AI systems and users
-                </div>
-              </div>
-            </div>
-          </div>
+        <RulesetConfig />
+
+        <div className="mt-8 text-center">
+          <Link
+            href="/principles"
+            className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          >
+            📖 Learn About AI Parenting Principles →
+          </Link>
         </div>
 
         <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">

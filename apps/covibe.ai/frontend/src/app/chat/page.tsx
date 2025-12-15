@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import RulesetConfig, { useRulesetConfig } from "@/components/RulesetConfig";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const rulesets = useRulesetConfig();
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -16,11 +18,25 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/chat`, {
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/chat`;
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ 
+          message: input,
+          rulesets: {
+            ethicalFoundation: rulesets.ethicalFoundation,
+            biasAwareness: rulesets.biasAwareness,
+            safetyFirst: rulesets.safetyFirst,
+            responsibleDesign: rulesets.responsibleDesign,
+          }
+        }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API error (${response.status}): ${errorText || response.statusText}`);
+      }
 
       const data = await response.json();
       
@@ -30,10 +46,12 @@ export default function ChatPage() {
       };
       
       setMessages((prev) => [...prev, aiMessage]);
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = error?.message || "Could not connect to API";
+      console.error("Chat API error:", error);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Error: Could not connect to API" },
+        { role: "assistant", content: `Error: ${errorMessage}. Please check if the backend is running on ${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}` },
       ]);
     } finally {
       setLoading(false);
@@ -57,6 +75,13 @@ export default function ChatPage() {
           >
             ← Home
           </a>
+        </div>
+      </div>
+
+      {/* Ruleset Config */}
+      <div className="px-4 pt-4">
+        <div className="max-w-4xl mx-auto">
+          <RulesetConfig compact />
         </div>
       </div>
 

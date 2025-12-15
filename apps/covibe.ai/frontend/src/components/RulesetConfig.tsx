@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export interface RulesetConfig {
   ethicalFoundation: boolean;
@@ -120,13 +121,21 @@ export default function RulesetConfig({ onConfigChange, compact = false }: Rules
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-      <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-        <span>🌱</span> Configure AI Parenting Rulesets
-      </h3>
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-        Toggle the principles you want to apply when generating or analyzing code
-      </p>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-semibold flex items-center gap-2">
+            <span>🌱</span> Configure AI Parenting Rulesets
+          </h3>
+          <Link
+            href="/principles"
+            className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            Learn more →
+          </Link>
+        </div>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          Toggle the principles you want to apply when generating or analyzing code
+        </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {rulesets.map((rule) => (
           <button
@@ -142,6 +151,13 @@ export default function RulesetConfig({ onConfigChange, compact = false }: Rules
             <div className="flex-1 min-w-0">
               <div className="font-medium mb-1">{rule.title}</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">{rule.description}</div>
+              <Link
+                href="/principles"
+                className="text-xs text-blue-600 dark:text-blue-400 hover:underline mt-1 inline-block"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Learn more
+              </Link>
             </div>
             <div
               className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 ${

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import RulesetConfig, { useRulesetConfig } from "@/components/RulesetConfig";
 
 export default function AnalyzePage() {
   const [code, setCode] = useState("");
@@ -8,6 +9,7 @@ export default function AnalyzePage() {
   const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
   const [showEthical, setShowEthical] = useState(false);
+  const rulesets = useRulesetConfig();
 
   const analyzeCode = async () => {
     if (!code.trim()) return;
@@ -23,13 +25,29 @@ export default function AnalyzePage() {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, language }),
+        body: JSON.stringify({ 
+          code, 
+          language,
+          rulesets: {
+            ethicalFoundation: rulesets.ethicalFoundation,
+            biasAwareness: rulesets.biasAwareness,
+            safetyFirst: rulesets.safetyFirst,
+            responsibleDesign: rulesets.responsibleDesign,
+          }
+        }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API error (${response.status}): ${errorText || response.statusText}`);
+      }
 
       const data = await response.json();
       setAnalysis(data.analysis || data.guidance || data.error || "No analysis available");
-    } catch (error) {
-      setAnalysis("Error: Could not connect to API");
+    } catch (error: any) {
+      const errorMessage = error?.message || "Could not connect to API";
+      console.error("Code analysis API error:", error);
+      setAnalysis(`Error: ${errorMessage}. Please check if the backend is running on ${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}`);
     } finally {
       setLoading(false);
     }
@@ -56,12 +74,8 @@ export default function AnalyzePage() {
       </div>
 
       <div className="max-w-6xl mx-auto p-6">
-        <div className="mb-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-          <p className="text-sm text-gray-700 dark:text-gray-300">
-            <strong>AI Parenting Analysis:</strong> We analyze code from two perspectives - technical quality 
-            and ethical implications. Consider: What would an AI system "learn" from this code? Are there potential 
-            biases or fairness issues?
-          </p>
+        <div className="mb-6">
+          <RulesetConfig compact />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
