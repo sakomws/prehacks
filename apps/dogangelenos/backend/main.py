@@ -6,6 +6,11 @@ from typing import Optional, List
 from sqlalchemy.orm import Session
 import uvicorn
 import json
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 from database import get_db, init_db, BookingModel, UserModel
 from email_service import email_service
@@ -298,4 +303,5 @@ def get_active_chat_connections(booking_id: int):
     return {"active_connections": count, "online": count > 0}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", 8003))
+    uvicorn.run(app, host="0.0.0.0", port=port)

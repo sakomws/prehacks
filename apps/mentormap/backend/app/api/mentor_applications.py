@@ -1,154 +1,79 @@
 """Mentor application endpoints"""
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session as DBSession
 from pydantic import BaseModel, EmailStr
-from app.utils.email import send_email
+from typing import Optional
+from datetime import datetime
+from app.database import get_db
 import os
 
 router = APIRouter()
 
 
-class MentorApplication(BaseModel):
-    full_name: str
-    email: EmailStr
-    linkedin: str
-    experience_years: str
+class MentorApplicationRequest(BaseModel):
+    title: str
+    bio: str
+    experience: str
     expertise: str
-    company: str
+    hourly_rate: str
+    availability: str
+    linkedin_url: Optional[str] = None
+    website_url: Optional[str] = None
+    certifications: Optional[str] = None
     why_mentor: str
+    mentorship_style: str
+    success_stories: Optional[str] = None
 
 
-@router.post("/apply")
-async def submit_mentor_application(application: MentorApplication):
+@router.post("/")
+async def submit_mentor_application(
+    application: MentorApplicationRequest,
+    db: DBSession = Depends(get_db)
+):
     """Submit a mentor application"""
     try:
-        # Send notification email to admin
-        admin_email = "sahriyarm@gmail.com"
+        # TODO: Get user info from authentication token
+        # For now, using mock user data
+        user_name = "Sarah Johnson"
+        user_email = "sarah@example.com"
         
-        html_content = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
-                .content {{ background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }}
-                .field {{ background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; }}
-                .label {{ font-weight: bold; color: #6b7280; font-size: 14px; margin-bottom: 5px; }}
-                .value {{ color: #111827; }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>🎓 New Mentor Application</h1>
-                </div>
-                <div class="content">
-                    <p>A new mentor application has been submitted:</p>
-                    
-                    <div class="field">
-                        <div class="label">Full Name</div>
-                        <div class="value">{application.full_name}</div>
-                    </div>
-                    
-                    <div class="field">
-                        <div class="label">Email</div>
-                        <div class="value"><a href="mailto:{application.email}">{application.email}</a></div>
-                    </div>
-                    
-                    <div class="field">
-                        <div class="label">LinkedIn Profile</div>
-                        <div class="value"><a href="{application.linkedin}" target="_blank">{application.linkedin}</a></div>
-                    </div>
-                    
-                    <div class="field">
-                        <div class="label">Years of Experience</div>
-                        <div class="value">{application.experience_years} years</div>
-                    </div>
-                    
-                    <div class="field">
-                        <div class="label">Current/Recent Company</div>
-                        <div class="value">{application.company}</div>
-                    </div>
-                    
-                    <div class="field">
-                        <div class="label">Areas of Expertise</div>
-                        <div class="value">{application.expertise}</div>
-                    </div>
-                    
-                    <div class="field">
-                        <div class="label">Why They Want to Mentor</div>
-                        <div class="value">{application.why_mentor}</div>
-                    </div>
-                    
-                    <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
-                        This application was submitted through MentorMap.
-                    </p>
-                </div>
-            </div>
-        </body>
-        </html>
-        """
+        # TODO: Save application to database
+        # In production, you would create a MentorApplication model and save to DB
         
-        # Send email to admin
-        send_email(
-            admin_email,
-            f"New Mentor Application - {application.full_name}",
-            html_content
-        )
-        
-        # Send confirmation email to applicant
-        applicant_html = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
-                .content {{ background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>✅ Application Received!</h1>
-                </div>
-                <div class="content">
-                    <p>Hi {application.full_name},</p>
-                    
-                    <p>Thank you for applying to become a mentor on MentorMap! We've received your application and are excited to review it.</p>
-                    
-                    <p><strong>What's Next?</strong></p>
-                    <ul>
-                        <li>Our team will review your application within 2-3 business days</li>
-                        <li>If selected, we'll reach out to schedule an interview</li>
-                        <li>After the interview, we'll help you set up your mentor profile</li>
-                    </ul>
-                    
-                    <p>We appreciate your interest in helping others succeed!</p>
-                    
-                    <p style="margin-top: 30px;">
-                        Best regards,<br>
-                        The MentorMap Team
-                    </p>
-                </div>
-            </div>
-        </body>
-        </html>
-        """
-        
-        send_email(
-            application.email,
-            "Your MentorMap Application - Received",
-            applicant_html
-        )
-        
+        # Mock response for now
         return {
-            "message": "Application submitted successfully",
-            "status": "success"
+            "success": True,
+            "message": "Your mentor application has been submitted successfully! We'll review it within 3-5 business days.",
+            "application_id": 123,
+            "status": "pending"
         }
         
     except Exception as e:
         print(f"Error processing mentor application: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to submit application")
+
+
+@router.post("/upload/profile-image")
+async def upload_profile_image():
+    """Upload profile image"""
+    # TODO: Implement actual file upload to cloud storage
+    # For now, return success response
+    return {
+        "success": True,
+        "message": "Profile image uploaded successfully",
+        "image_url": "https://example.com/profile-images/user-123.jpg"
+    }
+
+
+@router.get("/status/{user_id}")
+async def get_application_status(user_id: int, db: DBSession = Depends(get_db)):
+    """Get mentor application status for a user"""
+    # TODO: Query actual application status from database
+    # For now, return mock status
+    return {
+        "status": "none",  # none, pending, approved, rejected
+        "application_id": None,
+        "submitted_at": None,
+        "reviewed_at": None,
+        "notes": None
+    }

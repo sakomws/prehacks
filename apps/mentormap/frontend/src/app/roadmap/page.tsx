@@ -219,13 +219,30 @@ export default function RoadmapPage() {
   const copyAndShareLinkedIn = (roadmap: Roadmap) => {
     const shareText = getShareText(roadmap);
     
+    // Create shareable URL with the text as a parameter
+    const shareUrl = `${window.location.origin}/share/roadmap/${roadmap.id}?` + new URLSearchParams({
+      title: roadmap.title,
+      progress: roadmap.progress.toString(),
+      text: shareText,
+    }).toString();
+    
+    // Encode the share URL for LinkedIn
+    const encodedUrl = encodeURIComponent(shareUrl);
+    
+    // LinkedIn share URL with pre-filled content
+    // LinkedIn will pull title and description from Open Graph tags on the share page
+    const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+    
+    // Also copy text to clipboard as fallback
     navigator.clipboard.writeText(shareText).then(() => {
-      // Open LinkedIn
-      window.open('https://www.linkedin.com/feed/', '_blank');
+      // Open LinkedIn share dialog
+      window.open(linkedInShareUrl, '_blank');
       setShareModalRoadmap(null);
     }).catch((err) => {
       console.error('Failed to copy:', err);
-      alert('Please copy the text manually and paste it on LinkedIn');
+      // Still open LinkedIn even if copy fails
+      window.open(linkedInShareUrl, '_blank');
+      setShareModalRoadmap(null);
     });
   };
 
@@ -354,10 +371,10 @@ export default function RoadmapPage() {
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
                 <p className="text-sm text-blue-800 dark:text-blue-200">
                   <strong>📋 How it works:</strong><br/>
-                  1. Click "Copy & Open LinkedIn" below<br/>
-                  2. LinkedIn will open in a new tab<br/>
-                  3. Click "Start a post" on LinkedIn<br/>
-                  4. Paste (Cmd/Ctrl + V) the copied text
+                  1. Click "Share on LinkedIn" below<br/>
+                  2. LinkedIn share dialog will open with your post pre-filled<br/>
+                  3. Review and click "Post" on LinkedIn<br/>
+                  <span className="text-xs mt-2 block opacity-90">(Text is also copied to clipboard as backup)</span>
                 </p>
               </div>
 
@@ -366,7 +383,7 @@ export default function RoadmapPage() {
                   onClick={() => copyAndShareLinkedIn(shareModalRoadmap)}
                   className="flex-1 px-6 py-3 bg-[#0A66C2] text-white rounded-lg hover:bg-[#004182] font-medium"
                 >
-                  Copy & Open LinkedIn
+                  Share on LinkedIn
                 </button>
                 <button
                   onClick={() => setShareModalRoadmap(null)}

@@ -37,6 +37,9 @@ export default function EventsPage() {
 
     const fetchEvents = async () => {
       try {
+        setIsLoading(true)
+        setEvents([]) // Clear previous events when filter changes
+        
         // Get user's registrations to find their events
         const registrationsRes = await axios.get(`${API_BASE_URL}/api/users/registrations`, {
           headers: { Authorization: `Bearer ${token}` }
@@ -48,21 +51,47 @@ export default function EventsPage() {
             eventIds.map((id: string) =>
               axios.get(`${API_BASE_URL}/api/events/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
-              }).catch(() => null)
+              }).catch((err) => {
+                console.error(`Failed to fetch event ${id}:`, err)
+                return null
+              })
             )
           )
           const allEvents = eventsData.filter(Boolean).map(res => res!.data)
           
           // Filter by upcoming/past
           const now = new Date()
+          now.setHours(0, 0, 0, 0) // Reset time to start of day for accurate comparison
+          
+          let filteredEvents: Event[] = []
           if (filter === 'upcoming') {
-            setEvents(allEvents.filter(e => new Date(e.start_time) > now))
+            filteredEvents = allEvents.filter(e => {
+              const eventDate = new Date(e.start_time)
+              eventDate.setHours(0, 0, 0, 0)
+              return eventDate >= now
+            })
           } else {
-            setEvents(allEvents.filter(e => new Date(e.start_time) <= now))
+            filteredEvents = allEvents.filter(e => {
+              const eventDate = new Date(e.start_time)
+              eventDate.setHours(0, 0, 0, 0)
+              return eventDate < now
+            })
           }
+          
+          // Sort events: upcoming by start_time ascending, past by start_time descending
+          filteredEvents.sort((a, b) => {
+            const dateA = new Date(a.start_time).getTime()
+            const dateB = new Date(b.start_time).getTime()
+            return filter === 'upcoming' ? dateA - dateB : dateB - dateA
+          })
+          
+          setEvents(filteredEvents)
+        } else {
+          setEvents([])
         }
       } catch (error) {
         console.error('Failed to fetch events:', error)
+        setEvents([])
       } finally {
         setIsLoading(false)
       }
@@ -137,29 +166,39 @@ export default function EventsPage() {
           <div className="flex justify-end mb-6">
             <div className="flex space-x-2 bg-white rounded-lg p-1 border border-gray-200">
               <button
-                onClick={() => setFilter('upcoming')}
+                onClick={() => {
+                  if (filter !== 'upcoming') {
+                    setFilter('upcoming')
+                  }
+                }}
+                disabled={isLoading}
                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
                   filter === 'upcoming'
                     ? 'bg-gray-900 text-white'
                     : 'text-gray-600 hover:text-gray-900'
-                }`}
+                } ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
               >
-                Upcoming
+                {isLoading && filter === 'upcoming' ? 'Loading...' : 'Upcoming'}
               </button>
               <button
-                onClick={() => setFilter('past')}
+                onClick={() => {
+                  if (filter !== 'past') {
+                    setFilter('past')
+                  }
+                }}
+                disabled={isLoading}
                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
                   filter === 'past'
                     ? 'bg-gray-900 text-white'
                     : 'text-gray-600 hover:text-gray-900'
-                }`}
+                } ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
               >
-                Past
+                {isLoading && filter === 'past' ? 'Loading...' : 'Past'}
               </button>
             </div>
           </div>
 
-          {events.length === 0 ? (
+          {events.length === 0 && !isLoading ? (
             <div className="bg-white rounded-lg shadow-sm p-12 text-center">
               <p className="text-gray-500 mb-4">
                 {filter === 'upcoming'
@@ -175,7 +214,7 @@ export default function EventsPage() {
                 </Link>
               )}
             </div>
-          ) : (
+          ) : events.length > 0 ? (
             <div className="space-y-4">
               {events.map((event) => (
                 <Link
@@ -230,7 +269,7 @@ export default function EventsPage() {
                 </Link>
               ))}
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* Right Floating Sidebar */}

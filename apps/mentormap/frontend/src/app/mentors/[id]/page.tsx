@@ -30,12 +30,20 @@ export default function MentorDetailPage() {
   const [mentor, setMentor] = useState<Mentor | null>(null);
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState(false);
+  const [showGiftForm, setShowGiftForm] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     scheduled_at: "",
     duration_minutes: 60,
     promo_code: "",
+  });
+  const [giftFormData, setGiftFormData] = useState({
+    recipient_email: "",
+    recipient_name: "",
+    sender_name: "",
+    sender_email: "",
+    message: ""
   });
   const [discount, setDiscount] = useState(0);
   const [promoMessage, setPromoMessage] = useState("");
@@ -90,6 +98,51 @@ export default function MentorDetailPage() {
     
     setTimeError("");
     return true;
+  };
+
+  const handleGiftSession = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBooking(true);
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/gifts/purchase`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mentor_id: parseInt(mentorId as string),
+          ...giftFormData,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(`Gift session purchased successfully! Gift code: ${data.gift_code}`);
+        
+        // Send gift email
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/gifts/send-email/${data.gift_code}`, {
+          method: "POST",
+        });
+        
+        setShowGiftForm(false);
+        setGiftFormData({
+          recipient_email: "",
+          recipient_name: "",
+          sender_name: "",
+          sender_email: "",
+          message: ""
+        });
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to purchase gift session: ${errorData.detail || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error("Error purchasing gift session:", error);
+      alert("Error purchasing gift session");
+    } finally {
+      setBooking(false);
+    }
   };
 
   const handleBookSession = async (e: React.FormEvent) => {
@@ -242,7 +295,7 @@ export default function MentorDetailPage() {
                   />
                 ) : (
                   <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-4xl font-bold flex-shrink-0">
-                    {mentor.title.charAt(0)}
+                    {(mentor.title || 'M').charAt(0)}
                   </div>
                 )}
                 <div className="flex-1">
@@ -508,9 +561,18 @@ export default function MentorDetailPage() {
                   <button
                     type="submit"
                     disabled={!mentor.is_available || booking}
-                    className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold"
+                    className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold mb-3"
                   >
                     {booking ? "Processing..." : "Book & Pay with Stripe"}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowGiftForm(true)}
+                    disabled={!mentor.is_available}
+                    className="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold"
+                  >
+                    🎁 Gift This Session
                   </button>
                 </div>
               </form>
@@ -522,6 +584,117 @@ export default function MentorDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Gift Session Modal */}
+      {showGiftForm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-t-2xl">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold">🎁 Gift a Session</h2>
+                <button
+                  onClick={() => setShowGiftForm(false)}
+                  className="text-white hover:text-gray-200"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="text-purple-100 mt-2">
+                Give the gift of mentorship with {mentor?.user?.full_name || mentor?.title}
+              </p>
+            </div>
+            
+            <form onSubmit={handleGiftSession} className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={giftFormData.sender_name}
+                    onChange={(e) => setGiftFormData({...giftFormData, sender_name: e.target.value})}
+                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Your Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={giftFormData.sender_email}
+                    onChange={(e) => setGiftFormData({...giftFormData, sender_email: e.target.value})}
+                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                    placeholder="john@example.com"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Recipient Name</label>
+                <input
+                  type="text"
+                  required
+                  value={giftFormData.recipient_name}
+                  onChange={(e) => setGiftFormData({...giftFormData, recipient_name: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                  placeholder="Jane Smith"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Recipient Email</label>
+                <input
+                  type="email"
+                  required
+                  value={giftFormData.recipient_email}
+                  onChange={(e) => setGiftFormData({...giftFormData, recipient_email: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                  placeholder="jane@example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Personal Message (Optional)</label>
+                <textarea
+                  value={giftFormData.message}
+                  onChange={(e) => setGiftFormData({...giftFormData, message: e.target.value})}
+                  className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                  rows={3}
+                  placeholder="Happy birthday! I thought you'd enjoy this mentoring session..."
+                />
+              </div>
+
+              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+                <h4 className="font-semibold text-purple-900 dark:text-purple-100 mb-2">Gift Details</h4>
+                <div className="text-sm text-purple-800 dark:text-purple-200 space-y-1">
+                  <p>• Mentor: {mentor?.user?.full_name || mentor?.title}</p>
+                  <p>• Session Value: ${mentor?.hourly_rate}/hour</p>
+                  <p>• Valid for: 1 year from purchase</p>
+                  <p>• Recipient can schedule at their convenience</p>
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowGiftForm(false)}
+                  className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={booking}
+                  className="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 font-semibold"
+                >
+                  {booking ? "Processing..." : `Purchase Gift ($${mentor?.hourly_rate})`}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Logo from "../components/Logo";
 import DarkModeToggle from "../components/DarkModeToggle";
+import UpcomingEvents from "../components/UpcomingEvents";
+import NewsletterSubscription from "../components/NewsletterSubscription";
+import ChatbotWidget from "../components/ChatbotWidget";
 
 export default function Home() {
   return (
@@ -81,6 +86,16 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Upcoming Events */}
+      <UpcomingEvents />
+
+      {/* Newsletter Subscription */}
+      <section className="py-20 px-6">
+        <div className="max-w-[980px] mx-auto">
+          <NewsletterSubscription />
         </div>
       </section>
 
@@ -254,6 +269,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Chatbot Widget */}
+      <ChatbotWidget />
     </div>
   );
 }

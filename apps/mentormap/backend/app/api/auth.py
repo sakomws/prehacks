@@ -39,7 +39,7 @@ def create_access_token(data: dict):
     return encoded_jwt
 
 
-@router.post("/register", response_model=schemas.User)
+@router.post("/register", response_model=schemas.Token)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     """Register a new user"""
     # Check if user exists
@@ -62,7 +62,10 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return db_user
+    
+    # Create and return access token
+    access_token = create_access_token(data={"sub": db_user.username})
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.post("/login", response_model=schemas.Token)
@@ -166,10 +169,16 @@ async def linkedin_callback(code: str, db: Session = Depends(get_db)):
     from fastapi.responses import RedirectResponse
     
     # Determine frontend URL based on environment
-    ENVIRONMENT = os.getenv("ENVIRONMENT", "production")
+    ENVIRONMENT = os.getenv("ENVIRONMENT", "development")  # Default to development
     if ENVIRONMENT == "development":
-        frontend_url = "http://localhost:3001"
+        frontend_url = "http://localhost:3000"
     else:
         frontend_url = "https://mentormap.ai"
     
-    return RedirectResponse(url=f"{frontend_url}/login?token={access_token}")
+    # Redirect based on user role
+    if user.is_mentor:
+        redirect_path = "/mentor"
+    else:
+        redirect_path = "/account"
+    
+    return RedirectResponse(url=f"{frontend_url}{redirect_path}?token={access_token}")

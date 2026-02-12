@@ -79,7 +79,7 @@ export default function MentorsPage() {
                     />
                   ) : (
                     <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                      {mentor.title.charAt(0)}
+                      {(mentor.title || 'M').charAt(0)}
                     </div>
                   )}
                   <div className="flex items-center gap-1 text-yellow-500">

@@ -61,8 +61,13 @@ function SignupForm() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.access_token);
-        router.push("/dashboard");
+        // Store the access token
+        if (data.access_token) {
+          localStorage.setItem("token", data.access_token);
+          router.push("/dashboard");
+        } else {
+          setError("Registration successful but token not received. Please log in.");
+        }
       } else {
         setError(data.detail || "Registration failed");
       }
